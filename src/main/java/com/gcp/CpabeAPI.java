@@ -16,8 +16,6 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static com.mitu.cpabe.Cpabe.*;
@@ -165,7 +163,6 @@ public class CpabeAPI implements HttpFunction {
                     } else{
                         js.addProperty("Error", "Missing argument for the decrypt function");
                     }
-
                     break;
                 }
                 default:
@@ -181,71 +178,90 @@ public class CpabeAPI implements HttpFunction {
         Gson gson =new Gson();
         JsonObject js = new JsonObject();
         if (body.has("method")) {
-            method = body.get("name").getAsString();
-            switch(method){
+            method = body.get("method").getAsString();
+            switch(method) {
                 case "setup":
-                    List<String> attributeUniverse = new ArrayList<>();
-                    var jsonUniverse = body.get("attributeUniverse").getAsJsonArray();
-                    for(var attribute: jsonUniverse){
-                        attributeUniverse.add(attribute.getAsString());
+                    if (body.has("attributeUniverse")) {
+                        String[] attributeUniverse = gson.fromJson(body.get("attributeUniverse"), String[].class);
+                        js = setup(attributeUniverse);
+                    } else {
+                        js.addProperty("Error", "Missing argument for the setup function");
                     }
-                    js = setup(attributeUniverse.toArray(String[]::new));
                     break;
 
-                case "keygen":{
-                    var publicKey = body.get("publicKey").getAsString();
-                    var masterKey = body.get("masterKey").getAsString();
-                    var userAttributes = body.get("userAttributes").getAsString();
-                    js = keygen(publicKey, masterKey, userAttributes);
+                case "keygen": {
+                    if (body.has("publicKey") && body.has("masterKey") && body.has("userAttributes")) {
+                        var publicKey = body.get("publicKey").getAsString();
+                        var masterKey = body.get("masterKey").getAsString();
+                        var userAttributes = body.get("userAttributes").getAsString();
+                        js = keygen(publicKey, masterKey, userAttributes);
+                    } else {
+                        js.addProperty("Error", "Missing argument for the keygen function");
+                    }
                     break;
                 }
                 case "encrypt": {
-                    var publicKey = body.get("publicKey").getAsString();
-                    var policy = body.get("policy").getAsString();
-                    var inputFile = body.get("inputFile").getAsString();
-                    try{
-                        js = encrypt(publicKey, policy, inputFile);
-                    } catch (IOException |
-                            NoSuchPaddingException |
-                            NoSuchAlgorithmException |
-                            InvalidKeyException |
-                            IllegalBlockSizeException |
-                            BadPaddingException e) {
-                        e.printStackTrace();
-                        js.addProperty("Error", e.getMessage());
+                    if (body.has("publicKey") && body.has("policy") && body.has("inputFile")) {
+                        var publicKey = body.get("publicKey").getAsString();
+                        var policy = body.get("policy").getAsString();
+                        var inputFile = body.get("inputFile").getAsString();
+                        try {
+                            js = encrypt(publicKey, policy, inputFile);
+                        } catch (IOException |
+                                NoSuchPaddingException |
+                                NoSuchAlgorithmException |
+                                InvalidKeyException |
+                                IllegalBlockSizeException |
+                                BadPaddingException e) {
+                            e.printStackTrace();
+                            js.addProperty("Error", e.getMessage());
+                        }
+                    } else {
+                        js.addProperty("Error", "Missing argument for encrypt function");
                     }
                     break;
                 }
-                case "halfDecrypt":{
-                    var publicKey = body.get("publicKey").getAsString();
-                    var share1 = body.get("share1").getAsString();
-                    var encryptedFile = body.get("encryptedFile").getAsString();
-                    var professionalId = body.get("professionalId").getAsString();
-                    try {
-                        js = halfDecrypt(publicKey, share1, encryptedFile, professionalId);
-                    } catch (IOException |
-                            AttributesNotSatisfiedException |
-                            NoSuchDecryptionTokenFoundException e) {
-                        e.printStackTrace();
-                        js.addProperty("Error", e.getMessage());
+                case "halfDecrypt": {
+                    if (body.has("publicKey") && body.has("share1") &&
+                            body.has("encryptedFile") && body.has("professionalId")) {
+                        var publicKey = body.get("publicKey").getAsString();
+                        var share1 = body.get("share1").getAsString();
+                        var encryptedFile = body.get("encryptedFile").getAsString();
+                        var professionalId = body.get("professionalId").getAsString();
+                        try {
+                            js = halfDecrypt(publicKey, share1, encryptedFile, professionalId);
+                        } catch (IOException |
+                                AttributesNotSatisfiedException |
+                                NoSuchDecryptionTokenFoundException e) {
+                            e.printStackTrace();
+                            js.addProperty("Error", e.getMessage());
+                        }
+                    } else {
+                        js.addProperty("Error", "Missing argument for the half-decrypt function");
                     }
                     break;
                 }
                 case "decrypt": {
-                    var publicKey = body.get("publicKey").getAsString();
-                    var share2 = body.get("share2").getAsString();
-                    var encryptedFile = body.get("encryptedFile").getAsString();
-                    var mDecryptedFile = body.get("mDecryptedFile").getAsString();
-                    var professionalId = body.get("professionalId").getAsString();
-                    try {
-                        js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile, professionalId);
-                    } catch (IllegalBlockSizeException |
-                            NoSuchAlgorithmException |
-                            IOException |
-                            BadPaddingException |
-                            NoSuchPaddingException |
-                            InvalidKeyException e) {
-                        js.addProperty("Error", e.getMessage());
+                    if (body.has("publicKey") && body.has("share2") &&
+                            body.has("encryptedFile") && body.has("mDecryptedFile") &&
+                            body.has("professionalId")) {
+                        var publicKey = body.get("publicKey").getAsString();
+                        var share2 = body.get("share2").getAsString();
+                        var encryptedFile = body.get("encryptedFile").getAsString();
+                        var mDecryptedFile = body.get("mDecryptedFile").getAsString();
+                        var professionalId = body.get("professionalId").getAsString();
+                        try {
+                            js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile, professionalId);
+                        } catch (IllegalBlockSizeException |
+                                NoSuchAlgorithmException |
+                                IOException |
+                                BadPaddingException |
+                                NoSuchPaddingException |
+                                InvalidKeyException e) {
+                            js.addProperty("Error", e.getMessage());
+                        }
+                    } else {
+                        js.addProperty("Error", "Missing argument for the decrypt function");
                     }
                     break;
                 }
