@@ -17,62 +17,6 @@ public class Common {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 
-	public static byte[] suckFile(String inputfile) throws IOException {
-		InputStream is = new FileInputStream(inputfile);
-		int size = is.available();
-		byte[] content = new byte[size];
-		is.read(content);
-		is.close();
-		return content;
-	}
-
-	/* write byte[] into outputfile */
-	/**
-	 * Spit file.
-	 *
-	 * @param outputfile the outputfile
-	 * @param b the b
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	public static void spitFile(String outputfile, byte[] b) throws IOException {
-		PrintWriter p = new PrintWriter(outputfile);
-		p.close();
-		OutputStream os = new FileOutputStream(outputfile);
-		os.write(b);
-		os.close();
-	}
-
-	/**
-	 * Write cpabe file. - The reason for making a file before uploading is to allow upload of files of an
-	 * arbitrary size. Instead, of using a stringBuilder to create a string then uploading the resulting string
-	 *
-	 * @param cphBuf the cph buf
-	 * @param aesBuf the aes buf
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	public static void writeCpabeFile(String fileName, String userID,
-			byte[] cphBuf, byte[] aesBuf) throws IOException {
-		
-		ByteArrayOutputStream os = writeCpabeData(cphBuf,  aesBuf);
-		var fs = new FileOutputStream(fileName); // ** WILL REMOVE ONCE AWS WORKS **
-		System.err.println("FILENAME:"+fileName);
-		fs.write(os.toByteArray()); // ** WILL REMOVE ONCE AWS WORKS *
-	}
-
-	/**
-	 * Read cpabe file.
-	 *
-	 * @param encfile the encfile
-	 * @return the byte[][]
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	public static byte[][] readCpabeFile(String encfile, String userID) throws IOException {
-		int i, len;
-		// InputStream is = getFileFromAWS(encfile, userID);
-		InputStream is = new FileInputStream(encfile);
-		return readCpabeData(is);
-	}
-	
 	/**
 	 * Return a ByteArrayOutputStream instead of writing to a file.
 	 *

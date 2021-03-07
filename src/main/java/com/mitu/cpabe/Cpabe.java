@@ -3,6 +3,7 @@
  */
 package com.mitu.cpabe;
 
+import com.google.gson.JsonObject;
 import com.mitu.abe.*;
 import com.mitu.cpabe.policy.LangPolicy;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
@@ -12,30 +13,24 @@ import it.unisa.dia.gas.jpbc.Element;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Cpabe {
-
-	/**
-	 * Setup.
-	 * 
-	 * @author Mitu Kumar Debnath
-	 * @param publicKeyFile
-	 *            the publicKeyFile
-	 * @param masterKeyFile
-	 *            the masterKeyFile
-	 * @param attrs
-	 *            the attrs
-	 * @param parameterPath
-	 * 			  the parameters needed by CPABE algorithm - such as the type of curve used and the prime numbers(key)
-	 * 			  that are used for the generation for keys
-	 */
-
-	public static JsonObject setup(String publicKeyFile, String masterKeyFile, String[] attrs, String parameterPath) throws IOException
+	static String defaultPropertyLocation = "src/main/java/com/mitu/cpabe/default.properties";
+	public static JsonObject setup(String[] attrs){
+		 return setup(attrs, defaultPropertyLocation);
+	}
+	/* Set up- takes a list of all possible attributes and the initial parameter and then returns the public 
+	*  encryption key and the master key (used to create private keys)
+	*/
+	/*API RETURN: {publicKey:string, masterKey:string}*/
+	public static JsonObject setup(String[] attrs, String parameterPath)
     {
     	var jsonObject = new JsonObject(); 
 		byte[] pub_byte, msk_byte;
@@ -43,30 +38,23 @@ public class Cpabe {
 		AbePub pub = new AbePub();
 		AbeMsk msk = new AbeMsk();
 		Abe.setup(pub, msk, attrs, parameterPath);
+
 		/* store public-key in JSON object to return to server*/
 		pub_byte = SerializeUtils.serializeBswabePub(pub);
-		jsonObject.addProperty("public_key", Base64.getEncoder().encodeToString(pub_byte));
+		jsonObject.addProperty("publicKey", Base64.getEncoder().encodeToString(pub_byte));
 
 		/* store AbeMsk into masterKeyFile */
-		System.err.println("WARNING :In Cpabe.java - currently storing master key to local text file");
 		msk_byte = SerializeUtils.serializeBswabeMsk(msk);
-		Common.spitFile(masterKeyFile, msk_byte);
-
-		// Utility.serializeObject(masterKeyFile, msk);
+		jsonObject.addProperty("masterKey", Base64.getEncoder().encodeToString(msk_byte));
+		return jsonObject;
 	}
 
-	/**
-	 * Keygen.
-	 * 
-	 * @param publicKeyFile
-	 *            the publicKeyFile
-	 * @param masterKeyFile
-	 *            the masterKeyFile
-	 * @param attr_str
-	 *            the list of users attributes - I will change it so that trusted authority gets it from a database
-	 */
-	public static void keygen(String publicKeyFile, String masterKeyFile, String attr_str)
-			throws IOException
+	public static JsonObject keygen(String publicKey, String masterKey, String attr_str){
+		return keygen(publicKey, masterKey, attr_str, defaultPropertyLocation);
+	}
+	/* Takes the public key and master key both serialized as string then return both shares of the user */
+	/*API RETURN: {share1:string, share2:string}*/
+	public static JsonObject keygen(String publicKey, String masterKey, String attr_str, String propertyLocation)
     {
 		AbePub pub;
 		AbeMsk msk;
@@ -74,18 +62,12 @@ public class Cpabe {
 		byte[] pub_byte, msk_byte, prv_bytePart1, prv_bytePart2;
 
 		/* get AbePub from publicKeyFile */
-		pub_byte = Common.suckFile(publicKeyFile);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte);
-
-		// ObjectInputStream inputStream = Utility.deSerializeObject(publicKeyFile);
-		// pub = (AbePub) inputStream.readObject();
+		pub_byte = Base64.getDecoder().decode(publicKey);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
 
 		/* get AbeMsk from masterKeyFile */
-		msk_byte = Common.suckFile(masterKeyFile);
+		msk_byte = Base64.getDecoder().decode(masterKey);
 		msk = SerializeUtils.unserializeBswabeMsk(pub, msk_byte);
-
-		// ObjectInputStream inputStream2 = Utility.deSerializeObject(masterKeyFile);
-		// msk = (AbeMsk) inputStream2.readObject();
 
 		String[] attr_arr = null;
 		try {
@@ -96,33 +78,23 @@ public class Cpabe {
 		assert attr_arr != null;
 		AbePrv prv = Abe.keygen(pub, msk, attr_arr);
 
-		/* store AbePrv into prvfile */
+		var jsonObject = new JsonObject(); 
+		/* store AbePrv into return object  */
 		prv_bytePart1 = SerializeUtils.serializeBswabePrvPart1(prv.prv1);
+		jsonObject.addProperty("share1", Base64.getEncoder().encodeToString(prv_bytePart1));
 		prv_bytePart2 = SerializeUtils.serializeBswabePrvPart2(prv.prv2);
-		System.err.println("WARNING :In Cpabe.java - Keygen -currently sending share to local file instead of revocation share");
-		Common.spitFile("src/main/resources/cpabe_files/share1.txt", prv_bytePart1);
-		Common.spitFile("src/main/resources/cpabe_files/share2.txt", prv_bytePart2);
-		// String[] shares = new String[2];
-		// shares[0] = new String(prv_bytePart1); // ** Store share 1 for revocation server **
-		// shares[1] = new String(prv_bytePart2); // ** Store share 2 for health professional **
-		// return shares;
-		// Utility.serializeObject(prvfilePart1, prv.prv1);
-		// Utility.serializeObject(prvfilePart2, prv.prv2);
+		jsonObject.addProperty("share2", Base64.getEncoder().encodeToString(prv_bytePart2));
+		return jsonObject;
+	}
+	public static JsonObject encrypt(String publicKey, String policy, String inputFileSerialized) throws IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, NoSuchPaddingException, InvalidKeyException {
+		return encrypt(publicKey, policy, inputFileSerialized, defaultPropertyLocation);
 	}
 
-	/**
-	 * Enc.
-	 * 
-	 * @param publicKeyFile
-	 *            the publicKeyFile
-	 * @param policy
-	 *            the policy
-	 * @param inputFile
-	 *            the input file as a byte array - as the data owner will be sending the file
-	 * @param userID
-	 *            the id of the data owner who is uploading their file
-	 */
-	public static void enc(String publicKeyFile, String policy, byte[] inputFile, String userID, String fileName)
+	/* Use the public key to encrypt the given file use the given policy return the byte 
+	*	representation of the encrypted file
+	*/
+	/*API RETURN: {encryptedFile:string}*/
+	public static JsonObject encrypt(String publicKey, String policy, String inputFileSerialized, String propertyLocation)
             throws IOException,
 			NoSuchAlgorithmException,
             InvalidKeyException,
@@ -140,18 +112,15 @@ public class Cpabe {
 		byte[] pub_byte;
 		Element m;
 
+		byte[] inputFile = Base64.getDecoder().decode(inputFileSerialized);
 		/* get AbePub from publicKeyFile */
-		pub_byte = Common.suckFile(publicKeyFile);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte);
-
-		// ObjectInputStream inputStream = Utility.deSerializeObject(publicKeyFile);
-		// pub = (AbePub) inputStream.readObject();
+		pub_byte = Base64.getDecoder().decode(publicKey);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
 
 		keyCph = Abe.enc(pub, policy);
 		cph = keyCph.cph;
 		m = pub.p.getGT().newElement();
 		m = keyCph.key.duplicate();
-		System.err.println("In encrypt: m = " + m.toString());
 
 		if (cph == null) {
 			System.err.println("Error happened in enc");
@@ -159,92 +128,67 @@ public class Cpabe {
 		}
 
 		cphBuf = SerializeUtils.bswabeCphSerialize(cph);
-
-		// cphBuf = Utility.objectToByteArray(cph);
-
-		/* read file that will be encrypted */
-		// ObjectInputStream inputStream2 =
-		// Utility.deSerializeObject(inputFile);
-		// inputStream2.readFully(inputFile);
 		aesBuf = AESCoder.encrypt(m.toBytes(), inputFile);
-
-		Common.writeCpabeFile(fileName, userID, cphBuf, aesBuf);
+		var os = Common.writeCpabeData(cphBuf,  aesBuf);
+		byte[] encryptedFileBytes = os.toByteArray();
+		var jsonObject = new JsonObject();
+		jsonObject.addProperty("encryptedFile", Base64.getEncoder().encodeToString( encryptedFileBytes));
+		return jsonObject;
 	}
 
+	public static JsonObject halfDecrypt(String publicKey, String share1, String encFile, String professionalId) throws NoSuchDecryptionTokenFoundException, IOException, AttributesNotSatisfiedException {
+		return  halfDecrypt(publicKey, share1, encFile, professionalId, defaultPropertyLocation);
+	}
 	/**
 	 * mdecrypt - intermediate decryption process done by the revocation server. It checks the revocation list and
 	 * only runs decryption if user has the appropriate permission
-	 * 
-	 * @param publicKeyFile
-	 *            the publicKeyFile
-	 * @param prvfilePart1
-	 *            the prvfile part1
-	 * @param encfile
-	 *            the encfile
-     * @param patientID
-	 *            used to navigate to correct AWS folder ** might replace and moves part of file name **
-	 */
-	public static byte[] mdecrypt(String publicKeyFile, String prvfilePart1, String encfile, String patientID)
+	 * Returns half decrypted file
+	*/
+	/*API RETURN: {mDecrypt:string}*/
+	public static JsonObject halfDecrypt(String publicKey, String share1, String encFile, String professionalId, String propertyLocation)
             throws AttributesNotSatisfiedException,
             NoSuchDecryptionTokenFoundException,
             IOException {
 
 		byte[] cphBuf;
-		byte[] prv_1_byte;
-		byte[] pub_byte, m_dec_byte;
+		byte[] share1_byte;
+		byte[] pub_byte, mDecByte;
 		byte[][] tmp;
 
 		AbeCph cph;
 		AbePub pub;
-		AbePrvPart1 prvPart1;
+		AbePrvPart1 privateKeyPart1;
 		AbeMDec mDec;
 
 		/* get AbePub from publicKeyFile */
-		pub_byte = Common.suckFile(publicKeyFile);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte);
-
-		// ObjectInputStream inputStream = Utility.deSerializeObject(publicKeyFile);
-		// pub = (AbePub) inputStream.readObject();
+		pub_byte = Base64.getDecoder().decode(publicKey);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
+		var jsonObject = new JsonObject(); 
 
 		/* read ciphertext */
-		tmp = Common.readCpabeFile(encfile, patientID);
+		tmp = Common.readCpabeData(new ByteArrayInputStream(Base64.getDecoder().decode(encFile)));
 		cphBuf = tmp[1];
 		cph = SerializeUtils.bswabeCphUnserialize(pub, cphBuf);
 
 		/* get AbePrvPart1 form prvfilePart1 */
-		System.err.println("WARNING :In Cpabe.java - m decrypt - currently reading share locally instead of database");
-		prv_1_byte = Common.suckFile(prvfilePart1);
-		prvPart1 = SerializeUtils.unserializeBswabePrvPart1(pub, prv_1_byte);
+		share1_byte = Base64.getDecoder().decode(share1);
+		privateKeyPart1 = SerializeUtils.unserializeBswabePrvPart1(pub, share1_byte);
 
-		// ObjectInputStream inputStream2 =
-		// Utility.deSerializeObject(prvfilePart1);
-		// prvPart1 = (AbePrvPart1) inputStream2.readObject();
-
-		mDec = Abe.m_dec(pub, prvPart1, cph);
-		System.err.println("Returning file as byte array make sure spring is handling ");
-		m_dec_byte = SerializeUtils.serializeBswabeMDec(mDec);
-		return m_dec_byte; // Return the file represented as a byte array
-//
-
-		// Utility.serializeObject(m_decfile, mDec);
+		mDec = Abe.m_dec(pub, privateKeyPart1, cph);
+		mDecByte = SerializeUtils.serializeBswabeMDec(mDec);
+		jsonObject.addProperty("mDecryptedFile", Base64.getEncoder().encodeToString( mDecByte));
+		return jsonObject;
 	}
 
-	/**
-	 * Dec.
-	 *  @param publicKeyFile
-	 *            the publicKeyFile
-	 * @param prvfilePart2
-	 *            the prvfile part2
-     * @param encFileName
-     *            the name of the encrypted file used to pull from AWS server
-     * @param m_dec_byte
-     *            the partially decrypted file as bytes
-     * @param patientID
-     *           Used to find the correct folder in AWS ** Might remove and put it as part of file name
-     * @return the decrypted file as a byte array
-     */
-	public static byte[] dec(String publicKeyFile, String prvfilePart2, String encFileName, byte[] m_dec_byte,
-                             String patientID) throws IOException, // Regular file IO exception
+	public static JsonObject decrypt(String publicKey, String share2, String encFile, String mDecFile,
+                             String professionalId) throws IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, NoSuchPaddingException, InvalidKeyException {
+		return decrypt(publicKey, share2, encFile, mDecFile, professionalId, defaultPropertyLocation);
+	}
+	/*Use the half decrypted file, the encrypted file and the second part of the decryption key to make the file*/
+	/*API RETURN: {decryptedFile:string}*/
+	public static JsonObject decrypt(String publicKey, String share2, String encFile, String mDecFile,
+                             String professionalId, String propertyLocation)
+			throws IOException, // Regular file IO exception
 			IllegalBlockSizeException, // Problem from cp-abe jbr library
 			InvalidKeyException, // Exception thrown if key was in wrong format
 			BadPaddingException, // Exception comes from the AES encryption used under the hood
@@ -253,57 +197,42 @@ public class Cpabe {
 	{
 
 		byte[] aesBuf, cphBuf;
-        byte[] prv_2_byte;
+        byte[] share2_byte;
 		byte[] pub_byte;
 		byte[][] tmp;
 
 		AbeCph cph;
 		AbePub pub;
-		AbePrvPart2 prvPart2;
-		AbeMDec mDec =null;
+		AbePrvPart2 privateKeyPart2;
+		AbeMDec mDec = null;
 
 		/* get AbePub from publicKeyFile */
-		System.err.println("WARNING :In Cpabe.java - decrypt public key is being read locally");
-		pub_byte = Common.suckFile(publicKeyFile);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte);
-
-		// ObjectInputStream inputStream = Utility.deSerializeObject(publicKeyFile);
-		// pub = (AbePub) inputStream.readObject();
+		pub_byte = Base64.getDecoder().decode(publicKey);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
 
 		/* read ciphertext */
-		tmp = Common.readCpabeFile(encFileName, patientID);
+		tmp = Common.readCpabeData(new ByteArrayInputStream(Base64.getDecoder().decode(encFile)));
 		aesBuf = tmp[0];
 		cphBuf = tmp[1];
 		cph = SerializeUtils.bswabeCphUnserialize(pub, cphBuf);
 
-		/* get AbePrvPart2 form prvfilePart2 */
-		System.err.println("WARNING :In Cpabe.java -decrypt - currently reading share locally instead of database");
-		prv_2_byte = Common.suckFile(prvfilePart2);
-		prvPart2 = SerializeUtils.unserializeBswabePrvPart2(pub, prv_2_byte);
+		share2_byte = Base64.getDecoder().decode(share2);
+		privateKeyPart2 = SerializeUtils.unserializeBswabePrvPart2(pub, share2_byte);
 
-		// ObjectInputStream inputStream2 =
-		// Utility.deSerializeObject(prvfilePart2);
-		// prvPart2 = (AbePrvPart2) inputStream2.readObject();
-
-//		m_dec_byte = Common.suckFile(m_decfile);
-	try{
-		mDec = SerializeUtils.unserializeBswabeMDec(pub, m_dec_byte);
-	}catch(Exception e){
-		e.printStackTrace();
-	}
-
-
-
-		// ObjectInputStream inputStream3 =
-		// Utility.deSerializeObject(m_decfile);
-		// mDec = (AbeMDec) inputStream3.readObject();
+		try{
+			mDec = SerializeUtils.unserializeBswabeMDec(pub, Base64.getDecoder().decode(mDecFile));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		var jsonObject = new JsonObject();
 		byte[] plt;
 		Element m = pub.p.getGT().newElement();
-		m = Abe.dec(pub, prvPart2, cph, mDec).duplicate();
+		assert mDec != null;
+		m = Abe.dec(pub, privateKeyPart2, cph, mDec).duplicate();
 		plt = AESCoder.decrypt(m.toBytes(), aesBuf);
-		// Common.spitFile( "src/main/resources/cpabe_files/decrypted.png", plt);
-		return  plt;
-	}
 
+		jsonObject.addProperty("decryptedFile", Base64.getEncoder().encodeToString( plt));
+		return jsonObject;
+	}
 
 }

@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Optional;
 
-public class ParseContentType implements HttpFunction {
+class ParseContentType implements HttpFunction {
 
   private static final Gson gson = new Gson();
 

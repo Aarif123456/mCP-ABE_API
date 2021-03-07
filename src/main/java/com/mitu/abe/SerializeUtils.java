@@ -152,7 +152,7 @@ public class SerializeUtils {
      * @param b the b
      * @return the abe pub
      */
-    public static AbePub unserializeBswabePub(byte[] b) {
+    public static AbePub unserializeBswabePub(byte[] b, String propertyLocation) {
         AbePub pub;
         int offset, i, len;
 
@@ -171,7 +171,7 @@ public class SerializeUtils {
         pub.p = PairingFactory.getPairing(parameters);
         Pairing pairing = pub.p;*/
 //        File file = new File(PhrActivity.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "a.properties");
-        File file= new File("src/main/resources/a.properties"); // ** need to get a.property from server
+        File file= new File(propertyLocation);
         pub.p = PairingFactory.getPairing(file.getAbsolutePath());
         Pairing pairing = pub.p;
 
