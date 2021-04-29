@@ -31,32 +31,19 @@ public abstract class AbstractPairingAccumulator extends AbstractAccumulator<Ele
         throw new IllegalStateException("Invalid call method!");
     }
 
-    public PairingAccumulator addPairing(final Element e1, final Element e2) {
-        super.accumulate(new Callable<Element>() {
-            public Element call() throws Exception {
-                return pairing.pairing(e1, e2);
-            }
-        });
+    public void addPairing(final Element e1, final Element e2) {
+        super.accumulate(() -> pairing.pairing(e1, e2));
 
-        return this;
     }
 
     public PairingAccumulator addPairingInverse(final Element e1, final Element e2) {
-        super.accumulate(new Callable<Element>() {
-            public Element call() throws Exception {
-                return pairing.pairing(e1, e2).invert();
-            }
-        });
+        super.accumulate(() -> pairing.pairing(e1, e2).invert());
 
         return this;
     }
 
     public PairingAccumulator addPairing(final PairingPreProcessing pairingPreProcessing, final Element e2) {
-        super.accumulate(new Callable<Element>() {
-            public Element call() throws Exception {
-                return pairingPreProcessing.pairing(e2);
-            }
-        });
+        super.accumulate(() -> pairingPreProcessing.pairing(e2));
 
         return this;
     }
