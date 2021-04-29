@@ -1,5 +1,7 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>
  * <p>Homepage: <a href="http://iharder.net/base64">http://iharder.net/base64</a>.</p>
@@ -489,10 +491,9 @@ public class Base64
      * @param numSigBytes the number of significant bytes in your array
      * @param destination the array to hold the conversion
      * @param destOffset the index where output will be put
-     * @return the <var>destination</var> array
      * @since 1.3
      */
-    private static byte[] encode3to4( 
+    private static void encode3to4(
     byte[] source, int srcOffset, int numSigBytes,
     byte[] destination, int destOffset, int options ) {
         
@@ -520,24 +521,23 @@ public class Base64
                 destination[ destOffset + 1 ] = ALPHABET[ (inBuff >>> 12) & 0x3f ];
                 destination[ destOffset + 2 ] = ALPHABET[ (inBuff >>>  6) & 0x3f ];
                 destination[ destOffset + 3 ] = ALPHABET[ (inBuff       ) & 0x3f ];
-                return destination;
+                return;
                 
             case 2:
                 destination[ destOffset     ] = ALPHABET[ (inBuff >>> 18)        ];
                 destination[ destOffset + 1 ] = ALPHABET[ (inBuff >>> 12) & 0x3f ];
                 destination[ destOffset + 2 ] = ALPHABET[ (inBuff >>>  6) & 0x3f ];
                 destination[ destOffset + 3 ] = EQUALS_SIGN;
-                return destination;
+                return;
                 
             case 1:
                 destination[ destOffset     ] = ALPHABET[ (inBuff >>> 18)        ];
                 destination[ destOffset + 1 ] = ALPHABET[ (inBuff >>> 12) & 0x3f ];
                 destination[ destOffset + 2 ] = EQUALS_SIGN;
                 destination[ destOffset + 3 ] = EQUALS_SIGN;
-                return destination;
+                return;
                 
             default:
-                return destination;
         }   // end switch
     }   // end encode3to4
 
@@ -677,16 +677,11 @@ public class Base64
             }
             oos.writeObject( serializableObject );
         }   // end try
-        catch( java.io.IOException e ) {
-            // Catch it and then throw it immediately so that
-            // the finally{} block is called for cleanup.
-            throw e;
-        }   // end catch
         finally {
-            try{ oos.close();   } catch( Exception e ){}
-            try{ gzos.close();  } catch( Exception e ){}
-            try{ b64os.close(); } catch( Exception e ){}
-            try{ baos.close();  } catch( Exception e ){}
+            try{ oos.close();   } catch( Exception ignored){}
+            try{ gzos.close();  } catch( Exception ignored){}
+            try{ b64os.close(); } catch( Exception ignored){}
+            try{ baos.close();  } catch( Exception ignored){}
         }   // end finally
         
         // Return value according to relevant encoding.
@@ -919,15 +914,11 @@ public class Base64
                 gzos.write( source, off, len );
                 gzos.close();
             }   // end try
-            catch( java.io.IOException e ) {
-                // Catch it and then throw it immediately so that
-                // the finally{} block is called for cleanup.
-                throw e;
-            }   // end catch
+            // end catch
             finally {
-                try{ gzos.close();  } catch( Exception e ){}
-                try{ b64os.close(); } catch( Exception e ){}
-                try{ baos.close();  } catch( Exception e ){}
+                try{ gzos.close();  } catch( Exception ignored){}
+                try{ b64os.close(); } catch( Exception ignored){}
+                try{ baos.close();  } catch( Exception ignored){}
             }   // end finally
 
             return baos.toByteArray();
@@ -1027,8 +1018,8 @@ public class Base64
      *         or there is not enough room in the array.
      * @since 1.3
      */
-    private static int decode4to3( 
-    byte[] source, int srcOffset, 
+    private static int decode4to3(
+    byte[] source, int srcOffset,
     byte[] destination, int destOffset, int options ) {
         
         // Lots of error checking and exception throwing
@@ -1330,7 +1321,7 @@ public class Base64
         
         java.io.ByteArrayInputStream  bais = null;
         java.io.ObjectInputStream     ois  = null;
-        Object obj = null;
+        Object obj;
         
         try {
             bais = new java.io.ByteArrayInputStream( objBytes );
@@ -1359,15 +1350,11 @@ public class Base64
         
             obj = ois.readObject();
         }   // end try
-        catch( java.io.IOException e ) {
-            throw e;    // Catch and throw in order to execute finally{}
-        }   // end catch
-        catch( java.lang.ClassNotFoundException e ) {
-            throw e;    // Catch and throw in order to execute finally{}
-        }   // end catch
+        // end catch
+        // end catch
         finally {
-            try{ bais.close(); } catch( Exception e ){}
-            try{ ois.close();  } catch( Exception e ){}
+            try{ bais.close(); } catch( Exception ignored){}
+            try{ ois.close();  } catch( Exception ignored){}
         }   // end finally
         
         return obj;
@@ -1395,19 +1382,11 @@ public class Base64
         if( dataToEncode == null ){
             throw new NullPointerException( "Data to encode was null." );
         }   // end iff
-        
-        Base64.OutputStream bos = null;
-        try {
-            bos = new Base64.OutputStream( 
-                  new java.io.FileOutputStream( filename ), Base64.ENCODE );
-            bos.write( dataToEncode );
-        }   // end try
-        catch( java.io.IOException e ) {
-            throw e; // Catch and throw to execute finally{} block
-        }   // end catch: java.io.IOException
-        finally {
-            try{ bos.close(); } catch( Exception e ){}
-        }   // end finally
+
+        try (OutputStream bos = new OutputStream(
+                new java.io.FileOutputStream(filename), Base64.ENCODE)) {
+            bos.write(dataToEncode);
+        }
         
     }   // end encodeToFile
     
@@ -1427,19 +1406,11 @@ public class Base64
      */
     public static void decodeToFile( String dataToDecode, String filename )
     throws java.io.IOException {
-        
-        Base64.OutputStream bos = null;
-        try{
-            bos = new Base64.OutputStream( 
-                      new java.io.FileOutputStream( filename ), Base64.DECODE );
-            bos.write( dataToDecode.getBytes( PREFERRED_ENCODING ) );
-        }   // end try
-        catch( java.io.IOException e ) {
-            throw e; // Catch and throw to execute finally{} block
-        }   // end catch: java.io.IOException
-        finally {
-                try{ bos.close(); } catch( Exception e ){}
-        }   // end finally
+
+        try (OutputStream bos = new OutputStream(
+                new java.io.FileOutputStream(filename), Base64.DECODE)) {
+            bos.write(dataToDecode.getBytes(PREFERRED_ENCODING));
+        }
         
     }   // end decodeToFile
     
@@ -1463,15 +1434,15 @@ public class Base64
     public static byte[] decodeFromFile( String filename )
     throws java.io.IOException {
         
-        byte[] decodedData = null;
+        byte[] decodedData;
         Base64.InputStream bis = null;
         try
         {
             // Set up some useful variables
             java.io.File file = new java.io.File( filename );
-            byte[] buffer = null;
+            byte[] buffer;
             int length   = 0;
-            int numBytes = 0;
+            int numBytes;
             
             // Check for size of file
             if( file.length() > Integer.MAX_VALUE )
@@ -1495,11 +1466,9 @@ public class Base64
             System.arraycopy( buffer, 0, decodedData, 0, length );
             
         }   // end try
-        catch( java.io.IOException e ) {
-            throw e; // Catch and release to execute finally{}
-        }   // end catch: java.io.IOException
+        // end catch: java.io.IOException
         finally {
-            try{ bis.close(); } catch( Exception e) {}
+            try{ bis.close(); } catch( Exception ignored) {}
         }   // end finally
         
         return decodedData;
@@ -1524,7 +1493,7 @@ public class Base64
     public static String encodeFromFile( String filename )
     throws java.io.IOException {
         
-        String encodedData = null;
+        String encodedData;
         Base64.InputStream bis = null;
         try
         {
@@ -1532,7 +1501,7 @@ public class Base64
             java.io.File file = new java.io.File( filename );
             byte[] buffer = new byte[ Math.max((int)(file.length() * 1.4+1),40) ]; // Need max() for math on small files (v2.2.1); Need +1 for a few corner cases (v2.3.5)
             int length   = 0;
-            int numBytes = 0;
+            int numBytes;
             
             // Open a stream
             bis = new Base64.InputStream( 
@@ -1548,11 +1517,9 @@ public class Base64
             encodedData = new String( buffer, 0, length, Base64.PREFERRED_ENCODING );
                 
         }   // end try
-        catch( java.io.IOException e ) {
-            throw e; // Catch and release to execute finally{}
-        }   // end catch: java.io.IOException
+        // end catch: java.io.IOException
         finally {
-            try{ bis.close(); } catch( Exception e) {}
+            try{ bis.close(); } catch( Exception ignored) {}
         }   // end finally
         
         return encodedData;
@@ -1570,19 +1537,10 @@ public class Base64
     throws java.io.IOException {
         
         String encoded = Base64.encodeFromFile( infile );
-        java.io.OutputStream out = null;
-        try{
-            out = new java.io.BufferedOutputStream(
-                  new java.io.FileOutputStream( outfile ) );
-            out.write( encoded.getBytes("US-ASCII") ); // Strict, 7-bit output.
-        }   // end try
-        catch( java.io.IOException e ) {
-            throw e; // Catch and release to execute finally{}
-        }   // end catch
-        finally {
-            try { out.close(); }
-            catch( Exception ex ){}
-        }   // end finally    
+        try (java.io.OutputStream out = new java.io.BufferedOutputStream(
+                new java.io.FileOutputStream(outfile))) {
+            out.write(encoded.getBytes(StandardCharsets.US_ASCII)); // Strict, 7-bit output.
+        }
     }   // end encodeFileToFile
 
 
@@ -1598,19 +1556,10 @@ public class Base64
     throws java.io.IOException {
         
         byte[] decoded = Base64.decodeFromFile( infile );
-        java.io.OutputStream out = null;
-        try{
-            out = new java.io.BufferedOutputStream(
-                  new java.io.FileOutputStream( outfile ) );
-            out.write( decoded );
-        }   // end try
-        catch( java.io.IOException e ) {
-            throw e; // Catch and release to execute finally{}
-        }   // end catch
-        finally {
-            try { out.close(); }
-            catch( Exception ex ){}
-        }   // end finally    
+        try (java.io.OutputStream out = new java.io.BufferedOutputStream(
+                new java.io.FileOutputStream(outfile))) {
+            out.write(decoded);
+        }
     }   // end decodeFileToFile
     
     

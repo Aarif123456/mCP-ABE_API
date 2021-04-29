@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import java.io.DataOutput;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
@@ -10,66 +9,66 @@ import java.nio.ByteBuffer;
  */
 public class ByteBufferDataOutput implements DataOutput {
 
-    private ByteBuffer buffer;
+    private final ByteBuffer buffer;
 
     public ByteBufferDataOutput(ByteBuffer buffer) {
         this.buffer = buffer;
     }
 
 
-    public void write(int b) throws IOException {
+    public void write(int b) {
         throw new IllegalStateException();
     }
 
-    public void write(byte[] b) throws IOException {
+    public void write(byte[] b) {
         buffer.put(b);
     }
 
-    public void write(byte[] b, int off, int len) throws IOException {
+    public void write(byte[] b, int off, int len) {
         throw new IllegalStateException();
     }
 
-    public void writeBoolean(boolean v) throws IOException {
+    public void writeBoolean(boolean v) {
         throw new IllegalStateException();
     }
 
-    public void writeByte(int v) throws IOException {
+    public void writeByte(int v) {
         throw new IllegalStateException();
     }
 
-    public void writeShort(int v) throws IOException {
+    public void writeShort(int v) {
         throw new IllegalStateException();
     }
 
-    public void writeChar(int v) throws IOException {
+    public void writeChar(int v) {
         throw new IllegalStateException();
     }
 
-    public void writeInt(int v) throws IOException {
+    public void writeInt(int v) {
         buffer.putInt(v);
     }
 
-    public void writeLong(long v) throws IOException {
+    public void writeLong(long v) {
         throw new IllegalStateException();
     }
 
-    public void writeFloat(float v) throws IOException {
+    public void writeFloat(float v) {
         throw new IllegalStateException();
     }
 
-    public void writeDouble(double v) throws IOException {
+    public void writeDouble(double v) {
         throw new IllegalStateException();
     }
 
-    public void writeBytes(String s) throws IOException {
+    public void writeBytes(String s) {
         throw new IllegalStateException();
     }
 
-    public void writeChars(String s) throws IOException {
+    public void writeChars(String s) {
         throw new IllegalStateException();
     }
 
-    public void writeUTF(String s) throws IOException {
+    public void writeUTF(String s) {
         throw new IllegalStateException();
     }
 }

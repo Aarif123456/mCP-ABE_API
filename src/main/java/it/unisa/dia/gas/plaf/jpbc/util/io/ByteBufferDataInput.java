@@ -1,7 +1,6 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
 import java.io.DataInput;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
@@ -10,69 +9,69 @@ import java.nio.ByteBuffer;
  */
 public class ByteBufferDataInput implements DataInput {
 
-    private ByteBuffer byteBuffer;
+    private final ByteBuffer byteBuffer;
 
     public ByteBufferDataInput(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
 
-    public void readFully(byte[] b) throws IOException {
+    public void readFully(byte[] b) {
         byteBuffer.get(b);
     }
 
-    public void readFully(byte[] b, int off, int len) throws IOException {
+    public void readFully(byte[] b, int off, int len) {
         throw new IllegalStateException();
     }
 
-    public int skipBytes(int n) throws IOException {
+    public int skipBytes(int n) {
         throw new IllegalStateException();
     }
 
-    public boolean readBoolean() throws IOException {
+    public boolean readBoolean() {
         throw new IllegalStateException();
     }
 
-    public byte readByte() throws IOException {
+    public byte readByte() {
         return byteBuffer.get();
     }
 
-    public int readUnsignedByte() throws IOException {
+    public int readUnsignedByte() {
         throw new IllegalStateException();
     }
 
-    public short readShort() throws IOException {
+    public short readShort() {
         throw new IllegalStateException();
     }
 
-    public int readUnsignedShort() throws IOException {
+    public int readUnsignedShort() {
         throw new IllegalStateException();
     }
 
-    public char readChar() throws IOException {
+    public char readChar() {
         throw new IllegalStateException();
     }
 
-    public int readInt() throws IOException {
+    public int readInt() {
         return byteBuffer.getInt();
     }
 
-    public long readLong() throws IOException {
+    public long readLong() {
         return byteBuffer.getLong();
     }
 
-    public float readFloat() throws IOException {
+    public float readFloat() {
         throw new IllegalStateException();
     }
 
-    public double readDouble() throws IOException {
+    public double readDouble() {
         throw new IllegalStateException();
     }
 
-    public String readLine() throws IOException {
+    public String readLine() {
         throw new IllegalStateException();
     }
 
-    public String readUTF() throws IOException {
+    public String readUTF() {
         throw new IllegalStateException();
     }
 
