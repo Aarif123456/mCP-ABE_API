@@ -21,22 +21,30 @@ import java.util.Map;
  */
 public class PairingFactory {
     private static final PairingFactory INSTANCE = new PairingFactory();
-
-
     public static PairingFactory getInstance() {
         return INSTANCE;
     }
-
+    /*****************************************************************************************/
+    /* If we do not give in a secure random then we generate it*/
     public static Pairing getPairing(PairingParameters parameters) {
         return getInstance().initPairing(parameters);
+    }
+
+    public static Pairing getPairing(Map<String, String> loadMap) {
+        return getInstance().initPairing(loadMap);
     }
 
     public static Pairing getPairing(String parametersPath) {
         return getInstance().initPairing(parametersPath);
     }
 
+    /*General overloading with SecureRandom given*/
     public static Pairing getPairing(PairingParameters parameters, SecureRandom random) {
         return getInstance().initPairing(parameters, random);
+    }
+
+    public static Pairing getPairing(Map<String, String> loadMap, SecureRandom random) {
+        return getInstance().initPairing(loadMap, random);
     }
 
     public static Pairing getPairing(String parametersPath, SecureRandom random) {
@@ -46,21 +54,21 @@ public class PairingFactory {
     public static PairingParameters getPairingParameters(String parametersPath) {
         return getInstance().loadParameters(parametersPath);
     }
-
+    /*****************************************************************************************/
 
     private boolean usePBCWhenPossible = false;
     private boolean reuseInstance = true;
     private boolean pbcAvailable = false;
     private boolean immutable = false;
 
-    private Map<PairingParameters, Pairing> instances;
-    private Map<String, PairingCreator> creators;
-    private SecureRandomCreator secureRandomCreator;
+    private final Map<PairingParameters, Pairing> instances;
+    private final Map<String, PairingCreator> creators;
+    private final SecureRandomCreator secureRandomCreator;
 
 
     private PairingFactory() {
-        this.instances = new HashMap<PairingParameters, Pairing>();
-        this.creators = new HashMap<String, PairingCreator>();
+        this.instances = new HashMap<>();
+        this.creators = new HashMap<>();
         this.secureRandomCreator = new DefaultSecureRandomCreator();
 
         PairingCreator defaultCreator = new EllipticCurvesPairingCreator();
@@ -74,17 +82,27 @@ public class PairingFactory {
         creators.put("ctl13", new CTL13MultilinearPairingCreator());
     }
 
-
+    /*****************************************************************************************/
+    /* If we do not give in a secure random then we generate it*/
     public Pairing initPairing(String parametersPath) {
         return initPairing(loadParameters(parametersPath), secureRandomCreator.newSecureRandom());
+    }
+
+    public Pairing initPairing(Map<String, String> loadMap) {
+        return initPairing(loadParameters(loadMap), secureRandomCreator.newSecureRandom());
     }
 
     public Pairing initPairing(PairingParameters parameters) {
         return initPairing(parameters, secureRandomCreator.newSecureRandom());
     }
 
+    /* Overloading to allow loading using different arguments */
     public Pairing initPairing(String parametersPath, SecureRandom random) {
         return initPairing(loadParameters(parametersPath), random);
+    }
+
+    public Pairing initPairing(Map<String, String> loadMap, SecureRandom random) {
+        return initPairing(loadParameters(loadMap), random);
     }
 
     public Pairing initPairing(PairingParameters parameters, SecureRandom random) {
@@ -94,7 +112,7 @@ public class PairingFactory {
         if (random == null)
             random = secureRandomCreator.newSecureRandom();
 
-        Pairing pairing = null;
+        Pairing pairing;
         if (reuseInstance) {
             pairing = instances.get(parameters);
             if (pairing != null)
@@ -118,16 +136,20 @@ public class PairingFactory {
 
         return pairing;
     }
-
+    /*****************************************************************************************/
+    public PairingParameters loadParameters(Map<String, String> loadMap) {
+        PropertiesParameters curveParams = new PropertiesParameters();
+        curveParams.load(loadMap);
+        return curveParams;
+    }
 
     public PairingParameters loadParameters(String path) {
         PropertiesParameters curveParams = new PropertiesParameters();
         curveParams.load(path);
-
         return curveParams;
     }
 
-
+    /*****************************************************************************************/
     public boolean isPBCAvailable() {
         return pbcAvailable;
     }
@@ -161,8 +183,8 @@ public class PairingFactory {
         creators.put(type, creator);
     }
 
-
-    public static interface PairingCreator {
+    /*****************************************************************************************/
+    public interface PairingCreator {
 
         Pairing create(String type, SecureRandom random, PairingParameters pairingParameters);
 

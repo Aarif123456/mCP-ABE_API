@@ -15,26 +15,37 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Cpabe {
-	static String defaultPropertyLocation = "src/main/java/com/mitu/cpabe/default.properties";
+	static final Map<String, String> defaultMap = new HashMap<String, String>() {{
+										            put("type", "a");
+										            put("q", "8780710799663312522437781984754049815806883199414208211028653399266475630880222957078625179422662221423155858769582317459277713367317481324925129998224791");
+										            put("h", "12016012264891146079388821366740534204802954401251311822919615131047207289359704531102844802183906537786776");
+										            put("r", "730750818665451621361119245571504901405976559617");
+										            put("exp2", "159");
+										            put("exp1", "107");
+										            put("sign1", "1");
+										            put("sign0", "1");
+										        }};
 	public static JsonObject setup(String[] attrs){
-		 return setup(attrs, defaultPropertyLocation);
+		 return setup(attrs, defaultMap);
 	}
 	/* Set up- takes a list of all possible attributes and the initial parameter and then returns the public 
 	*  encryption key and the master key (used to create private keys)
 	*/
 	/*API RETURN: {publicKey:string, masterKey:string}*/
-	public static JsonObject setup(String[] attrs, String parameterPath)
+	public static JsonObject setup(String[] attrs, Map<String, String> parameterMap)
     {
     	var jsonObject = new JsonObject(); 
 		byte[] pub_byte, msk_byte;
 
 		AbePub pub = new AbePub();
 		AbeMsk msk = new AbeMsk();
-		Abe.setup(pub, msk, attrs, parameterPath);
+		Abe.setup(pub, msk, attrs, parameterMap);
 
 		/* store public-key in JSON object to return to server*/
 		pub_byte = SerializeUtils.serializeBswabePub(pub);
@@ -47,11 +58,11 @@ public class Cpabe {
 	}
 
 	public static JsonObject keygen(String publicKey, String masterKey, String attr_str){
-		return keygen(publicKey, masterKey, attr_str, defaultPropertyLocation);
+		return keygen(publicKey, masterKey, attr_str, defaultMap);
 	}
 	/* Takes the public key and master key both serialized as string then return both shares of the user */
 	/*API RETURN: {share1:string, share2:string}*/
-	public static JsonObject keygen(String publicKey, String masterKey, String attr_str, String propertyLocation)
+	public static JsonObject keygen(String publicKey, String masterKey, String attr_str, Map<String, String> loadMap)
     {
 		AbePub pub;
 		AbeMsk msk;
@@ -60,7 +71,7 @@ public class Cpabe {
 
 		/* get AbePub from publicKeyFile */
 		pub_byte = Base64.getDecoder().decode(publicKey);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, loadMap);
 
 		/* get AbeMsk from masterKeyFile */
 		msk_byte = Base64.getDecoder().decode(masterKey);
@@ -84,14 +95,14 @@ public class Cpabe {
 		return jsonObject;
 	}
 	public static JsonObject encrypt(String publicKey, String policy, String inputFileSerialized) throws IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, NoSuchPaddingException, InvalidKeyException {
-		return encrypt(publicKey, policy, inputFileSerialized, defaultPropertyLocation);
+		return encrypt(publicKey, policy, inputFileSerialized, defaultMap);
 	}
 
 	/* Use the public key to encrypt the given file use the given policy return the byte 
 	*	representation of the encrypted file
 	*/
 	/*API RETURN: {encryptedFile:string}*/
-	public static JsonObject encrypt(String publicKey, String policy, String inputFileSerialized, String propertyLocation)
+	public static JsonObject encrypt(String publicKey, String policy, String inputFileSerialized, Map<String, String> loadMap)
             throws IOException,
 			NoSuchAlgorithmException,
             InvalidKeyException,
@@ -112,11 +123,11 @@ public class Cpabe {
 		byte[] inputFile = Base64.getDecoder().decode(inputFileSerialized);
 		/* get AbePub from publicKeyFile */
 		pub_byte = Base64.getDecoder().decode(publicKey);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, loadMap);
 
 		keyCph = Abe.enc(pub, policy);
 		cph = keyCph.cph;
-		m = pub.p.getGT().newElement();
+		pub.p.getGT().newElement();
 		m = keyCph.key.duplicate();
 
 		if (cph == null) {
@@ -159,7 +170,7 @@ public class Cpabe {
 
 		/* get AbePub from publicKeyFile */
 		pub_byte = Base64.getDecoder().decode(publicKey);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, loadMap);
 		var jsonObject = new JsonObject(); 
 
 		/* read ciphertext */
@@ -204,7 +215,7 @@ public class Cpabe {
 
 		/* get AbePub from publicKeyFile */
 		pub_byte = Base64.getDecoder().decode(publicKey);
-		pub = SerializeUtils.unserializeBswabePub(pub_byte, propertyLocation);
+		pub = SerializeUtils.unserializeBswabePub(pub_byte, loadMap);
 
 		/* read ciphertext */
 		tmp = Common.readCpabeData(new ByteArrayInputStream(Base64.getDecoder().decode(encFile)));
@@ -222,7 +233,8 @@ public class Cpabe {
 		}
 		var jsonObject = new JsonObject();
 		byte[] plt;
-		Element m = pub.p.getGT().newElement();
+		Element m;
+		pub.p.getGT().newElement();
 		assert mDec != null;
 		m = Abe.dec(pub, privateKeyPart2, cph, mDec).duplicate();
 		plt = AESCoder.decrypt(m.toBytes(), aesBuf);

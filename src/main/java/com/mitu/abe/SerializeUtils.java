@@ -1,47 +1,20 @@
-/*
- * 
- */
 package com.mitu.abe;
-
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
-// TODO: Auto-generated Javadoc
-
-/**
- * The Class SerializeUtils.
- */
 public class SerializeUtils {
 
-	/* Method has been test okay */
-
-    /**
-     * Serialize element.
-     *
-     * @param arrlist the arrlist
-     * @param e       the e
-     */
     public static void serializeElement(ArrayList<Byte> arrlist, Element e) {
         byte[] arr_e = e.toBytes();
         serializeUint32(arrlist, arr_e.length);
         byteArrListAppend(arrlist, arr_e);
     }
 
-	/* Method has been test okay */
-
-    /**
-     * Unserialize element.
-     *
-     * @param arr    the arr
-     * @param offset the offset
-     * @param e      the e
-     * @return the int
-     */
     public static int unserializeElement(byte[] arr, int offset, Element e) {
         int len;
         int i;
@@ -131,13 +104,7 @@ public class SerializeUtils {
         return Byte_arr2byte_arr(arrlist);
     }
 
-    /**
-     * Unserialize bswabe pub.
-     *
-     * @param b the b
-     * @return the abe pub
-     */
-    public static AbePub unserializeBswabePub(byte[] b, String propertyLocation) {
+    public static AbePub unserializeBswabePub(byte[] b, Map<String, String> loadMap) {
         AbePub pub;
         int offset, i, len;
 
@@ -148,7 +115,7 @@ public class SerializeUtils {
         offset = unserializeString(b, offset, sb);
         pub.pairingDesc = sb.substring(0);
 
-
+        /*TODO: create option to generate pairing */
         /*// JPBC Type A pairing generator...
         PairingParametersGenerator generator = new TypeACurveGenerator(rBits, qBits);
         PairingParameters parameters = generator.generate();
@@ -156,8 +123,7 @@ public class SerializeUtils {
         pub.p = PairingFactory.getPairing(parameters);
         Pairing pairing = pub.p;*/
 //        File file = new File(PhrActivity.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "a.properties");
-        File file= new File(propertyLocation);
-        pub.p = PairingFactory.getPairing(file.getAbsolutePath());
+        pub.p = PairingFactory.getPairing(loadMap);
         Pairing pairing = pub.p;
 
         pub.g = pairing.getG1().newElement();
