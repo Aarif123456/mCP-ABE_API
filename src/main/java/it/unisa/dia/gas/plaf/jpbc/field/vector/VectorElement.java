@@ -41,11 +41,11 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
     }
 
     public VectorElement<E> duplicate() {
-        return new VectorElement<E>(this);
+        return new VectorElement<>(this);
     }
 
     public VectorElement<E> getImmutable() {
-        return new ImmutableVectorElement<E>(this);
+        return new ImmutableVectorElement<>(this);
     }
 
     public VectorElement<E> set(Element e) {

@@ -44,11 +44,11 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     }
 
     public Element getImmutable() {
-        return new ImmutableCurveElement<E, F>(this);
+        return new ImmutableCurveElement<>(this);
     }
 
     public CurveElement<E,F> duplicate() {
-        return new CurveElement<E,F>(this);
+        return new CurveElement<>(this);
     }
 
     public CurveElement set(Element e) {

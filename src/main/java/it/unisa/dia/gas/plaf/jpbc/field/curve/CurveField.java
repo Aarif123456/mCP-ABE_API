@@ -7,13 +7,14 @@ import it.unisa.dia.gas.plaf.jpbc.field.base.AbstractFieldOver;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Objects;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveElement> {
 
-    public static <F extends Field> CurveField<F> newCurveFieldJ(SecureRandom random, Element j, BigInteger order, BigInteger cofac) {
+    public static <F extends Field> CurveField<F> newCurveFieldJ(SecureRandom random, Element j, BigInteger order, BigInteger cofactor) {
         // Assumes j != 0, 1728
 
         Element a, b;
@@ -28,13 +29,15 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         //a = 3 j / (1728 - j)
         a.add(b);
 
-        return new CurveField<F>(random, a, b, order, cofac);
+        return new CurveField<>(random, a, b, order, cofactor);
     }
 
-    protected Element a, b;
+    protected final Element a;
+    protected final Element b;
     protected Element gen, genNoCofac;
     protected ElementPow genPow;
-    protected BigInteger order, cofac;
+    protected final BigInteger order;
+    protected BigInteger cofac;
 
     // A non-NULL quotientCmp means we are working with the quotient group of
     // order #E / quotientCmp, and the points are actually coset

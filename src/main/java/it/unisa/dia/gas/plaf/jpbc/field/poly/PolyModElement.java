@@ -31,7 +31,7 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
 
     @Override
     public Element getImmutable() {
-        return new ImmutablePolyModElement<E>(this);
+        return new ImmutablePolyModElement<>(this);
     }
 
     public PolyModField getField() {
@@ -39,7 +39,7 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
     }
 
     public PolyModElement<E> duplicate() {
-        return new PolyModElement<E>(this);
+        return new PolyModElement<>(this);
     }
 
     public PolyModElement<E> set(Element e) {
@@ -526,13 +526,12 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
         return this;
     }
 
-    public PolyModElement<E> polymodConstMul(Element e) {
+    public void polymodConstMul(Element e) {
         //a lies in R, e in R[x]
-        for (int i = 0, n = coefficients.size(); i < n; i++) {
-            coefficients.get(i).mul(e);
+        for (E coefficient : coefficients) {
+            coefficient.mul(e);
         }
 
-        return this;
     }
 
 
@@ -546,7 +545,7 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
         Element c0;
         int i, j;
 
-        Element high[] = new Element[n - 1];
+        Element[] high = new Element[n - 1];
 
         for (i = 0; i < n - 1; i++) {
             high[i] = field.getTargetField().newElement().setToZero();

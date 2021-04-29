@@ -1117,7 +1117,7 @@ public class Base64
      */
     public static byte[] decode( byte[] source )
     throws java.io.IOException {
-        byte[] decoded = null;
+        byte[] decoded;
 //        try {
             decoded = decode( source, 0, source.length, Base64.NO_OPTIONS );
 //        } catch( java.io.IOException ex ) {
@@ -1172,8 +1172,8 @@ public class Base64
         
         byte[] b4        = new byte[4];     // Four byte buffer from source, eliminating white space
         int    b4Posn    = 0;               // Keep track of four byte input buffer
-        int    i         = 0;               // Source array counter
-        byte   sbiDecode = 0;               // Special value from DECODABET
+        int    i;                           // Source array counter
+        byte   sbiDecode;                   // Special value from DECODABET
         
         for( i = off; i < off+len; i++ ) {  // Loop through source
             
@@ -1262,34 +1262,22 @@ public class Base64
             
             int head = ((int)bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
             if( java.util.zip.GZIPInputStream.GZIP_MAGIC == head )  {
-                java.io.ByteArrayInputStream  bais = null;
-                java.util.zip.GZIPInputStream gzis = null;
-                java.io.ByteArrayOutputStream baos = null;
                 byte[] buffer = new byte[2048];
-                int    length = 0;
+                int    length;
 
-                try {
-                    baos = new java.io.ByteArrayOutputStream();
-                    bais = new java.io.ByteArrayInputStream( bytes );
-                    gzis = new java.util.zip.GZIPInputStream( bais );
+                try (java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream(); java.io.ByteArrayInputStream bais = new java.io.ByteArrayInputStream(bytes); java.util.zip.GZIPInputStream gzis = new java.util.zip.GZIPInputStream(bais)) {
 
-                    while( ( length = gzis.read( buffer ) ) >= 0 ) {
-                        baos.write(buffer,0,length);
+                    while ((length = gzis.read(buffer)) >= 0) {
+                        baos.write(buffer, 0, length);
                     }   // end while: reading input
 
                     // No error? Get new bytes.
                     bytes = baos.toByteArray();
 
-                }   // end try
-                catch( java.io.IOException e ) {
+                } catch (java.io.IOException e) {
                     e.printStackTrace();
                     // Just return originally-decoded bytes
-                }   // end catch
-                finally {
-                    try{ baos.close(); } catch( Exception e ){}
-                    try{ gzis.close(); } catch( Exception e ){}
-                    try{ bais.close(); } catch( Exception e ){}
-                }   // end finally
+                }
 
             }   // end if: gzipped
         }   // end if: bytes.length >= 2
@@ -1736,10 +1724,10 @@ public class Base64
                 // Else decoding
                 else {
                     byte[] b4 = new byte[4];
-                    int i = 0;
+                    int i;
                     for( i = 0; i < 4; i++ ) {
                         // Read four "meaningful" bytes:
-                        int b = 0;
+                        int b;
                         do{ b = in.read(); }
                         while( b >= 0 && decodabet[ b & 0x7f ] <= WHITE_SPACE_ENC );
                         

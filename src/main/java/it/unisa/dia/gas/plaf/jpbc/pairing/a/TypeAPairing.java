@@ -98,16 +98,16 @@ public class TypeAPairing extends AbstractPairing {
 
     protected Field<? extends Point> initEq() {
         // Remember the curve is: y^2 = x^3 + ax
-        return new CurveField<Field>(random,
-                                     Fq.newOneElement(),   // a
-                                     Fq.newZeroElement(),  // b
-                                     r,                    // order
-                                     h,                    // cofactor  (r*h)=q+1=#E(F_q)
-                                     genNoCofac);
+        return new CurveField<>(random,
+                Fq.newOneElement(),   // a
+                Fq.newZeroElement(),  // b
+                r,                    // order
+                h,                    // cofactor  (r*h)=q+1=#E(F_q)
+                genNoCofac);
     }
 
     protected Field<? extends Point> initFi() {
-        return new DegreeTwoExtensionQuadraticField<Field>(random, Fq);
+        return new DegreeTwoExtensionQuadraticField<>(random, Fq);
     }
 
     protected Field initGT() {

@@ -138,32 +138,32 @@ public class ImmutableCurveElement<E extends Element, F extends CurveField> exte
 
     @Override
     public Element pow(BigInteger n) {
-        return (CurveElement) super.duplicate().pow(n).getImmutable();
+        return super.duplicate().pow(n).getImmutable();
     }
 
     @Override
     public Element halve() {
-        return (CurveElement) super.duplicate().halve().getImmutable();
+        return super.duplicate().halve().getImmutable();
     }
 
     @Override
     public Element sub(Element element) {
-        return (CurveElement) super.duplicate().sub(element).getImmutable();
+        return super.duplicate().sub(element).getImmutable();
     }
 
     @Override
     public Element div(Element element) {
-        return (CurveElement) super.duplicate().div(element).getImmutable();
+        return super.duplicate().div(element).getImmutable();
     }
 
     @Override
     public Element mul(int z) {
-        return (CurveElement) super.duplicate().mul(z).getImmutable();
+        return super.duplicate().mul(z).getImmutable();
     }
 
     @Override
     public Element sqrt() {
-        return (CurveElement) super.duplicate().sqrt().getImmutable();
+        return super.duplicate().sqrt().getImmutable();
     }
 
 }

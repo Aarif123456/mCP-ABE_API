@@ -116,7 +116,7 @@ public class ImmutablePolyModElement<E extends Element> extends PolyModElement<E
 
     @Override
     public Element pow(BigInteger n) {
-        return (PolyModElement<E>) super.duplicate().pow(n).getImmutable();
+        return super.duplicate().pow(n).getImmutable();
     }
 
     @Override
@@ -141,17 +141,17 @@ public class ImmutablePolyModElement<E extends Element> extends PolyModElement<E
 
     @Override
     public Element halve() {
-        return (PolyModElement<E>) super.duplicate().halve().getImmutable();   
+        return super.duplicate().halve().getImmutable();
     }
 
     @Override
     public Element div(Element element) {
-        return (PolyModElement<E>) super.duplicate().div(element).getImmutable();   
+        return super.duplicate().div(element).getImmutable();
     }
 
     @Override
     public Element mulZn(Element z) {
-        return (PolyModElement<E>) super.duplicate().mulZn(z).getImmutable();   
+        return super.duplicate().mulZn(z).getImmutable();
     }
 
 }

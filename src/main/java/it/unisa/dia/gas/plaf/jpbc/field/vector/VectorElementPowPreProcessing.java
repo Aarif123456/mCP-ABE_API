@@ -24,7 +24,7 @@ public class VectorElementPowPreProcessing implements ElementPowPreProcessing {
     }
 
     public Element pow(BigInteger n) {
-        List<Element> coeff = new ArrayList<Element>(processings.length);
+        List<Element> coeff = new ArrayList<>(processings.length);
         for (ElementPowPreProcessing processing : processings) {
             coeff.add(processing.pow(n));
         }
@@ -32,7 +32,7 @@ public class VectorElementPowPreProcessing implements ElementPowPreProcessing {
     }
 
     public Element powZn(Element n) {
-        List<Element> coeff = new ArrayList<Element>(processings.length);
+        List<Element> coeff = new ArrayList<>(processings.length);
         for (ElementPowPreProcessing processing : processings) {
             coeff.add(processing.powZn(n));
         }

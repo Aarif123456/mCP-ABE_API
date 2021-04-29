@@ -196,7 +196,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
             return this;
         }
 
-        prod = (PolyElement) field.newElement();
+        prod = field.newElement();
         n = fcount + gcount - 1;
         prod.ensureSize(n);
 
@@ -368,7 +368,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
         return this;
     }
 
-    public PolyElement<E> setToRandomMonic(int degree) {
+    public void setToRandomMonic(int degree) {
         ensureSize(degree + 1);
 
         int i;
@@ -377,7 +377,6 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
         }
         coefficients.get(i).setToOne();
 
-        return this;
     }
 
     public PolyElement<E> setFromCoefficientMonic(BigInteger[] coefficients) {
@@ -389,10 +388,10 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
         return this;
     }
 
-    public PolyElement<E> makeMonic() {
+    public void makeMonic() {
         int n = this.coefficients.size();
         if (n == 0)
-            return this;
+            return;
 
         Element e0 = coefficients.get(n - 1);
         e0.invert();
@@ -402,7 +401,6 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
         }
         e0.setToOne();
 
-        return this;
     }
 
     /**
@@ -484,18 +482,16 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     /**
      * Returns 0 if a root exists and sets root to one of the roots
      * otherwise return value is nonzero
-     *
-     * @return
      */
     public E findRoot() {
         // Compute gcd(x^q - x, poly)
-        PolyModField<Field> fpxmod = new PolyModField<Field>(field.getRandom(), this);
+        PolyModField<Field> fpxmod = new PolyModField<>(field.getRandom(), this);
 
         PolyModElement p = fpxmod.newElement();
         Polynomial x = fpxmod.newElement();
 
         BigInteger q = field.getTargetField().getOrder();
-        PolyElement g = (PolyElement) field.newElement();
+        PolyElement g = field.newElement();
 
         x.getCoefficient(1).setToOne();
 
@@ -507,18 +503,15 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
         }
 
         // Use Cantor-Zassenhaus to find a root
-        PolyElement fac = (PolyElement) field.newElement();
-        PolyElement r = (PolyElement) field.newElement();
+        PolyElement fac = field.newElement();
+        PolyElement r = field.newElement();
         x = (PolyElement) field.newElement(1);
 
         q = q.subtract(BigInteger.ONE);
         q = q.divide(BigIntegerUtils.TWO);
 
-        while (true) {
-            if (g.getDegree() == 1) {
-                // found a root!
-                break;
-            }
+        // Loop until we find loop
+        while (g.getDegree() != 1) {
 
             while (true) {
                 r.setToRandomMonic(1);
@@ -529,7 +522,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
                     g.set(fac).makeMonic();
                     break;
                 } else {
-                    fpxmod = new PolyModField<Field>(field.getRandom(), g, null);
+                    fpxmod = new PolyModField<>(field.getRandom(), g, null);
 
                     p = fpxmod.newElement();
                     p.setFromPolyTruncate(r);

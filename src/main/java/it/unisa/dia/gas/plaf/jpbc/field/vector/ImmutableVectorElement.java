@@ -46,7 +46,7 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public VectorElement twice() {
-        return (VectorElement) duplicate().twice().getImmutable();
+        return duplicate().twice().getImmutable();
     }
 
     @Override
@@ -71,32 +71,32 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public VectorElement square() {
-        return (VectorElement) duplicate().square().getImmutable();
+        return duplicate().square().getImmutable();
     }
 
     @Override
     public VectorElement invert() {
-        return (VectorElement) duplicate().invert().getImmutable();
+        return duplicate().invert().getImmutable();
     }
 
     @Override
     public VectorElement negate() {
-        return (VectorElement) duplicate().negate().getImmutable();
+        return duplicate().negate().getImmutable();
     }
 
     @Override
     public VectorElement add(Element e) {
-        return (VectorElement) duplicate().add(e).getImmutable();
+        return duplicate().add(e).getImmutable();
     }
 
     @Override
     public VectorElement mul(Element e) {
-        return (VectorElement) duplicate().mul(e).getImmutable();
+        return duplicate().mul(e).getImmutable();
     }
 
     @Override
     public VectorElement mul(BigInteger n) {
-        return (VectorElement) duplicate().mul(n).getImmutable();
+        return duplicate().mul(n).getImmutable();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public VectorElement powZn(Element e) {
-        return (VectorElement) duplicate().powZn(e).getImmutable();
+        return duplicate().powZn(e).getImmutable();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public VectorElement sub(Element element) {
-        return (VectorElement) duplicate().sub(element).getImmutable();
+        return duplicate().sub(element).getImmutable();
     }
 
     @Override
@@ -141,12 +141,12 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
 
     @Override
     public VectorElement mul(int z) {
-        return (VectorElement) duplicate().mul(z).getImmutable();
+        return duplicate().mul(z).getImmutable();
     }
 
     @Override
     public VectorElement sqrt() {
-        return (VectorElement) duplicate().sqrt().getImmutable();
+        return duplicate().sqrt().getImmutable();
     }
 
 }

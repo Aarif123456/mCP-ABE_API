@@ -16,7 +16,7 @@ public abstract class AbstractVectorElement<E extends Element, F extends Abstrac
     protected AbstractVectorElement(F field) {
         super(field);
 
-        this.coeff = new ArrayList<E>();
+        this.coeff = new ArrayList<>();
     }
 
 

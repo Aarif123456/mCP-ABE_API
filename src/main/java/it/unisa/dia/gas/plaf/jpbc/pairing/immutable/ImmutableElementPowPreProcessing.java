@@ -12,8 +12,8 @@ import java.math.BigInteger;
  */
 public class ImmutableElementPowPreProcessing implements ElementPowPreProcessing {
 
-    private ElementPowPreProcessing elementPowPreProcessing;
-    private Field immutableField;
+    private final ElementPowPreProcessing elementPowPreProcessing;
+    private final Field immutableField;
 
     public ImmutableElementPowPreProcessing(ImmutableField immutableField, ElementPowPreProcessing elementPowPreProcessing){
         this.immutableField = immutableField;

@@ -15,16 +15,16 @@ public class ByteBufferSoftRefBigIntegerArraySector extends ByteBufferBigInteger
     protected Map<Integer, SoftReference<BigInteger>> cache;
 
 
-    public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
+    public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords) {
         super(recordSize, numRecords);
 
-        this.cache = new ConcurrentHashMap<Integer, SoftReference<BigInteger>>();
+        this.cache = new ConcurrentHashMap<>();
     }
 
     public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
         super(recordSize, numRecords, labels);
 
-        this.cache = new ConcurrentHashMap<Integer, SoftReference<BigInteger>>();
+        this.cache = new ConcurrentHashMap<>();
     }
 
 
@@ -37,14 +37,14 @@ public class ByteBufferSoftRefBigIntegerArraySector extends ByteBufferBigInteger
 
         if (result == null) {
             result = super.getAt(index);
-            cache.put(index, new SoftReference<BigInteger>(result));
+            cache.put(index, new SoftReference<>(result));
         }
 
         return result;
     }
 
     public synchronized void setAt(int index, BigInteger value) {
-        cache.put(index, new SoftReference<BigInteger>(value));
+        cache.put(index, new SoftReference<>(value));
 
         super.setAt(index, value);
     }

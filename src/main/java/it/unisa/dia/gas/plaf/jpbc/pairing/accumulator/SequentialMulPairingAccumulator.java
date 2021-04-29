@@ -47,10 +47,9 @@ public class SequentialMulPairingAccumulator implements PairingAccumulator {
         throw new IllegalStateException("Not supported!!!");
     }
 
-    public PairingAccumulator addPairing(Element e1, Element e2) {
+    public void addPairing(Element e1, Element e2) {
         value.mul(pairing.pairing(e1, e2));
 
-        return this;
     }
 
     public PairingAccumulator addPairing(PairingPreProcessing pairingPreProcessing, Element e2) {
@@ -68,5 +67,4 @@ public class SequentialMulPairingAccumulator implements PairingAccumulator {
     public Element awaitResult(){
         return value;
     }
-
 }

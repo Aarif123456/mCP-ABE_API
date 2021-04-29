@@ -128,8 +128,8 @@ public class TypeECurveGenerator implements PairingParametersGenerator {
         if (args.length > 2)
             throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
 
-        Integer rBits = Integer.parseInt(args[0]);
-        Integer qBits = Integer.parseInt(args[1]);
+        int rBits = Integer.parseInt(args[0]);
+        int qBits = Integer.parseInt(args[1]);
 
         PairingParametersGenerator generator = new TypeECurveGenerator(rBits, qBits);
         PairingParameters curveParams = generator.generate();

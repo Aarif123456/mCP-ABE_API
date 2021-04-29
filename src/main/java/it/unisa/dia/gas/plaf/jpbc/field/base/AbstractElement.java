@@ -149,7 +149,7 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
          *       us to avoid calculating even lookup entries > 2
          */
         lookupSize = 1 << k;
-        lookup = new ArrayList<Element>(lookupSize);
+        lookup = new ArrayList<>(lookupSize);
 
         lookup.add(field.newOneElement());
         for (s = 1; s < lookupSize; s++) {

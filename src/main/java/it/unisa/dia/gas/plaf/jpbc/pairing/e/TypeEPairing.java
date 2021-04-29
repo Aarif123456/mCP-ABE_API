@@ -92,9 +92,9 @@ public class TypeEPairing extends AbstractPairing {
     }
 
     protected CurveField<Field> initEq() {
-        return new CurveField<Field>(random,
-                                     Fq.newElement().set(a), Fq.newElement().set(b),
-                                     r, h);
+        return new CurveField<>(random,
+                Fq.newElement().set(a), Fq.newElement().set(b),
+                r, h);
     }
 
     protected Field initGT() {

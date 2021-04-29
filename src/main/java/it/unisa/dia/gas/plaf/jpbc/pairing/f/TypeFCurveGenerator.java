@@ -167,7 +167,7 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         if (args.length > 1)
             throw new IllegalArgumentException("Too many arguments. Usage <rbits>");
 
-        Integer rBits = Integer.parseInt(args[0]);
+        int rBits = Integer.parseInt(args[0]);
 
         PairingParametersGenerator generator = new TypeFCurveGenerator(rBits);
         PairingParameters curveParams = generator.generate();

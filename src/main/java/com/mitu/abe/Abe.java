@@ -91,11 +91,11 @@ public class Abe {
 		/* initialize */
         pairing = pub.p;
 
-        g_uid = pairing.getG1().newElement();
+        pairing.getG1().newElement();
         prvPart2.d0 = pairing.getG1().newElement();
-        uj = pairing.getZr().newElement();
-        uj_inv_tj = pairing.getZr().newElement();
-        uid_sub_uj = pairing.getZr().newElement();
+        pairing.getZr().newElement();
+        pairing.getZr().newElement();
+        pairing.getZr().newElement();
         uid = pairing.getZr().newElement();
 
 		/* compute */
@@ -125,8 +125,8 @@ public class Abe {
 
             uj = pairing.getZr().newElement();
             tj_inv = pairing.getZr().newElement();
-            uj_inv_tj = pairing.getZr().newElement();
-            uid_sub_uj = pairing.getZr().newElement();
+            pairing.getZr().newElement();
+            pairing.getZr().newElement();
 
             for (int j = 0; j < msk.tjs.size(); j++) {
                 if (msk.tjs.get(j).attr.equals(attrs[i])) {
@@ -148,7 +148,7 @@ public class Abe {
             compPart1.dj1 = pairing.getG1().newElement();
             compPart2.dj2 = pairing.getG1().newElement();
 
-            g_uj = pairing.getG1().newElement();
+            pairing.getG1().newElement();
 
             g_uj = pub.g.duplicate();
             g_uj.powZn(uj);
@@ -417,7 +417,7 @@ public class Abe {
                 if (prvAttr.compareTo(p.attr) == 0) {
 
                     p.satisfiable = true;
-                    p.attri = i;
+                    p.attributes = i;
                     break;
                 }
             }
@@ -501,8 +501,8 @@ public class Abe {
         Element si, t, cji;
         Pairing pairing = pub.p;
         si = pairing.getZr().newElement();
-        t = pairing.getZr().newElement();
-        cji = pairing.getG1().newElement();
+        pairing.getZr().newElement();
+        pairing.getG1().newElement();
 
         p.si = e.duplicate();
 
@@ -574,7 +574,7 @@ public class Abe {
      */
     private static AbePolicy parsePolicyPostfix(StringTokenizer st) {
         String token = st.nextToken();
-        AbePolicy abePolicy = null;
+        AbePolicy abePolicy;
         if (token.equals("(")) {
             // Inner node
             AbePolicy left = parsePolicyPostfix(st);

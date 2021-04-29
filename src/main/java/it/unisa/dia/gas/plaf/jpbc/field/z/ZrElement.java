@@ -46,7 +46,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement<F> duplicate() {
-        return new ZrElement<F>(this);
+        return new ZrElement<>(this);
     }
 
     public ZrElement set(Element value) {
@@ -175,7 +175,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement halve() {
-        value = value.multiply(((ZrField) field).twoInverse).mod(order);
+        value = value.multiply(field.twoInverse).mod(order);
 
         return this;
     }

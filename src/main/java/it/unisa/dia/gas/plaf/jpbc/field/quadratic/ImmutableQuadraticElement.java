@@ -155,17 +155,17 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
 
     @Override
     public Element pow(BigInteger n) {
-        return (QuadraticElement) super.duplicate().pow(n).getImmutable();    
+        return super.duplicate().pow(n).getImmutable();
     }
 
     @Override
     public Element halve() {
-        return (QuadraticElement) super.duplicate().halve().getImmutable();    
+        return super.duplicate().halve().getImmutable();
     }
 
     @Override
     public Element div(Element element) {
-        return (QuadraticElement) super.duplicate().div(element).getImmutable();    
+        return super.duplicate().div(element).getImmutable();
     }
 
 }

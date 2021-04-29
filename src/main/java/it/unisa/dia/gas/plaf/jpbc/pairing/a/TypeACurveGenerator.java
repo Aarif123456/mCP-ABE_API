@@ -39,12 +39,11 @@ public class TypeACurveGenerator implements PairingParametersGenerator {
 
     public PairingParameters generate() {
         boolean found = false;
-
         BigInteger q;
         BigInteger r;
         BigInteger h = null;
-        int exp1=0, exp2=0;
-        int sign0=0, sign1=0;
+        int exp1, exp2;
+        int sign0, sign1;
 
         do {
             // r is picked to be a Solinas prime, that is,
@@ -118,7 +117,7 @@ public class TypeACurveGenerator implements PairingParametersGenerator {
 
         if (generateCurveFieldGen) {
             Field Fq = new ZrField(random, q);
-            CurveField curveField = new CurveField<Field>(random, Fq.newOneElement(), Fq.newZeroElement(), r, h);
+            CurveField curveField = new CurveField<>(random, Fq.newOneElement(), Fq.newZeroElement(), r, h);
             params.put("genNoCofac", Base64.encodeBytes(curveField.getGenNoCofac().toBytes()));
         }
 
@@ -132,8 +131,8 @@ public class TypeACurveGenerator implements PairingParametersGenerator {
         if (args.length > 2)
             throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
 
-        Integer rBits = Integer.parseInt(args[0]);
-        Integer qBits = Integer.parseInt(args[1]);
+        int rBits = Integer.parseInt(args[0]);
+        int qBits = Integer.parseInt(args[1]);
 
         TypeACurveGenerator generator = new TypeACurveGenerator(rBits, qBits, true);
         PairingParameters curveParams = generator.generate();

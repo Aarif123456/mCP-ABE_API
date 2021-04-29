@@ -43,7 +43,7 @@ public class ZrField extends AbstractField<ZrElement> {
 
 
     public ZrElement<ZrField> newElement() {
-        return new ZrElement<ZrField>(this);
+        return new ZrElement<>(this);
     }
 
     public BigInteger getOrder() {

@@ -52,13 +52,10 @@ public class ProductPairingAccumulator implements PairingAccumulator {
         throw new IllegalStateException("Not supported!!!");
     }
 
-
-
-    public PairingAccumulator addPairing(Element e1, Element e2) {
+    public void addPairing(Element e1, Element e2) {
         in1[cursor] =  e1;
         in2[cursor++] =  e2;
 
-        return this;
     }
 
     public PairingAccumulator addPairing(PairingPreProcessing pairingPreProcessing, Element e2) {
