@@ -144,41 +144,39 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
     }
 
     public PolyModElement<E> square() {
-        switch (field.n) {
-            case 3:
-                PolyModElement<E> p0 = field.newElement();
-                Element c0 = field.getTargetField().newElement();
-                Element c2 = field.getTargetField().newElement();
+        if (field.n == 3) {
+            PolyModElement<E> p0 = field.newElement();
+            Element c0 = field.getTargetField().newElement();
+            Element c2 = field.getTargetField().newElement();
 
-                Element c3 = p0.coefficients.get(0);
-                Element c1 = p0.coefficients.get(1);
+            Element c3 = p0.coefficients.get(0);
+            Element c1 = p0.coefficients.get(1);
 
-                c3.set(coefficients.get(0)).mul(coefficients.get(1));
-                c1.set(coefficients.get(0)).mul(coefficients.get(2));
-                coefficients.get(0).square();
+            c3.set(coefficients.get(0)).mul(coefficients.get(1));
+            c1.set(coefficients.get(0)).mul(coefficients.get(2));
+            coefficients.get(0).square();
 
-                c2.set(coefficients.get(1)).mul(coefficients.get(2));
-                c0.set(coefficients.get(2)).square();
-                coefficients.get(2).set(coefficients.get(1)).square();
+            c2.set(coefficients.get(1)).mul(coefficients.get(2));
+            c0.set(coefficients.get(2)).square();
+            coefficients.get(2).set(coefficients.get(1)).square();
 
-                coefficients.get(1).set(c3).add(c3);
+            coefficients.get(1).set(c3).add(c3);
 
-                c1.add(c1);
+            c1.add(c1);
 
-                coefficients.get(2).add(c1);
-                p0.set(field.xpwr[1]);
-                p0.polymodConstMul(c0);
-                add(p0);
+            coefficients.get(2).add(c1);
+            p0.set(field.xpwr[1]);
+            p0.polymodConstMul(c0);
+            add(p0);
 
-                c2.add(c2);
-                p0.set(field.xpwr[0]);
-                p0.polymodConstMul(c2);
-                add(p0);
+            c2.add(c2);
+            p0.set(field.xpwr[0]);
+            p0.polymodConstMul(c2);
+            add(p0);
 
-                return this;
-
-            default:
-                squareInternal();
+            return this;
+        } else {
+            squareInternal();
         }
         return this;
     }
@@ -219,21 +217,20 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
     public PolyModElement<E> mul(Element e) {
         Polynomial<E> element = (Polynomial<E>) e;
 
-        switch (field.n) {
-            case 3:
-                PolyModElement<E> p0 = field.newElement();
-                Element c3 = field.getTargetField().newElement();
-                Element c4 = field.getTargetField().newElement();
+        if (field.n == 3) {
+            PolyModElement<E> p0 = field.newElement();
+            Element c3 = field.getTargetField().newElement();
+            Element c4 = field.getTargetField().newElement();
 
-                kar_poly_2(coefficients, c3, c4, coefficients, element.getCoefficients(), p0.coefficients);
+            kar_poly_2(coefficients, c3, c4, coefficients, element.getCoefficients(), p0.coefficients);
 
-                p0.set(field.xpwr[0]).polymodConstMul(c3);
-                add(p0);
-                p0.set(field.xpwr[1]).polymodConstMul(c4);
-                add(p0);
+            p0.set(field.xpwr[0]).polymodConstMul(c3);
+            add(p0);
+            p0.set(field.xpwr[1]).polymodConstMul(c4);
+            add(p0);
 
-                return this;
-//            case 6:
+            return this;
+//      if (field.n == 6) {
             // TODO: port the PBC code
 //                throw new IllegalStateException("Not Implemented yet!");
 /*
@@ -307,36 +304,36 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
             element_clear(p2);
             element_clear(p3);
 */
-            default:
+        }
+        PolyModElement<E> p0;
+        Element[] high = new Element[field.n - 1];
+        for (int i = 0, size = field.n - 1; i < size; i++) {
+            high[i] = field.getTargetField().newElement().setToZero();
+        }
+        PolyModElement<E> prod = field.newElement();
+        p0 = field.newElement();
+        Element c0 = field.getTargetField().newElement();
 
-                Element[] high = new Element[field.n - 1];
-                for (int i = 0, size = field.n - 1; i < size; i++) {
-                    high[i] = field.getTargetField().newElement().setToZero();
-                }
-                PolyModElement<E> prod = field.newElement();
-                p0 = field.newElement();
-                Element c0 = field.getTargetField().newElement();
+        for (int i = 0; i < field.n; i++) {
+            int ni = field.n - i;
 
-                for (int i = 0; i < field.n; i++) {
-                    int ni = field.n - i;
+            int j = 0;
+            for (; j < ni; j++) {
+                c0.set(coefficients.get(i)).mul(element.getCoefficient(j));
+                prod.coefficients.get(i + j).add(c0);
+            }
+            for (; j < field.n; j++) {
+                c0.set(coefficients.get(i)).mul(element.getCoefficient(j));
+                high[j - ni].add(c0);
+            }
+        }
 
-                    int j = 0;
-                    for (; j < ni; j++) {
-                        c0.set(coefficients.get(i)).mul(element.getCoefficient(j));
-                        prod.coefficients.get(i + j).add(c0);
-                    }
-                    for (; j < field.n; j++) {
-                        c0.set(coefficients.get(i)).mul(element.getCoefficient(j));
-                        high[j - ni].add(c0);
-                    }
-                }
+        for (int i = 0, size = field.n - 1; i < size; i++) {
+            p0.set(field.xpwr[i]).polymodConstMul(high[i]);
+            prod.add(p0);
+        }
 
-                for (int i = 0, size = field.n - 1; i < size; i++) {
-                    p0.set(field.xpwr[i]).polymodConstMul(high[i]);
-                    prod.add(p0);
-                }
-
-                set(prod);
+        set(prod);
 
         return this;
     }

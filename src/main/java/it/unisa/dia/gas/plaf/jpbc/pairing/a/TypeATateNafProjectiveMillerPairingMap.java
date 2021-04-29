@@ -260,18 +260,14 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
                 coeffIndex++;
 
                 switch (r[i]) {
-                    case 1:
-                        millerStep(u, processingInfo.table[coeffIndex][0], processingInfo.table[coeffIndex][1], processingInfo.table[coeffIndex][2], Q.getX(), Q.getY());
-                        f.mul(u);
-
-                        coeffIndex++;
-                        break;
+                    case 1: /*INTENTIONAL FALL THROUGH */
                     case -1:
                         millerStep(u, processingInfo.table[coeffIndex][0], processingInfo.table[coeffIndex][1], processingInfo.table[coeffIndex][2], Q.getX(), Q.getY());
                         f.mul(u);
 
                         coeffIndex++;
                         break;
+
                 }
             }
 
