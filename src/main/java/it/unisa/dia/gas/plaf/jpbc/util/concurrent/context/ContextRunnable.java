@@ -10,7 +10,6 @@ import java.math.BigInteger;
  */
 public abstract class ContextRunnable implements Runnable, MutablePairingParameters {
 
-    private String name;
     private ContextExecutor executor;
 
 
@@ -18,7 +17,6 @@ public abstract class ContextRunnable implements Runnable, MutablePairingParamet
     }
 
     public ContextRunnable(String name) {
-        this.name = name;
     }
 
 
