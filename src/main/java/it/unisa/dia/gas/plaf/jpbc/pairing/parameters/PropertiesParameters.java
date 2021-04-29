@@ -7,6 +7,7 @@ import java.io.*;
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
@@ -18,7 +19,7 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
 
 
     public PropertiesParameters() {
-        this.parameters = new LinkedHashMap<String, String>();
+        this.parameters = new LinkedHashMap<>();
     }
 
 
@@ -146,7 +147,12 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
         return parameters.remove(key);
     }
 
-    public PropertiesParameters load(InputStream inputStream) {
+    /* Load parameter with a map*/
+    public void load(Map<String, String> loadMap){
+        parameters.putAll(loadMap);
+    }
+
+    public void load(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
             while (true) {
@@ -169,10 +175,9 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
             throw new RuntimeException(e);
         }
 
-        return this;
     }
 
-    public PropertiesParameters load(String path) {
+    public void load(String path) {
         InputStream inputStream;
         File file = new File(path);
         if (file.exists()) {
@@ -192,11 +197,9 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
 
         try {
             inputStream.close();
-        } catch (IOException e) {
-            // Discard
+        } catch (IOException ignored) {
         }
 
-        return this;
     }
 
 
@@ -208,7 +211,7 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
         out.writeUTF(toString());
     }
 
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException {
         load(new ByteArrayInputStream(in.readUTF().getBytes()));
     }
 
@@ -219,14 +222,12 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
 
         PropertiesParameters that = (PropertiesParameters) o;
 
-        if (parameters != null ? !parameters.equals(that.parameters) : that.parameters != null) return false;
-
-        return true;
+        return Objects.equals(parameters, that.parameters);
     }
 
     @Override
     public int hashCode() {
-        return parameters != null ? parameters.hashCode() : 0;
+        return parameters.hashCode();
     }
 
 }

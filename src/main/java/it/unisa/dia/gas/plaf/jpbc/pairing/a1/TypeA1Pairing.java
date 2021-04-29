@@ -46,7 +46,7 @@ public class TypeA1Pairing extends AbstractPairing {
     protected void initParams(PairingParameters curveParams) {
         // validate the type
         String type = curveParams.getString("type");
-        if (type == null || !"a1".equalsIgnoreCase(type))
+        if (!"a1".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'a1'.");
 
         // load params
@@ -84,11 +84,11 @@ public class TypeA1Pairing extends AbstractPairing {
     }
 
     protected Field<? extends Point> initEq() {
-        return new CurveField<Field>(random, Fp.newOneElement(), Fp.newZeroElement(), r, phikOnr);
+        return new CurveField<>(random, Fp.newOneElement(), Fp.newZeroElement(), r, phikOnr);
     }
 
     protected Field<? extends Point> initFi() {
-        return new DegreeTwoExtensionQuadraticField<Field>(random, Fp);
+        return new DegreeTwoExtensionQuadraticField<>(random, Fp);
     }
 
     protected Field initGT() {

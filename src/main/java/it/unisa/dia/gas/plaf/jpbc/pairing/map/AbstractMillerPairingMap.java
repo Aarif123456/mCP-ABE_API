@@ -477,11 +477,8 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
             } else if (!y.equals(other.y))
                 return false;
             if (z == null) {
-                if (other.z != null)
-                    return false;
-            } else if (!z.equals(other.z))
-                return false;
-            return true;
+                return other.z == null;
+            } else return z.equals(other.z);
         }
 
         @Override

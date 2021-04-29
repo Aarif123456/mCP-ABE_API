@@ -125,9 +125,7 @@ public class MapParameters implements MutablePairingParameters {
 
         MapParameters that = (MapParameters) o;
 
-        if (values != null ? !values.equals(that.values) : that.values != null) return false;
-
-        return true;
+        return Objects.equals(values, that.values);
     }
 
     @Override

@@ -113,10 +113,8 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
 
         if (!a.equals(that.a)) return false;
         if (!b.equals(that.b)) return false;
-        if (cofac != null ? !cofac.equals(that.cofac) : that.cofac != null) return false;
-        if (!order.equals(that.order)) return false;
-
-        return true;
+        if (!Objects.equals(cofac, that.cofac)) return false;
+        return order.equals(that.order);
     }
 
     public int hashCode() {

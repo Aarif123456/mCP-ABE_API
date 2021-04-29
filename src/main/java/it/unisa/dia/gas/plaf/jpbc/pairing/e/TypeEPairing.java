@@ -47,7 +47,7 @@ public class TypeEPairing extends AbstractPairing {
     protected void initParams(PairingParameters curveParams) {
         // validate the type
         String type = curveParams.getString("type");
-        if (type == null || !"e".equalsIgnoreCase(type))
+        if (!"e".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'e'.");
 
         // load params
