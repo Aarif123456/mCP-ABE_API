@@ -20,11 +20,6 @@ public class ImmutableZrElement extends ZrElement {
     }
 
     @Override
-    public ZrElement duplicate() {
-        return super.duplicate();
-    }
-
-    @Override
     public ZrElement set(Element value) {
         throw new IllegalStateException("Invalid call on an immutable element");
     }

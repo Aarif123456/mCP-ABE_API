@@ -17,11 +17,6 @@ public class ImmutableCurveElement<E extends Element, F extends CurveField> exte
         this.immutable = true;
     }
 
-    @Override
-    public CurveElement duplicate() {
-        return super.duplicate();
-    }
-
     public Element getImmutable() {
         return this;
     }

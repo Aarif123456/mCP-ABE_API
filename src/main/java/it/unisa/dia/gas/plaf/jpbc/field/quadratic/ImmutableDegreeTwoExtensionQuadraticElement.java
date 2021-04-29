@@ -24,11 +24,6 @@ public class ImmutableDegreeTwoExtensionQuadraticElement<E extends Element> exte
     }
 
     @Override
-    public DegreeTwoExtensionQuadraticElement duplicate() {
-        return super.duplicate();
-    }
-
-    @Override
     public QuadraticElement set(Element e) {
         throw new IllegalStateException("Invalid call on an immutable element");
     }

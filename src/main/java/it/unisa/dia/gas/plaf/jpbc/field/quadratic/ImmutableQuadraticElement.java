@@ -19,13 +19,8 @@ public class ImmutableQuadraticElement<E extends Element> extends QuadraticEleme
     }
 
     @Override
-    public QuadraticElement duplicate() {
-        return super.duplicate();
-    }
-
-    @Override
     public Element getImmutable() {
-        return (QuadraticElement) this;
+        return this;
     }
 
     @Override

@@ -20,11 +20,6 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
     }
 
     @Override
-    public VectorElement<E> duplicate() {
-        return super.duplicate();
-    }
-
-    @Override
     public VectorElement<E> getImmutable() {
         return this;
     }

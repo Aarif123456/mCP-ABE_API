@@ -20,11 +20,6 @@ public class ImmutablePolyModElement<E extends Element> extends PolyModElement<E
     }
 
     @Override
-    public PolyModElement<E> duplicate() {
-        return super.duplicate();
-    }
-
-    @Override
     public Element getImmutable() {
         return this;
     }

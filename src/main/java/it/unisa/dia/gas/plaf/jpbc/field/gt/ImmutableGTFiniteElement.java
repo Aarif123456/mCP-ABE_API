@@ -17,11 +17,6 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
     }
 
     @Override
-    public GTFiniteElement duplicate() {
-        return super.duplicate();
-    }
-
-    @Override
     public GTFiniteElement getImmutable() {
         return this;
     }
