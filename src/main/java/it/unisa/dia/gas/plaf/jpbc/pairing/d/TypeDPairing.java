@@ -113,7 +113,7 @@ public class TypeDPairing extends AbstractPairing {
         irreduciblePolyCoeff.add(polyField.getTargetField().newElement().setToOne());
 
         // init Fqd
-        Fqd  = initPolyMod(irreduciblePoly);
+        Fqd = initPolyMod(irreduciblePoly);
 
         // init Fqk
         Fqk = initQuadratic();
@@ -145,7 +145,7 @@ public class TypeDPairing extends AbstractPairing {
         }
 
         // ndonr temporarily holds the trace.
-        BigInteger ndonr = q.subtract(n).add(BigInteger.ONE) ;
+        BigInteger ndonr = q.subtract(n).add(BigInteger.ONE);
 
         // Negate it because we want the trace of the twist.
         ndonr = ndonr.negate();
@@ -160,14 +160,14 @@ public class TypeDPairing extends AbstractPairing {
         G1 = Eq;
         G2 = Etwist;
         GT = initGT();
-   }
+    }
 
     protected Field initFp(BigInteger order) {
         return new ZrField(random, order);
     }
 
     protected CurveField initEq() {
-        return new CurveField(random, Fq.newElement().set(a),Fq.newElement().set(b), r, h);
+        return new CurveField(random, Fq.newElement().set(a), Fq.newElement().set(b), r, h);
     }
 
     protected CurveField initEqMap() {

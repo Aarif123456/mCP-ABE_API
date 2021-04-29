@@ -9,7 +9,7 @@ import java.math.BigInteger;
  */
 public class ImmutableCurveElement<E extends Element, F extends CurveField> extends CurveElement<E, F> {
 
-    public ImmutableCurveElement(CurveElement<E,F> curveElement) {
+    public ImmutableCurveElement(CurveElement<E, F> curveElement) {
         super(curveElement);
         this.x = (E) curveElement.getX().getImmutable();
         this.y = (E) curveElement.getY().getImmutable();

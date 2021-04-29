@@ -15,7 +15,7 @@ public class ImmutableElementPowPreProcessing implements ElementPowPreProcessing
     private final ElementPowPreProcessing elementPowPreProcessing;
     private final Field immutableField;
 
-    public ImmutableElementPowPreProcessing(ImmutableField immutableField, ElementPowPreProcessing elementPowPreProcessing){
+    public ImmutableElementPowPreProcessing(ImmutableField immutableField, ElementPowPreProcessing elementPowPreProcessing) {
         this.immutableField = immutableField;
         this.elementPowPreProcessing = elementPowPreProcessing;
     }

@@ -21,9 +21,36 @@ import java.util.Map;
  */
 public class PairingFactory {
     private static final PairingFactory INSTANCE = new PairingFactory();
+    private final Map<PairingParameters, Pairing> instances;
+    private final Map<String, PairingCreator> creators;
+    private final SecureRandomCreator secureRandomCreator;
+    /*****************************************************************************************/
+
+    private boolean usePBCWhenPossible = false;
+    private boolean reuseInstance = true;
+    private boolean pbcAvailable = false;
+    private boolean immutable = false;
+
+    private PairingFactory() {
+        this.instances = new HashMap<>();
+        this.creators = new HashMap<>();
+        this.secureRandomCreator = new DefaultSecureRandomCreator();
+
+        PairingCreator defaultCreator = new EllipticCurvesPairingCreator();
+        creators.put("a", defaultCreator);
+        creators.put("a1", defaultCreator);
+        creators.put("d", defaultCreator);
+        creators.put("e", defaultCreator);
+        creators.put("f", defaultCreator);
+        creators.put("g", defaultCreator);
+
+        creators.put("ctl13", new CTL13MultilinearPairingCreator());
+    }
+
     public static PairingFactory getInstance() {
         return INSTANCE;
     }
+
     /*****************************************************************************************/
     /* If we do not give in a secure random then we generate it*/
     public static Pairing getPairing(PairingParameters parameters) {
@@ -53,33 +80,6 @@ public class PairingFactory {
 
     public static PairingParameters getPairingParameters(String parametersPath) {
         return getInstance().loadParameters(parametersPath);
-    }
-    /*****************************************************************************************/
-
-    private boolean usePBCWhenPossible = false;
-    private boolean reuseInstance = true;
-    private boolean pbcAvailable = false;
-    private boolean immutable = false;
-
-    private final Map<PairingParameters, Pairing> instances;
-    private final Map<String, PairingCreator> creators;
-    private final SecureRandomCreator secureRandomCreator;
-
-
-    private PairingFactory() {
-        this.instances = new HashMap<>();
-        this.creators = new HashMap<>();
-        this.secureRandomCreator = new DefaultSecureRandomCreator();
-
-        PairingCreator defaultCreator = new EllipticCurvesPairingCreator();
-        creators.put("a", defaultCreator);
-        creators.put("a1", defaultCreator);
-        creators.put("d", defaultCreator);
-        creators.put("e", defaultCreator);
-        creators.put("f", defaultCreator);
-        creators.put("g", defaultCreator);
-
-        creators.put("ctl13", new CTL13MultilinearPairingCreator());
     }
 
     /*****************************************************************************************/
@@ -136,6 +136,7 @@ public class PairingFactory {
 
         return pairing;
     }
+
     /*****************************************************************************************/
     public PairingParameters loadParameters(Map<String, String> loadMap) {
         PropertiesParameters curveParams = new PropertiesParameters();
@@ -190,6 +191,10 @@ public class PairingFactory {
 
     }
 
+    public interface SecureRandomCreator {
+        SecureRandom newSecureRandom();
+    }
+
     public static class CTL13MultilinearPairingCreator implements PairingCreator {
 
         private Method getPairingMethod;
@@ -216,6 +221,12 @@ public class PairingFactory {
 
         public Throwable getThrowable() {
             return throwable;
+        }
+    }
+
+    public static class DefaultSecureRandomCreator implements SecureRandomCreator {
+        public SecureRandom newSecureRandom() {
+            return new SecureRandom();
         }
     }
 
@@ -278,17 +289,6 @@ public class PairingFactory {
 
         public Throwable getPbcPairingFailure() {
             return pbcPairingFailure;
-        }
-    }
-
-
-    public interface SecureRandomCreator {
-        SecureRandom newSecureRandom();
-    }
-
-    public static class DefaultSecureRandomCreator implements SecureRandomCreator {
-        public SecureRandom newSecureRandom() {
-            return new SecureRandom();
         }
     }
 

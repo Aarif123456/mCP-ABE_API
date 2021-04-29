@@ -53,10 +53,11 @@ public class PolyUtils {
                 temp.set(qk).mul(b.getCoefficient(i));
                 r.getCoefficient(i + k).sub(temp);
             }
-            k--; m--;
+            k--;
+            m--;
         }
         r.removeLeadingZeroes();
-        
+
         quot.set(q);
         rem.set(r);
     }
@@ -91,7 +92,8 @@ public class PolyUtils {
                 temp.set(qk).mul(b.getCoefficient(i));
                 r.getCoefficient(i + k).sub(temp);
             }
-            k--; m--;
+            k--;
+            m--;
         }
         r.removeLeadingZeroes();
 

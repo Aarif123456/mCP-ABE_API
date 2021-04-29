@@ -135,13 +135,13 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public ZElement add(Element element) {
-        value = value.add(((AbstractZElement)element).value);
+        value = value.add(((AbstractZElement) element).value);
 
         return this;
     }
 
     public ZElement sub(Element element) {
-        value = value.subtract(((AbstractZElement)element).value);
+        value = value.subtract(((AbstractZElement) element).value);
 
         return this;
     }
@@ -151,7 +151,7 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public ZElement mul(Element element) {
-        value = value.multiply(((AbstractZElement)element).value);
+        value = value.multiply(((AbstractZElement) element).value);
 
         return this;
     }

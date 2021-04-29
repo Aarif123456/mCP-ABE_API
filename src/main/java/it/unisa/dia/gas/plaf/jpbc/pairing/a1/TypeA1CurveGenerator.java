@@ -27,6 +27,12 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
         this(new SecureRandom(), numPrimes, bits);
     }
 
+    public static void main(String[] args) {
+        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 512);
+        PairingParameters curveParams = generator.generate();
+
+        System.out.println(curveParams.toString(" "));
+    }
 
     public PairingParameters generate() {
         BigInteger[] primes = new BigInteger[numPrimes];
@@ -71,7 +77,7 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
 //                break;
             break;
         }
-        
+
         PropertiesParameters params = new PropertiesParameters();
         params.put("type", "a1");
         params.put("p", p.toString());
@@ -83,13 +89,6 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
 
 
         return params;
-    }
-
-    public static void main(String[] args) {
-        TypeA1CurveGenerator generator = new TypeA1CurveGenerator(3, 512);
-        PairingParameters curveParams = generator.generate();
-
-        System.out.println(curveParams.toString(" "));
     }
 
 }

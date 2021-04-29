@@ -34,5 +34,5 @@ public class ZField extends AbstractField<ZElement> {
     public int getLengthInBytes() {
         return -1;
     }
-    
+
 }

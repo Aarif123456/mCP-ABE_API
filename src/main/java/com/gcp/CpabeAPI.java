@@ -1,5 +1,5 @@
-
 package com.gcp;
+
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
@@ -57,15 +57,15 @@ public class CpabeAPI implements HttpFunction {
 
     private String respondQuery(HttpRequest request, PrintWriter writer) {
         var method = "";
-        Gson gson =new Gson();
+        Gson gson = new Gson();
         JsonObject js = new JsonObject();
         Optional<String> methodParam = request.getFirstQueryParameter("method");
         if (methodParam.isPresent()) {
             method = methodParam.get();
-            switch(method){
+            switch (method) {
                 case "setup":
                     Optional<String> attributeUniverseParam = request.getFirstQueryParameter("attributeUniverse");
-                    if(attributeUniverseParam.isPresent()){
+                    if (attributeUniverseParam.isPresent()) {
                         String[] attributeUniverse = gson.fromJson(attributeUniverseParam.get(), String[].class);
                         js = setup(attributeUniverse);
                     } else {
@@ -73,17 +73,16 @@ public class CpabeAPI implements HttpFunction {
                     }
                     break;
 
-                case "keygen":{
+                case "keygen": {
                     Optional<String> publicKeyParam = request.getFirstQueryParameter("publicKey");
                     Optional<String> masterKeyParam = request.getFirstQueryParameter("masterKey");
                     Optional<String> userAttributesParam = request.getFirstQueryParameter("userAttributes");
-                    if(publicKeyParam.isPresent() && masterKeyParam.isPresent() && userAttributesParam.isPresent() ){
+                    if (publicKeyParam.isPresent() && masterKeyParam.isPresent() && userAttributesParam.isPresent()) {
                         var publicKey = publicKeyParam.get();
                         var masterKey = masterKeyParam.get();
                         var userAttributes = userAttributesParam.get();
                         js = keygen(publicKey, masterKey, userAttributes);
-                    }
-                    else{
+                    } else {
                         js.addProperty("Error", "Missing argument for the keygen function");
                     }
                     break;
@@ -92,7 +91,7 @@ public class CpabeAPI implements HttpFunction {
                     Optional<String> publicKeyParam = request.getFirstQueryParameter("publicKey");
                     Optional<String> policyParam = request.getFirstQueryParameter("policy");
                     Optional<String> inputFileParam = request.getFirstQueryParameter("inputFile");
-                    if(publicKeyParam.isPresent() && policyParam.isPresent() && inputFileParam.isPresent() ) {
+                    if (publicKeyParam.isPresent() && policyParam.isPresent() && inputFileParam.isPresent()) {
                         var publicKey = publicKeyParam.get();
                         var policy = policyParam.get();
                         var inputFile = inputFileParam.get();
@@ -107,17 +106,17 @@ public class CpabeAPI implements HttpFunction {
                             e.printStackTrace();
                             js.addProperty("Error", e.getMessage());
                         }
-                    } else{
+                    } else {
                         js.addProperty("Error", "Missing argument for encrypt function");
                     }
                     break;
                 }
-                case "halfDecrypt":{
+                case "halfDecrypt": {
                     Optional<String> publicKeyParam = request.getFirstQueryParameter("publicKey");
                     Optional<String> share1Param = request.getFirstQueryParameter("share1");
                     Optional<String> encryptedFileParam = request.getFirstQueryParameter("encryptedFile");
-                    if(publicKeyParam.isPresent() && share1Param.isPresent() &&
-                            encryptedFileParam.isPresent() ) {
+                    if (publicKeyParam.isPresent() && share1Param.isPresent() &&
+                            encryptedFileParam.isPresent()) {
                         var publicKey = publicKeyParam.get();
                         var share1 = share1Param.get();
                         var encryptedFile = encryptedFileParam.get();
@@ -129,7 +128,7 @@ public class CpabeAPI implements HttpFunction {
                             e.printStackTrace();
                             js.addProperty("Error", e.getMessage());
                         }
-                    } else{
+                    } else {
                         js.addProperty("Error", "Missing argument for the half-decrypt function");
                     }
                     break;
@@ -139,8 +138,8 @@ public class CpabeAPI implements HttpFunction {
                     Optional<String> share2Param = request.getFirstQueryParameter("share2");
                     Optional<String> encryptedFileParam = request.getFirstQueryParameter("encryptedFile");
                     Optional<String> mDecryptedFileParam = request.getFirstQueryParameter("mDecryptedFile");
-                    if(publicKeyParam.isPresent() && share2Param.isPresent() &&
-                            encryptedFileParam.isPresent()  && mDecryptedFileParam.isPresent()) {
+                    if (publicKeyParam.isPresent() && share2Param.isPresent() &&
+                            encryptedFileParam.isPresent() && mDecryptedFileParam.isPresent()) {
                         var publicKey = publicKeyParam.get();
                         var share2 = share2Param.get();
                         var encryptedFile = encryptedFileParam.get();
@@ -155,13 +154,13 @@ public class CpabeAPI implements HttpFunction {
                                 InvalidKeyException e) {
                             js.addProperty("Error", e.getMessage());
                         }
-                    } else{
+                    } else {
                         js.addProperty("Error", "Missing argument for the decrypt function");
                     }
                     break;
                 }
                 default:
-                    js.addProperty("Error", "Method type not recognized of type\""+method+"\"");
+                    js.addProperty("Error", "Method type not recognized of type\"" + method + "\"");
             }
         }
         writer.write(gson.toJson(js));
@@ -170,11 +169,11 @@ public class CpabeAPI implements HttpFunction {
 
     private String respondMethod(JsonObject body, PrintWriter writer) {
         var method = "";
-        Gson gson =new Gson();
+        Gson gson = new Gson();
         JsonObject js = new JsonObject();
         if (body.has("method")) {
             method = body.get("method").getAsString();
-            switch(method) {
+            switch (method) {
                 case "setup":
                     if (body.has("attributeUniverse")) {
                         String[] attributeUniverse = gson.fromJson(body.get("attributeUniverse"), String[].class);
@@ -258,7 +257,7 @@ public class CpabeAPI implements HttpFunction {
                     break;
                 }
                 default:
-                    js.addProperty("Error", "Method type not recognized of type\""+method+"\"");
+                    js.addProperty("Error", "Method type not recognized of type\"" + method + "\"");
             }
         }
         writer.write(gson.toJson(js));

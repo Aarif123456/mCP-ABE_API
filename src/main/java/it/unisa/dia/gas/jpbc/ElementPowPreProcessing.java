@@ -27,7 +27,7 @@ public interface ElementPowPreProcessing extends ElementPow, PreProcessing {
 
     /**
      * Compute the power to n, where n is an element of a ring Z_N for some N,
-     * using the pre-processed information, 
+     * using the pre-processed information,
      *
      * @param n the exponent of the power.
      * @return a new element whose value is the computed power.

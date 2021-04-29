@@ -14,11 +14,9 @@ public class FieldStreamReader {
     private final Field field;
     private final byte[] buffer;
     private final int offset;
-
-    private int cursor;
-
     private final DataInputStream dis;
     private final ExByteArrayInputStream bais;
+    private int cursor;
 
 
     public FieldStreamReader(Field field, byte[] buffer, int offset) {

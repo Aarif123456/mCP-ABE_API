@@ -54,8 +54,8 @@ public class AbstractElementPowPreProcessing implements ElementPowPreProcessing 
     public byte[] toBytes() {
         try {
             PairingStreamWriter out = new PairingStreamWriter(field.getLengthInBytes() * table.length * table[0].length);
-            for (Element[] row : table) 
-                for (Element element : row) 
+            for (Element[] row : table)
+                for (Element element : row)
                     out.write(element);
             return out.toBytes();
         } catch (IOException e) {

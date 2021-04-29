@@ -102,7 +102,7 @@ public class PairingDataInput implements DataInput {
         return pairing.getFieldAt(fieldIdentifier).newElementFromBytes(buffer);
     }
 
-    public Element[] readElements(int identifier) throws IOException{
+    public Element[] readElements(int identifier) throws IOException {
         int num = readInt();
         Element[] elements = new Element[num];
         for (int i = 0; i < num; i++) {

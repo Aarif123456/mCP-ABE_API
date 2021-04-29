@@ -56,7 +56,7 @@ public class TypeGTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
         if (t2.isOne())
             return true;    // We were given g, g^x, h, h^-x.
         else {
-          // Cheaply check the other case.
+            // Cheaply check the other case.
             t2.set(t0).mul(t1.invert());
             return t2.isOne();    // We were given g, g^x, h, h^x.
         }

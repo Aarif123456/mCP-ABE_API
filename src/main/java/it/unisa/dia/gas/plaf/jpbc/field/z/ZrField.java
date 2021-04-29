@@ -11,9 +11,9 @@ import java.security.SecureRandom;
  */
 public class ZrField extends AbstractField<ZrElement> {
     protected final BigInteger order;
-    protected ZrElement nqr;
     protected final int fixedLengthInBytes;
     protected final BigInteger twoInverse;
+    protected ZrElement nqr;
 
 
     public ZrField(BigInteger order) {
@@ -57,12 +57,12 @@ public class ZrField extends AbstractField<ZrElement> {
                 nqr.setToRandom();
             } while (nqr.isSqr());
         }
-        
+
         return nqr.duplicate();
     }
 
     public int getLengthInBytes() {
         return fixedLengthInBytes;
     }
-    
+
 }

@@ -14,41 +14,22 @@ import java.util.Objects;
  */
 public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveElement> {
 
-    public static <F extends Field> CurveField<F> newCurveFieldJ(SecureRandom random, Element j, BigInteger order, BigInteger cofactor) {
-        // Assumes j != 0, 1728
-
-        Element a, b;
-
-        a = j.getField().newElement();
-        b = j.getField().newElement();
-
-        a.set(1728).sub(j).invert().mul(j);
-
-        //b = 2 j / (1728 - j)
-        b.set(a).add(a);
-        //a = 3 j / (1728 - j)
-        a.add(b);
-
-        return new CurveField<>(random, a, b, order, cofactor);
-    }
-
     protected final Element a;
     protected final Element b;
+    protected final BigInteger order;
     protected Element gen, genNoCofac;
     protected ElementPow genPow;
-    protected final BigInteger order;
     protected BigInteger cofac;
-
     // A non-NULL quotientCmp means we are working with the quotient group of
     // order #E / quotientCmp, and the points are actually coset
     // representatives. Thus for a comparison, we must multiply by quotientCmp
     // before comparing.
     protected BigInteger quotientCmp = null;
 
-
     public CurveField(SecureRandom random, Element a, Element b, BigInteger order) {
         this(random, a, b, order, (BigInteger) null);
     }
+
 
     public CurveField(SecureRandom random, Element a, Element b, BigInteger order, byte[] gen) {
         super(random, (F) a.getField());
@@ -86,7 +67,23 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         this(random, b.getField().newZeroElement(), b, order, cofac);
     }
 
+    public static <F extends Field> CurveField<F> newCurveFieldJ(SecureRandom random, Element j, BigInteger order, BigInteger cofactor) {
+        // Assumes j != 0, 1728
 
+        Element a, b;
+
+        a = j.getField().newElement();
+        b = j.getField().newElement();
+
+        a.set(1728).sub(j).invert().mul(j);
+
+        //b = 2 j / (1728 - j)
+        b.set(a).add(a);
+        //a = 3 j / (1728 - j)
+        a.add(b);
+
+        return new CurveField<>(random, a, b, order, cofactor);
+    }
 
     public CurveElement newElement() {
         return new CurveElement(this);
@@ -293,14 +290,14 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
             p = (CurveElement) a[i];
             q = (CurveElement) b[i];
 
-            table[i] = q.getX().duplicate().sub(p.getX()).mul(table[i-1]);
+            table[i] = q.getX().duplicate().sub(p.getX()).mul(table[i - 1]);
         }
-        e2.set(table[n-1]).invert();
+        e2.set(table[n - 1]).invert();
         for (int i = n - 1; i > 0; i--) {
             p = (CurveElement) a[i];
             q = (CurveElement) b[i];
 
-            table[i].set(table[i-1]).mul(e2);
+            table[i].set(table[i - 1]).mul(e2);
             e1.set(q.getX()).sub(p.getX());
             e2.mul(e1); //e2=e2*(x2_j-x1_j)
         }

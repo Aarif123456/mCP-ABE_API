@@ -113,7 +113,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
         byte counter = 0;
         boolean done = false;
 
-        for (;;) {
+        for (; ; ) {
             if (length >= count - i) {
                 n = count - i;
                 done = true;
@@ -192,25 +192,25 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement add(Element element) {
-        value = value.add(((AbstractZElement)element).value).mod(order);
+        value = value.add(((AbstractZElement) element).value).mod(order);
 
         return this;
     }
 
     public ZrElement sub(Element element) {
-        value = value.subtract(((ZrElement)element).value).mod(order);
+        value = value.subtract(((ZrElement) element).value).mod(order);
 
         return this;
     }
 
     public ZrElement div(Element element) {
-        value = value.multiply(((ZrElement)element).value.modInverse(order)).mod(order);
+        value = value.multiply(((ZrElement) element).value.modInverse(order)).mod(order);
 
         return this;
     }
 
     public ZrElement mul(Element element) {
-        value = value.multiply(((AbstractZElement)element).value).mod(order);
+        value = value.multiply(((AbstractZElement) element).value).mod(order);
 
         return this;
     }
@@ -283,7 +283,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public boolean isEqual(Element e) {
-        return this == e || (e instanceof  ZrElement && value.compareTo(((ZrElement) e).value) == 0);
+        return this == e || (e instanceof ZrElement && value.compareTo(((ZrElement) e).value) == 0);
 
     }
 

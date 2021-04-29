@@ -67,8 +67,8 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
     }
 
     public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLengthInBytes == -1){
-            pairingPreProcessingTableLength = pairing.r.bitLength()  + BigIntegerUtils.hammingWeight(pairing.r) - 1;
+        if (pairingPreProcessingLengthInBytes == -1) {
+            pairingPreProcessingTableLength = pairing.r.bitLength() + BigIntegerUtils.hammingWeight(pairing.r) - 1;
             pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
         }
 

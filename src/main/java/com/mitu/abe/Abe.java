@@ -3,15 +3,14 @@ package com.mitu.abe;
 import com.mitu.utils.Utility;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
 import com.mitu.utils.exceptions.NoSuchDecryptionTokenFoundException;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import it.unisa.dia.gas.jpbc.Element;
-import it.unisa.dia.gas.jpbc.Pairing;
-import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
 public class Abe {
 
@@ -88,7 +87,7 @@ public class Abe {
         Element uj, uid, g_uid, tj_inv, uj_inv_tj, uid_sub_uj;
         Pairing pairing;
 
-		/* initialize */
+        /* initialize */
         pairing = pub.p;
 
         pairing.getG1().newElement();
@@ -98,7 +97,7 @@ public class Abe {
         pairing.getZr().newElement();
         uid = pairing.getZr().newElement();
 
-		/* compute */
+        /* compute */
         uid.setToRandom();
 
         g_uid = pub.g.duplicate();
@@ -179,7 +178,7 @@ public class Abe {
         AbeCph cph = new AbeCph();
         Element s, m;
 
-		/* initialize */
+        /* initialize */
         Pairing pairing = pub.p;
         s = pairing.getZr().newElement();
         m = pairing.getGT().newElement();
@@ -187,7 +186,7 @@ public class Abe {
         cph.c0 = pairing.getG1().newElement();
         cph.p = parsePolicyPostfix(policy);
 
-		/* compute */
+        /* compute */
         m.setToRandom();
         s.setToRandom();
         cph.c1 = pub.g_hat_alpha.duplicate();
@@ -210,13 +209,13 @@ public class Abe {
         return keyCph;
     }
 
-	/*
-	 * Decrypt the specified ciphertext using the given private key, filling in
-	 * the provided element m (which need not be initialized) with the result.
-	 * 
-	 * Returns true if decryption succeeded, false if this key does not satisfy
-	 * the policy of the ciphertext (in which case m is unaltered).
-	 */
+    /*
+     * Decrypt the specified ciphertext using the given private key, filling in
+     * the provided element m (which need not be initialized) with the result.
+     *
+     * Returns true if decryption succeeded, false if this key does not satisfy
+     * the policy of the ciphertext (in which case m is unaltered).
+     */
 
     /**
      * M_dec.
@@ -288,7 +287,7 @@ public class Abe {
      * Checks if is _any_attr_revoked.
      *
      * @param attrs the attributes
-     * @return true, if any of the attributes were revoked 
+     * @return true, if any of the attributes were revoked
      */
     public static boolean is_any_attr_revoked(ArrayList<String> attrs) {
 
@@ -556,7 +555,7 @@ public class Abe {
      * @param s the s
      * @return the abe policy
      */
-    private static AbePolicy parsePolicyPostfix(String s)  {
+    private static AbePolicy parsePolicyPostfix(String s) {
         s = s.replaceAll("AND", "&");
         s = s.replaceAll(" ", "");
 

@@ -63,7 +63,7 @@ public class LatchHashMap<K, V> implements Map<K, V> {
         throw new IllegalStateException("Not implemented yet!");
     }
 
-    public Set<Entry<K,V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
         throw new IllegalStateException("Not implemented yet!");
     }
 

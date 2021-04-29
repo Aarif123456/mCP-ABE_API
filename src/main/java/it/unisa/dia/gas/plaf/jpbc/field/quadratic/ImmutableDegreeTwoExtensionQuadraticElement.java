@@ -10,7 +10,7 @@ import java.math.BigInteger;
 public class ImmutableDegreeTwoExtensionQuadraticElement<E extends Element> extends DegreeTwoExtensionQuadraticElement<E> {
 
     public ImmutableDegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticElement<E> element) {
-        super((DegreeTwoExtensionQuadraticField)element.getField());
+        super((DegreeTwoExtensionQuadraticField) element.getField());
 
         this.x = (E) element.getX().getImmutable();
         this.y = (E) element.getY().getImmutable();

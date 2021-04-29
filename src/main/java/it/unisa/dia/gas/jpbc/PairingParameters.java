@@ -88,7 +88,7 @@ public interface PairingParameters extends Serializable {
      * Returns the BigInteger at the specified index in the array to which
      * the specified key is mapped.
      *
-     * @param key the key whose associated array is to be used
+     * @param key   the key whose associated array is to be used
      * @param index the index relative to the array.
      * @return the BigInteger at the specified index in the array to which
      * the specified key is mapped.

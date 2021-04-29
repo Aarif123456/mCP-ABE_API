@@ -109,7 +109,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
 
     @Override
     public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLenghtInBytes == -1){
+        if (pairingPreProcessingLenghtInBytes == -1) {
             pairingPreProcessingTableLength = pairing.exp2 + 1;
             pairingPreProcessingLenghtInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
         }
@@ -143,7 +143,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         CurveElement[] Vs = new CurveElement[in1.length];
         CurveElement[] V1s = new CurveElement[in1.length];
 
-        for(int i=0; i< in1.length; i++){
+        for (int i = 0; i < in1.length; i++) {
             Vs[i] = (CurveElement) in1[i].duplicate();
             V1s[i] = (CurveElement) in1[i].getField().newElement();
         }
@@ -288,8 +288,8 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
 
 
     public int getPairingPreProcessingTableLength() {
-       getPairingPreProcessingLengthInBytes();
-       return pairingPreProcessingTableLength;
+        getPairingPreProcessingLengthInBytes();
+        return pairingPreProcessingTableLength;
     }
 
     public class TypeATateProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {

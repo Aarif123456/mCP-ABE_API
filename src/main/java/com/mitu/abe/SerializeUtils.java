@@ -9,6 +9,13 @@ import java.util.Map;
 
 public class SerializeUtils {
 
+    /**
+     * Serialize bswabe pub.
+     */
+
+    private static int rBits = 160;
+    private static int qBits = 512;
+
     public static void serializeElement(ArrayList<Byte> arrlist, Element e) {
         byte[] arr_e = e.toBytes();
         serializeUint32(arrlist, arr_e.length);
@@ -36,15 +43,15 @@ public class SerializeUtils {
         byteArrListAppend(arrlist, b);
     }
 
-	/*
+    /*
      * Usage:
-	 * 
-	 * StringBuffer sb = new StringBuffer("");
-	 * 
-	 * offset = unserializeString(arr, offset, sb);
-	 * 
-	 * String str = sb.substring(0);
-	 */
+     *
+     * StringBuffer sb = new StringBuffer("");
+     *
+     * offset = unserializeString(arr, offset, sb);
+     *
+     * String str = sb.substring(0);
+     */
     public static int unserializeString(byte[] arr, int offset, StringBuffer sb) {
         /*int i;
         int len;
@@ -74,13 +81,6 @@ public class SerializeUtils {
 
         return offset + len;
     }
-
-    /**
-     * Serialize bswabe pub.
-     */
-
-    private static int rBits = 160;
-    private static int qBits = 512;
 
     public static byte[] serializeBswabePub(AbePub pub) {
 
@@ -155,7 +155,7 @@ public class SerializeUtils {
         return pub;
     }
 
-	/* Method has been test okay */
+    /* Method has been test okay */
 
     /**
      * Serialize bswabe msk.
@@ -411,7 +411,7 @@ public class SerializeUtils {
         return cph;
     }
 
-	/* Method has been test okay */
+    /* Method has been test okay */
     /* potential problem: the number to be serialize is less than 2^31 */
 
     private static void serializeUint32(ArrayList<Byte> arrlist, int k) {
@@ -424,11 +424,11 @@ public class SerializeUtils {
         }
     }
 
-	/*
+    /*
      * Usage:
-	 * 
-	 * You have to do offset+=4 after call this method
-	 */
+     *
+     * You have to do offset+=4 after call this method
+     */
     private static int unserializeUint32(byte[] arr, int offset) {
         int i;
         int r = 0;
@@ -467,7 +467,7 @@ public class SerializeUtils {
 
         offset[0] = unserializeElement(arr, offset[0], p.si);
 
-		/* children */
+        /* children */
         n = unserializeUint32(arr, offset[0]);
         offset[0] += 4;
         if (n == 0) {

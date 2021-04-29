@@ -15,11 +15,9 @@ public class PairingStreamReader {
     private final Pairing pairing;
     private final byte[] buffer;
     private final int offset;
-
-    private int cursor;
-
     private final DataInputStream dis;
     private final ExByteArrayInputStream bais;
+    private int cursor;
 
 
     public PairingStreamReader(Pairing pairing, byte[] buffer, int offset) {

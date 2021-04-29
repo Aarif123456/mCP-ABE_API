@@ -174,7 +174,7 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
 
         e0.set(x).mul(element.x);
         e1.set(y).mul(element.y);
-        
+
         x.set(e1).mul(field.getTargetField().getNqr()).add(e0);
         e2.sub(e0);
         y.set(e2).sub(e1);
@@ -234,7 +234,7 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
 
         if (!(e instanceof QuadraticElement))
             return false;
-        
+
         QuadraticElement element = (QuadraticElement) e;
         return x.isEqual(element.x) && y.isEqual(element.y);
     }

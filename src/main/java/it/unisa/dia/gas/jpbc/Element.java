@@ -34,7 +34,7 @@ public interface Element extends ElementPow {
      * Returns <tt>true</tt> if this element is immutable, <tt>false</tt> otherwise.
      *
      * @return <tt>true</tt> if this element is immutable, <tt>false</tt> otherwise.
-     * @see #getImmutable() 
+     * @see #getImmutable()
      */
     boolean isImmutable();
 

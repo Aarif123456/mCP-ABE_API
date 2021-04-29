@@ -9,7 +9,7 @@ package it.unisa.dia.gas.jpbc;
  */
 public interface Point<E extends Element> extends Element, Vector<E> {
 
-    /**              
+    /**
      * Returns the x-coordinate.
      *
      * @return the x-coordinate.

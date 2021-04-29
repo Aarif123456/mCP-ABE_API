@@ -35,7 +35,7 @@ public class GTFiniteElement extends AbstractElement {
         this.value = element.value;
     }
 
-    
+
     public GTFiniteElement getImmutable() {
         if (isImmutable())
             return this;
@@ -79,7 +79,7 @@ public class GTFiniteElement extends AbstractElement {
 
     public GTFiniteElement setToZero() {
         value.setToOne();
-        
+
         return this;
     }
 
@@ -113,7 +113,7 @@ public class GTFiniteElement extends AbstractElement {
 
     public GTFiniteElement invert() {
         value.invert();
-        
+
         return this;
     }
 

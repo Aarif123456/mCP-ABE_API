@@ -58,7 +58,7 @@ public class ImmutableParing implements Pairing {
 
     public int getFieldIndex(Field field) {
         if (field instanceof ImmutableField)
-            return pairing.getFieldIndex(((ImmutableField)field).field);
+            return pairing.getFieldIndex(((ImmutableField) field).field);
 
         return pairing.getFieldIndex(field);
     }

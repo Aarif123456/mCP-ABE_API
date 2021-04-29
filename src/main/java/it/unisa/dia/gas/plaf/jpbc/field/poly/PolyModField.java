@@ -48,7 +48,7 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
         init(nqr);
     }
 
-    
+
     protected void init(BigInteger nqr) {
         this.n = irreduciblePoly.getDegree();
 
@@ -59,7 +59,7 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
         }
 
 //        if (order.compareTo(BigInteger.ZERO) != 0)
-            computeXPowers();
+        computeXPowers();
 
         if (targetField.getLengthInBytes() < 0) {
             //f->length_in_bytes = fq_length_in_bytes;
@@ -67,8 +67,8 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
         } else {
             fixedLengthInBytes = targetField.getLengthInBytes() * n;
         }
-    } 
-    
+    }
+
 
     public PolyModElement newElement() {
         return new PolyModElement(this);

@@ -17,7 +17,7 @@ import java.math.BigInteger;
 public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairingMap {
     protected final TypeAPairing pairing;
     protected final byte[] r;
-    
+
     protected int pairingPreProcessingTableLength = -1;
     protected int pairingPreProcessingLengthInBytes = -1;
 
@@ -77,7 +77,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     }
 
     public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLengthInBytes == -1){
+        if (pairingPreProcessingLengthInBytes == -1) {
             pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
             pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
         }
@@ -208,8 +208,8 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
 
     public int getPairingPreProcessingTableLength() {
-       getPairingPreProcessingLengthInBytes();
-       return pairingPreProcessingTableLength;
+        getPairingPreProcessingLengthInBytes();
+        return pairingPreProcessingTableLength;
     }
 
 

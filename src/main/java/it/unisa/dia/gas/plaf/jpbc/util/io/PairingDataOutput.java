@@ -125,7 +125,7 @@ public class PairingDataOutput implements DataOutput {
         }
     }
 
-    public void writeBytes(byte[] buffer) throws IOException{
+    public void writeBytes(byte[] buffer) throws IOException {
         writeInt(buffer.length);
         write(buffer);
     }
@@ -134,7 +134,6 @@ public class PairingDataOutput implements DataOutput {
     public Pairing getPairing() {
         return pairing;
     }
-
 
 
     public void writeBigInteger(BigInteger bigInteger) throws IOException {

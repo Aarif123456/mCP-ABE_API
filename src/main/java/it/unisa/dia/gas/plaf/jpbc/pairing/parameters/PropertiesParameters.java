@@ -73,7 +73,7 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
     }
 
     public BigInteger getBigIntegerAt(String key, int index) {
-        return getBigInteger(key+index);
+        return getBigInteger(key + index);
     }
 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
@@ -148,7 +148,7 @@ public class PropertiesParameters implements PairingParameters, Externalizable {
     }
 
     /* Load parameter with a map*/
-    public void load(Map<String, String> loadMap){
+    public void load(Map<String, String> loadMap) {
         parameters.putAll(loadMap);
     }
 

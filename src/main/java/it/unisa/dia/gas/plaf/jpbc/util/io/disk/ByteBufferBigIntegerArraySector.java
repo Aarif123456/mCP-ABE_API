@@ -5,7 +5,6 @@ import it.unisa.dia.gas.plaf.jpbc.util.io.ByteBufferDataOutput;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataInput;
 import it.unisa.dia.gas.plaf.jpbc.util.io.PairingDataOutput;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -17,18 +16,16 @@ import java.util.Map;
  */
 public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> {
 
-    protected ByteBuffer buffer;
     protected final int offset;
     protected final int recordSize;
     protected final int recordLength;
     protected final int numRecords;
     protected final int lengthInBytes;
-
+    protected ByteBuffer buffer;
     protected PairingDataInput in;
     protected PairingDataOutput out;
 
     protected Map<String, Integer> labelsMap;
-
 
 
     public ByteBufferBigIntegerArraySector(int recordSize, int numRecords) {

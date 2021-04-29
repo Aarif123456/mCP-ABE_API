@@ -35,8 +35,16 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
         return x;
     }
 
+    public void setX(E x) {
+        this.x = x;
+    }
+
     public E getY() {
         return y;
+    }
+
+    public void setY(E y) {
+        this.y = y;
     }
 
     public F getField() {
@@ -47,7 +55,7 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
         return new ImmutableCurveElement<>(this);
     }
 
-    public CurveElement<E,F> duplicate() {
+    public CurveElement<E, F> duplicate() {
         return new CurveElement<>(this);
     }
 
@@ -281,7 +289,7 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
         x.setFromHash(source, offset, length);
 
         Element t = field.getTargetField().newElement();
-        for (; ;) {
+        for (; ; ) {
             t.set(x).square().add(field.a).mul(x).add(field.b);
             if (t.isSqr())
                 break;
@@ -360,7 +368,6 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
         return len;
     }
 
-
     public boolean isValid() {
         Element t0, t1;
 
@@ -374,7 +381,6 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
 
         return t0.isEqual(t1);
     }
-
 
     protected void twiceInternal() {
         // We have P1 = P2 so the tangent line T at P1 ha slope
@@ -397,22 +403,12 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
         y.set(x.duplicate().square().add(field.a).mul(x).add(field.b).sqrt());
     }
 
-
     protected boolean isEqual(CurveElement element) {
         if (this.infFlag != 0 || element.infFlag != 0) {
             return (this.infFlag != 0 && element.infFlag != 0);
         }
 
         return x.isEqual(element.x) && y.isEqual(element.y);
-    }
-
-
-    public void setX(E x) {
-        this.x = x;
-    }
-
-    public void setY(E y) {
-        this.y = y;
     }
 
 

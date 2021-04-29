@@ -75,7 +75,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     }
 
     public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLengthInBytes == -1){
+        if (pairingPreProcessingLengthInBytes == -1) {
             pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
             pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fp.getLengthInBytes());
         }
@@ -191,8 +191,8 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
 
 
     public int getPairingPreProcessingTableLength() {
-       getPairingPreProcessingLengthInBytes();
-       return pairingPreProcessingTableLength;
+        getPairingPreProcessingLengthInBytes();
+        return pairingPreProcessingTableLength;
     }
 
     public class TypeA1TateNafProjectiveMillerPairingPreProcessing extends AbstractMillerPairingPreProcessing {

@@ -118,7 +118,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         Element[] Vs = new Element[in1.length];
         Element[] V1s = new Element[in1.length];
 
-        for(int i=0; i< in1.length; i++){
+        for (int i = 0; i < in1.length; i++) {
             Vs[i] = in1[i].duplicate();
             V1s[i] = in1[i].getField().newElement();
         }
@@ -188,7 +188,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
     }
 
     public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLengthInBytes == -1){
+        if (pairingPreProcessingLengthInBytes == -1) {
             pairingPreProcessingTableLength = pairing.exp2 + 1;
             pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
         }
@@ -235,7 +235,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
         lucasOdd(out, in, temp, cofactor);
     }
-    
+
     protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
         // we will map Q via (x,y) --> (-x, iy)
         // hence:

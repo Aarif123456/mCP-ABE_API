@@ -99,7 +99,7 @@ public interface Pairing {
      * Returns <tt>true</tt> if optimized
      * product of pairing is supported,
      * <tt>false</tt> otherwise.
-     *
+     * <p>
      * If optimized product of pairing is supported then
      * invoking the #pairing(Element[], Element[]) method should
      * guarantee better performance.
@@ -107,8 +107,8 @@ public interface Pairing {
      * @return <tt>true</tt> if optimized
      * product of pairing is supported,
      * <tt>false</tt> otherwise.
-     * @since 2.0.0
      * @see #pairing(Element[], Element[])
+     * @since 2.0.0
      */
     boolean isProductPairingSupported();
 
@@ -118,7 +118,7 @@ public interface Pairing {
      *
      * @param in1 must have at least 'n' elements belonging to the groups G1
      * @param in2 must have at least 'n' elements belonging to the groups G2
-     * @return the product of pairings, that is 'e'('in1'[0], 'in2'[0]) ... 'e'('in1'[n-1], 'in2'[n-1]). 
+     * @return the product of pairings, that is 'e'('in1'[0], 'in2'[0]) ... 'e'('in1'[n-1], 'in2'[n-1]).
      * @since 1.1.0
      */
     Element pairing(Element[] in1, Element[] in2);
@@ -127,10 +127,10 @@ public interface Pairing {
      * Returns the length in bytes needed to represent a PairingPreProcessing structure.
      *
      * @return the length in bytes needed to represent a PairingPreProcessing structure.
-     * @since 1.2.0
      * @see #getPairingPreProcessingFromBytes(byte[])
      * @see #getPairingPreProcessingFromElement(Element)
      * @see PairingPreProcessing
+     * @since 1.2.0
      */
     int getPairingPreProcessingLengthInBytes();
 

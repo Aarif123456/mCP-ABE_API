@@ -6,7 +6,7 @@ import it.unisa.dia.gas.jpbc.Element;
  * The Class AbeCjiComp.
  */
 public class AbeCjiComp {
-	/* these actually get serialized */
-	String attr;
-	Element cji; /* G_1 */
+    /* these actually get serialized */
+    String attr;
+    Element cji; /* G_1 */
 }

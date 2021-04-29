@@ -296,7 +296,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     @Override
     public int setFromBytes(byte[] source, int offset) {
         int len = offset;
-        int count = ((source[len] << 8) + (source[len+1] << 0));
+        int count = ((source[len] << 8) + (source[len + 1] << 0));
 
         ensureSize(count);
         len += 2;

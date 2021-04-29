@@ -203,7 +203,7 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
 
 
     protected String[] tokenize(String value) {
-        StringTokenizer tokenizer = new StringTokenizer(value,",");
+        StringTokenizer tokenizer = new StringTokenizer(value, ",");
         int n = tokenizer.countTokens();
 
         String[] tokens = new String[n];

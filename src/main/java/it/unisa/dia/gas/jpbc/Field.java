@@ -30,7 +30,7 @@ public interface Field<E extends Element> {
 
     /**
      * Returns a new element whose value is passed as parameter.
-     * 
+     *
      * @param value the value of the new element.
      * @return a new element whose value is passed as parameter.
      * @see Element#set(java.math.BigInteger)

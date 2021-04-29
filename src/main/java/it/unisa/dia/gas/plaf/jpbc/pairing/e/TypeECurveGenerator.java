@@ -30,7 +30,22 @@ public class TypeECurveGenerator implements PairingParametersGenerator {
         this(new SecureRandom(), rBits, qBits);
     }
 
-    
+    public static void main(String[] args) {
+        if (args.length < 2)
+            throw new IllegalArgumentException("Too few arguments. Usage <rbits> <qbits>");
+
+        if (args.length > 2)
+            throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
+
+        int rBits = Integer.parseInt(args[0]);
+        int qBits = Integer.parseInt(args[1]);
+
+        PairingParametersGenerator generator = new TypeECurveGenerator(rBits, qBits);
+        PairingParameters curveParams = generator.generate();
+
+        System.out.println(curveParams.toString(" "));
+    }
+
     public PairingParameters generate() {
         // 3 takes 2 bits to represent
         BigInteger q;
@@ -119,22 +134,6 @@ public class TypeECurveGenerator implements PairingParametersGenerator {
         params.put("b", curveField.getB().toBigInteger().toString());
 
         return params;
-    }
-
-    public static void main(String[] args) {
-        if (args.length < 2)
-            throw new IllegalArgumentException("Too few arguments. Usage <rbits> <qbits>");
-
-        if (args.length > 2)
-            throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
-
-        int rBits = Integer.parseInt(args[0]);
-        int qBits = Integer.parseInt(args[1]);
-
-        PairingParametersGenerator generator = new TypeECurveGenerator(rBits, qBits);
-        PairingParameters curveParams = generator.generate();
-
-        System.out.println(curveParams.toString(" "));
     }
 
 }

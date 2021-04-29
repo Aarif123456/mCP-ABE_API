@@ -1,17 +1,6 @@
 package com.mitu.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +9,8 @@ import java.util.ArrayList;
  * @author mitu
  */
 public class Utility {
+    private static ArrayList<String> aRLs = new ArrayList<>();
+
     public static void copyAssets() {
 
         String[] files = null;
@@ -42,9 +33,6 @@ public class Utility {
             out.write(buffer, 0, read);
         }
     }
-
-
-    private static ArrayList<String> aRLs = new ArrayList<>();
 
     public static String array2Str(String[] arr) {
         int len = arr.length;

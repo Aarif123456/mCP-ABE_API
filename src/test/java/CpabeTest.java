@@ -20,12 +20,12 @@ public class CpabeTest {
     @Test
     public static void main(String[] args) throws IOException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, NoSuchDecryptionTokenFoundException, AttributesNotSatisfiedException {
         // all possible attributes
-        String[] attributeUniverse = { "doctor" , "windsor", "detroit", "heart_surgeon", "emergency"};
+        String[] attributeUniverse = {"doctor", "windsor", "detroit", "heart_surgeon", "emergency"};
         var userAttribute = "heart_surgeon doctor detroit"; // attributes given to the test user
         var policy = "(doctor AND detroit AND heart_surgeon)"; // Policy used for encrypting file
         var path = "src/test/java/";
         var inputFile = "RealHuman.png"; // The file we will encrypt
-        var decryptedFile= "DECRYPTED_"+ inputFile;
+        var decryptedFile = "DECRYPTED_" + inputFile;
         JsonObject js;
 
         js = setup(attributeUniverse);
@@ -36,10 +36,10 @@ public class CpabeTest {
         var share1 = js.get("share1").getAsString();
         var share2 = js.get("share2").getAsString();
 
-        File file = new File(path+inputFile);
-        var inputFileBytes= Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath()));
+        File file = new File(path + inputFile);
+        var inputFileBytes = Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath()));
 
-        js=encrypt(publicKey,policy, inputFileBytes);
+        js = encrypt(publicKey, policy, inputFileBytes);
         var encryptedFile = js.get("encryptedFile").getAsString();
 
         js = halfDecrypt(publicKey, share1, encryptedFile);
@@ -47,7 +47,7 @@ public class CpabeTest {
 
         js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile);
         byte[] d = Base64.getDecoder().decode(js.get("decryptedFile").getAsString());
-        File f = new File(path+decryptedFile);
+        File f = new File(path + decryptedFile);
         var fileOutputStream = new FileOutputStream(f);
         fileOutputStream.write(d);
         System.out.println();

@@ -15,10 +15,9 @@ import java.util.concurrent.Callable;
 public class ProductPairingAccumulator implements PairingAccumulator {
 
     private final Pairing pairing;
-
-    private int cursor;
     private final Element[] in1;
     private final Element[] in2;
+    private int cursor;
     private Element result;
 
 
@@ -53,8 +52,8 @@ public class ProductPairingAccumulator implements PairingAccumulator {
     }
 
     public void addPairing(Element e1, Element e2) {
-        in1[cursor] =  e1;
-        in2[cursor++] =  e2;
+        in1[cursor] = e1;
+        in2[cursor++] = e2;
 
     }
 
@@ -66,7 +65,7 @@ public class ProductPairingAccumulator implements PairingAccumulator {
         throw new IllegalStateException("Not supported!!!");
     }
 
-    public Element awaitResult(){
+    public Element awaitResult() {
         return (result = pairing.pairing(in1, in2));
     }
 }

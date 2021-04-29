@@ -22,7 +22,7 @@ public class GTFiniteField<F extends Field> extends AbstractFieldOver<F, GTFinit
         this.pairing = pairing;
     }
 
-    
+
     public GTFiniteElement newElement() {
         return new GTFiniteElement(pairing, this);
     }

@@ -73,7 +73,7 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
             v.square();
             vd.square();
 
-            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy,  cca, numx, numy, denomx, denomy);
+            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy, cca, numx, numy, denomx, denomy);
             proj_double(Zx, Zy, e0, e1, a, b, z, z2, cca);
             do_vertical(vd, v, Zx, e0, z2, numx, denomx);
         }
@@ -95,7 +95,7 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
             v.square();
             vd.square();
 
-            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy,  cca, numx, numy, denomx, denomy);
+            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy, cca, numx, numy, denomx, denomy);
             proj_double(Zx, Zy, e0, e1, a, b, z, z2, cca);
             do_vertical(vd, v, Zx, e0, z2, numx, denomx);
         }
@@ -126,7 +126,6 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
         e1.set(z2).square();
         e1.mul(cca);
         e0.add(e1);
-
 
 
         z.mul(Zy);

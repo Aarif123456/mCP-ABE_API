@@ -10,18 +10,15 @@ import it.unisa.dia.gas.jpbc.Pairing;
 public class PairingAccumulatorFactory {
 
     private static final PairingAccumulatorFactory INSTANCE = new PairingAccumulatorFactory();
-
-    public static PairingAccumulatorFactory getInstance() {
-        return INSTANCE;
-    }
-
     private boolean multiThreadingEnabled;
-
 
     private PairingAccumulatorFactory() {
         this.multiThreadingEnabled = false; // Runtime.getRuntime().availableProcessors() > 1;
     }
 
+    public static PairingAccumulatorFactory getInstance() {
+        return INSTANCE;
+    }
 
     public PairingAccumulator getPairingMultiplier(Pairing pairing) {
         return isMultiThreadingEnabled() ? new MultiThreadedMulPairingAccumulator(pairing)

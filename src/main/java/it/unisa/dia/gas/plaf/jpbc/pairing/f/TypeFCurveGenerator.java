@@ -31,6 +31,20 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         this(new SecureRandom(), rBits);
     }
 
+    public static void main(String[] args) {
+        if (args.length < 1)
+            throw new IllegalArgumentException("Too few arguments. Usage <rbits>");
+
+        if (args.length > 1)
+            throw new IllegalArgumentException("Too many arguments. Usage <rbits>");
+
+        int rBits = Integer.parseInt(args[0]);
+
+        PairingParametersGenerator generator = new TypeFCurveGenerator(rBits);
+        PairingParameters curveParams = generator.generate();
+
+        System.out.println(curveParams.toString(" "));
+    }
 
     public PairingParameters generate() {
         //36 is a 6-bit number
@@ -43,7 +57,7 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
 
         BigInteger x = BigInteger.ZERO.setBit(xbit);
         BigInteger t;
-        for (; ;) {
+        for (; ; ) {
             // t = 6x^2 + 1
             t = x.multiply(x).multiply(BigInteger.valueOf(6)).add(BigInteger.ONE);
 
@@ -67,7 +81,7 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         // Compute b
         Field Fq = new ZrField(random, q);
         Element e1 = Fq.newElement();
-        for (; ;) {
+        for (; ; ) {
             e1.setToRandom();
 
             Field curveField = new CurveField(random, e1, r, null);
@@ -131,7 +145,6 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         return params;
     }
 
-
     protected BigInteger tryMinusX(BigInteger x) {
         // 36x^4 + 36x^3 + 24x^2 - 6x + 1 = ((36(x - 1)x + 24)x - 6)x + 1
 
@@ -155,22 +168,6 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
                 .add(BigInteger.valueOf(6))
                 .multiply(x)
                 .add(BigInteger.ONE);
-    }
-
-
-    public static void main(String[] args) {
-        if (args.length < 1)
-            throw new IllegalArgumentException("Too few arguments. Usage <rbits>");
-
-        if (args.length > 1)
-            throw new IllegalArgumentException("Too many arguments. Usage <rbits>");
-
-        int rBits = Integer.parseInt(args[0]);
-
-        PairingParametersGenerator generator = new TypeFCurveGenerator(rBits);
-        PairingParameters curveParams = generator.generate();
-
-        System.out.println(curveParams.toString(" "));
     }
 
 }

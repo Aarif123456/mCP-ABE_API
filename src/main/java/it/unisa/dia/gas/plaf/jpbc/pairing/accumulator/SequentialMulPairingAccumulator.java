@@ -64,7 +64,7 @@ public class SequentialMulPairingAccumulator implements PairingAccumulator {
         return this;
     }
 
-    public Element awaitResult(){
+    public Element awaitResult() {
         return value;
     }
 }

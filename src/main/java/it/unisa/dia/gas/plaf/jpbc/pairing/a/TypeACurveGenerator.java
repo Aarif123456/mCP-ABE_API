@@ -36,6 +36,21 @@ public class TypeACurveGenerator implements PairingParametersGenerator {
         this(new SecureRandom(), rbits, qbits, generateCurveFieldGen);
     }
 
+    public static void main(String[] args) {
+        if (args.length < 2)
+            throw new IllegalArgumentException("Too few arguments. Usage <rbits> <qbits>");
+
+        if (args.length > 2)
+            throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
+
+        int rBits = Integer.parseInt(args[0]);
+        int qBits = Integer.parseInt(args[1]);
+
+        TypeACurveGenerator generator = new TypeACurveGenerator(rBits, qBits, true);
+        PairingParameters curveParams = generator.generate();
+
+        System.out.println(curveParams.toString(" "));
+    }
 
     public PairingParameters generate() {
         boolean found = false;
@@ -122,22 +137,6 @@ public class TypeACurveGenerator implements PairingParametersGenerator {
         }
 
         return params;
-    }
-
-    public static void main(String[] args) {
-        if (args.length < 2)
-            throw new IllegalArgumentException("Too few arguments. Usage <rbits> <qbits>");
-
-        if (args.length > 2)
-            throw new IllegalArgumentException("Too many arguments. Usage <rbits> <qbits>");
-
-        int rBits = Integer.parseInt(args[0]);
-        int qBits = Integer.parseInt(args[1]);
-
-        TypeACurveGenerator generator = new TypeACurveGenerator(rBits, qBits, true);
-        PairingParameters curveParams = generator.generate();
-
-        System.out.println(curveParams.toString(" "));
     }
 
 }

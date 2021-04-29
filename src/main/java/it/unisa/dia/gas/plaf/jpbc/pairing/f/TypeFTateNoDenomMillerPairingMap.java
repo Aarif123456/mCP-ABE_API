@@ -128,7 +128,7 @@ public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
         v.set(e0);
     }
 
-    protected void millerStepTerm(int i, int j, int k, int flag, 
+    protected void millerStepTerm(int i, int j, int k, int flag,
                                   Polynomial e0, Polynomial v,
                                   Element a, Element b, Element c,
                                   Element Qx, Element Qy) {

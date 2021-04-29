@@ -130,7 +130,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
     protected final void tangentStepProjective(final Point<E> f0,
-                                               final Element a, final Element b,final  Element c,
+                                               final Element a, final Element b, final Element c,
                                                final Element Vx, final Element Vy, final Element z,
                                                final Element z2,
                                                final Element e0,
@@ -375,8 +375,8 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
 
 
     public static class MillerPreProcessingInfo {
-        public int numRow = 0;
         public final Element[][] table;
+        public int numRow = 0;
 
         public MillerPreProcessingInfo(int size) {
             this.table = new Element[size][3];
@@ -408,7 +408,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
                 PairingStreamWriter out = new PairingStreamWriter(table[0][0].getField().getLengthInBytes() * numRow * 3 + 4);
 
                 out.writeInt(numRow);
-                for (int i = 0; i < numRow; i++)  {
+                for (int i = 0; i < numRow; i++) {
                     for (Element element : table[i])
                         out.write(element);
                 }
@@ -435,12 +435,24 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
             return this.x;
         }
 
+        public void setX(Element newX) {
+            this.x = newX;
+        }
+
         public Element getY() {
             return this.y;
         }
 
+        public void setY(Element newY) {
+            this.y = newY;
+        }
+
         public Element getZ() {
             return this.z;
+        }
+
+        public void setZ(Element newZ) {
+            this.z = newZ;
         }
 
         public boolean isInfinity() {
@@ -484,18 +496,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         @Override
         public String toString() {
             return "[" + x + "," + y + "," + z + "]";
-        }
-
-        public void setX(Element newX) {
-            this.x = newX;
-        }
-
-        public void setY(Element newY) {
-            this.y = newY;
-        }
-
-        public void setZ(Element newZ) {
-            this.z = newZ;
         }
 
 

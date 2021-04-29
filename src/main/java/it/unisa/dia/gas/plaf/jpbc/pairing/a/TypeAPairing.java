@@ -25,7 +25,7 @@ public class TypeAPairing extends AbstractPairing {
     protected int sign1;
 
     protected BigInteger r;
-    protected BigInteger q; 
+    protected BigInteger q;
     protected BigInteger h;
 
     protected BigInteger phikOnr;

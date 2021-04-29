@@ -87,7 +87,7 @@ public class BigIntegerUtils {
         }
         return weight;
     }
-    
+
 
     public static BigInteger generateSolinasPrime(int bits, SecureRandom random) {
         // r is picked to be a Solinas prime, that is,
@@ -146,7 +146,6 @@ public class BigIntegerUtils {
     /**
      * Compute trace of Frobenius at q^n given trace at q
      * see p.105 of Blake, Seroussi and Smart
-     *
      */
     public static BigInteger computeTrace(BigInteger q, BigInteger trace, int n) {
         int i;
@@ -281,7 +280,7 @@ public class BigIntegerUtils {
                 ans = -ans; // Property (iv)
 
             a = a.mod(n); // because (a/p) = (a%p / p ) and a%pi = (a%n)%pi if n % pi = 0
-            if (a.compareTo(n.divide(TWO)) == 1) 
+            if (a.compareTo(n.divide(TWO)) == 1)
                 a = a.subtract(n);
         }
 
