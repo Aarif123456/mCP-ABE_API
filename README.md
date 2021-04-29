@@ -26,12 +26,12 @@ Output: encryptedFile\
 Explanation: Uses the public key and encryption policy to return the encrypted file in the storage server (represented in bytes)
 
 ### HalfDecrypt
-Input: publicKey, share1, encryptedFile, professionalId, initialParameters(optional)\
+Input: publicKey, share1, encryptedFile, initialParameters(optional)\
 Output: mDecryptedFile\
 Explanation: If the user has not been revoked, then uses the userID to find the first half of the user's key and then uses that to half decrypt the file and return it.
 
 ### Decrypt
-Input: publicKey, share2, encryptedFile, mDecryptedFile, professionalId, initialParameters(optional)\
+Input: publicKey, share2, encryptedFile, mDecryptedFile, initialParameters(optional)\
 Output: decryptedFile\
 Explanation: Ideally we would use the professional_id to get the second part of the users decryption key. 
 Then makes a call to the RS to get the half decrypted file. 

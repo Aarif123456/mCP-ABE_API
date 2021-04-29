@@ -116,15 +116,13 @@ public class CpabeAPI implements HttpFunction {
                     Optional<String> publicKeyParam = request.getFirstQueryParameter("publicKey");
                     Optional<String> share1Param = request.getFirstQueryParameter("share1");
                     Optional<String> encryptedFileParam = request.getFirstQueryParameter("encryptedFile");
-                    Optional<String> professionalIdParam = request.getFirstQueryParameter("professionalId");
                     if(publicKeyParam.isPresent() && share1Param.isPresent() &&
-                            encryptedFileParam.isPresent()  && professionalIdParam.isPresent()) {
+                            encryptedFileParam.isPresent() ) {
                         var publicKey = publicKeyParam.get();
                         var share1 = share1Param.get();
                         var encryptedFile = encryptedFileParam.get();
-                        var professionalId = professionalIdParam.get();
                         try {
-                            js = halfDecrypt(publicKey, share1, encryptedFile, professionalId);
+                            js = halfDecrypt(publicKey, share1, encryptedFile);
                         } catch (IOException |
                                 AttributesNotSatisfiedException |
                                 NoSuchDecryptionTokenFoundException e) {
@@ -141,17 +139,14 @@ public class CpabeAPI implements HttpFunction {
                     Optional<String> share2Param = request.getFirstQueryParameter("share2");
                     Optional<String> encryptedFileParam = request.getFirstQueryParameter("encryptedFile");
                     Optional<String> mDecryptedFileParam = request.getFirstQueryParameter("mDecryptedFile");
-                    Optional<String> professionalIdParam = request.getFirstQueryParameter("professionalId");
                     if(publicKeyParam.isPresent() && share2Param.isPresent() &&
-                            encryptedFileParam.isPresent()  && mDecryptedFileParam.isPresent() &&
-                            professionalIdParam.isPresent()) {
+                            encryptedFileParam.isPresent()  && mDecryptedFileParam.isPresent()) {
                         var publicKey = publicKeyParam.get();
                         var share2 = share2Param.get();
                         var encryptedFile = encryptedFileParam.get();
                         var mDecryptedFile = mDecryptedFileParam.get();
-                        var professionalId = professionalIdParam.get();
                         try {
-                            js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile, professionalId);
+                            js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile);
                         } catch (IllegalBlockSizeException |
                                 NoSuchAlgorithmException |
                                 IOException |
@@ -223,13 +218,12 @@ public class CpabeAPI implements HttpFunction {
                 }
                 case "halfDecrypt": {
                     if (body.has("publicKey") && body.has("share1") &&
-                            body.has("encryptedFile") && body.has("professionalId")) {
+                            body.has("encryptedFile")) {
                         var publicKey = body.get("publicKey").getAsString();
                         var share1 = body.get("share1").getAsString();
                         var encryptedFile = body.get("encryptedFile").getAsString();
-                        var professionalId = body.get("professionalId").getAsString();
                         try {
-                            js = halfDecrypt(publicKey, share1, encryptedFile, professionalId);
+                            js = halfDecrypt(publicKey, share1, encryptedFile);
                         } catch (IOException |
                                 AttributesNotSatisfiedException |
                                 NoSuchDecryptionTokenFoundException e) {
@@ -243,15 +237,13 @@ public class CpabeAPI implements HttpFunction {
                 }
                 case "decrypt": {
                     if (body.has("publicKey") && body.has("share2") &&
-                            body.has("encryptedFile") && body.has("mDecryptedFile") &&
-                            body.has("professionalId")) {
+                            body.has("encryptedFile") && body.has("mDecryptedFile")) {
                         var publicKey = body.get("publicKey").getAsString();
                         var share2 = body.get("share2").getAsString();
                         var encryptedFile = body.get("encryptedFile").getAsString();
                         var mDecryptedFile = body.get("mDecryptedFile").getAsString();
-                        var professionalId = body.get("professionalId").getAsString();
                         try {
-                            js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile, professionalId);
+                            js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile);
                         } catch (IllegalBlockSizeException |
                                 NoSuchAlgorithmException |
                                 IOException |

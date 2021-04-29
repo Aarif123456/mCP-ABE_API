@@ -1,49 +1,33 @@
-/*
- * 
- */
 package com.mitu.abe;
 
 import com.mitu.utils.Utility;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
 import com.mitu.utils.exceptions.NoSuchDecryptionTokenFoundException;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
-// TODO: Auto-generated Javadoc
-
-/**
- * The Class Abe.
- */
 public class Abe {
 
     /**
      * Setup.
      *
-     * @param pub   the pub
-     * @param msk   the msk
-     * @param attrs the attrs
+     * @param pub   the public key
+     * @param msk   the master-key
+     * @param attrs the attribute
      */
 
-    public static void setup(AbePub pub, AbeMsk msk, String[] attrs, String parameterPath) {
+    public static void setup(AbePub pub, AbeMsk msk, String[] attrs, Map<String, String> loadMap) {
 
         Element g_alpha;
-
-        /*pub.pairingDesc = "dummy";
-
-        // JPBC Type A pairing generator...
-        PairingParametersGenerator generator = new TypeACurveGenerator(rBits,qBits);
-        PairingParameters parameters = generator.generate();
-
-        pub.p = PairingFactory.getPairing(parameters);*/
-        pub.pairingDesc = parameterPath;
-        pub.p = PairingFactory.getPairing(parameterPath);
+        pub.pairingDesc = "dummy";
+        pub.p = PairingFactory.getPairing(loadMap);
         Pairing pairing = pub.p;
 
         pub.g = pairing.getG1().newElement();
@@ -52,7 +36,7 @@ public class Abe {
 
         msk.alpha = pairing.getZr().newElement();
 
-        g_alpha = pairing.getG1().newElement();
+        pairing.getG1().newElement();
 
         msk.alpha.setToRandom();
         pub.g.setToRandom();

@@ -42,10 +42,10 @@ public class CpabeTest {
         js=encrypt(publicKey,policy, inputFileBytes);
         var encryptedFile = js.get("encryptedFile").getAsString();
 
-        js = halfDecrypt(publicKey, share1, encryptedFile, "professional ID");
+        js = halfDecrypt(publicKey, share1, encryptedFile);
         var mDecryptedFile = js.get("mDecryptedFile").getAsString();
 
-        js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile ,"professional ID");
+        js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile);
         byte[] d = Base64.getDecoder().decode(js.get("decryptedFile").getAsString());
         File f = new File(path+decryptedFile);
         var fileOutputStream = new FileOutputStream(f);

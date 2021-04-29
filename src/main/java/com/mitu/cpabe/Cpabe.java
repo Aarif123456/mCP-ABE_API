@@ -136,8 +136,8 @@ public class Cpabe {
 		return jsonObject;
 	}
 
-	public static JsonObject halfDecrypt(String publicKey, String share1, String encFile, String professionalId) throws NoSuchDecryptionTokenFoundException, IOException, AttributesNotSatisfiedException {
-		return  halfDecrypt(publicKey, share1, encFile, professionalId, defaultPropertyLocation);
+	public static JsonObject halfDecrypt(String publicKey, String share1, String encFile) throws NoSuchDecryptionTokenFoundException, IOException, AttributesNotSatisfiedException {
+		return  halfDecrypt(publicKey, share1, encFile, defaultMap);
 	}
 	/**
 	 * mdecrypt - intermediate decryption process done by the revocation server. It checks the revocation list and
@@ -145,7 +145,7 @@ public class Cpabe {
 	 * Returns half decrypted file
 	*/
 	/*API RETURN: {mDecrypt:string}*/
-	public static JsonObject halfDecrypt(String publicKey, String share1, String encFile, String professionalId, String propertyLocation)
+	public static JsonObject halfDecrypt(String publicKey, String share1, String encFile, Map<String, String> loadMap)
             throws AttributesNotSatisfiedException,
             NoSuchDecryptionTokenFoundException,
             IOException {
@@ -180,14 +180,13 @@ public class Cpabe {
 		return jsonObject;
 	}
 
-	public static JsonObject decrypt(String publicKey, String share2, String encFile, String mDecFile,
-                             String professionalId) throws IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, NoSuchPaddingException, InvalidKeyException {
-		return decrypt(publicKey, share2, encFile, mDecFile, professionalId, defaultPropertyLocation);
+	public static JsonObject decrypt(String publicKey, String share2, String encFile, String mDecFile) throws IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, NoSuchPaddingException, InvalidKeyException {
+		return decrypt(publicKey, share2, encFile, mDecFile, defaultMap);
 	}
 	/*Use the half decrypted file, the encrypted file and the second part of the decryption key to make the file*/
 	/*API RETURN: {decryptedFile:string}*/
 	public static JsonObject decrypt(String publicKey, String share2, String encFile, String mDecFile,
-                             String professionalId, String propertyLocation)
+									 Map<String, String> loadMap)
 			throws IOException, // Regular file IO exception
 			IllegalBlockSizeException, // Problem from cp-abe jbr library
 			InvalidKeyException, // Exception thrown if key was in wrong format
