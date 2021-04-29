@@ -278,7 +278,7 @@ public class VectorElement<E extends Element> extends AbstractVectorElement<E, V
 
 
     public String toString() {
-        StringBuffer buffer = new StringBuffer("[");
+        StringBuilder buffer = new StringBuilder("[");
         for (Element e : coeff) {
             buffer.append(e).append(", ");
         }

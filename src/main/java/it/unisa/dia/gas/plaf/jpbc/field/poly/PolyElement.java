@@ -315,7 +315,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public String toString() {
-        StringBuffer buffer = new StringBuffer("[");
+        StringBuilder buffer = new StringBuilder("[");
 
         for (Element e : coefficients) {
             buffer.append(e).append(" ");
