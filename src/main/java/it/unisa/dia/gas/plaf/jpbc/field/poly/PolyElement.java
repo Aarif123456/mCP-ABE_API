@@ -21,7 +21,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
         return field;
     }
 
-    public PolyElement<E> duplicate() {
+    public PolyElement duplicate() {
         PolyElement copy = new PolyElement((PolyField<Field>) field);
 
         for (Element e : coefficients) {
@@ -90,8 +90,8 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public PolyElement<E> twice() {
-        for (int i = 0, size = coefficients.size(); i < size; i++) {
-            coefficients.get(i).twice();
+        for (E coefficient : coefficients) {
+            coefficient.twice();
         }
 
         return this;
@@ -102,8 +102,8 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public PolyElement<E> negate() {
-        for (int i = 0, size = coefficients.size(); i < size; i++) {
-            coefficients.get(i).negate();
+        for (E coefficient : coefficients) {
+            coefficient.negate();
         }
 
         return this;
@@ -218,16 +218,16 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public PolyElement<E> mul(int z) {
-        for (int i = 0, size = coefficients.size(); i < size; i++) {
-            coefficients.get(i).mul(z);
+        for (E coefficient : coefficients) {
+            coefficient.mul(z);
         }
 
         return this;
     }
 
     public PolyElement<E> mul(BigInteger n) {
-        for (int i = 0, size = coefficients.size(); i < size; i++) {
-            coefficients.get(i).mul(n);
+        for (E coefficient : coefficients) {
+            coefficient.mul(n);
         }
 
         return this;
@@ -243,8 +243,8 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
 
     public int sign() {
         int res = 0;
-        for (int i = 0, size = coefficients.size(); i < size; i++) {
-            res = coefficients.get(i).sign();
+        for (E coefficient : coefficients) {
+            res = coefficient.sign();
             if (res != 0)
                 break;
         }

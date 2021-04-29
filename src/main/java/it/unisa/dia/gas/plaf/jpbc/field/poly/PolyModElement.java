@@ -338,8 +338,7 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
 
                 set(prod);
 
-                return this;
-        }
+        return this;
     }
 
     public PolyModElement<E> mul(int z) {
@@ -446,8 +445,8 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
 
     public int sign() {
         int res = 0;
-        for (int i = 0, size = coefficients.size(); i < size; i++) {
-            res = coefficients.get(i).sign();
+        for (E coefficient : coefficients) {
+            res = coefficient.sign();
             if (res != 0)
                 break;
         }
@@ -477,8 +476,8 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
 
     public int setFromBytes(byte[] source, int offset) {
         int len = offset;
-        for (int i = 0, size = coefficients.size(); i < size; i++) {
-            len += coefficients.get(i).setFromBytes(source, len);
+        for (E coefficient : coefficients) {
+            len += coefficient.setFromBytes(source, len);
         }
         return len - offset;
     }
