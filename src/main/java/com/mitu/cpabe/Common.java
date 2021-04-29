@@ -1,21 +1,8 @@
-/*
- * 
- */
 package com.mitu.cpabe;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Common {
-	
-	/**
-	 * Suck file.
-	 *
-	 * @param inputfile the inputfile
-	 * @return the byte[]
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 
 	/**
 	 * Return a ByteArrayOutputStream instead of writing to a file.

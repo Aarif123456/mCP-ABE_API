@@ -5,9 +5,6 @@ package com.mitu.utils.exceptions;
  */
 public class AttributesNotSatisfiedException extends Exception {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4016784326622581099L;
 
     public AttributesNotSatisfiedException() {

@@ -71,5 +71,4 @@ public class ProductPairingAccumulator implements PairingAccumulator {
     public Element awaitResult(){
         return (result = pairing.pairing(in1, in2));
     }
-
 }

@@ -71,16 +71,12 @@ public class Abe {
         pub.g_hat_alpha = pairing.pairing(pub.g, g_alpha);
     }
 
-	/*
-     * Generate a private key with the given set of attributes.
-	 */
-
     /**
-     * Keygen.
+     * Keygen: Generate a private key with the given set of attributes.
      *
-     * @param pub   the pub
-     * @param msk   the msk
-     * @param attrs the attrs
+     * @param pub   the public key
+     * @param msk   the master-key
+     * @param attrs the attributes
      * @return the abe prv
      */
     public static AbePrv keygen(AbePub pub, AbeMsk msk, String[] attrs) {
@@ -172,9 +168,9 @@ public class Abe {
     }
 
     /**
-     * Enc.
+     * Encrypt.
      *
-     * @param pub    the pub
+     * @param pub    the public key
      * @param policy the policy
      * @return the abe cph key
      */
@@ -225,8 +221,8 @@ public class Abe {
     /**
      * M_dec.
      *
-     * @param pub      the pub
-     * @param prvPart1 the prv part1
+     * @param pub      the public key
+     * @param prvPart1 the first half of the private key - given from the user
      * @param cph      the cph
      * @return the abe m dec
      */
@@ -245,7 +241,6 @@ public class Abe {
         try {
             attrs = small_set_of_satisfied_attrs(cph, prvPart1);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -292,13 +287,13 @@ public class Abe {
     /**
      * Checks if is _any_attr_revoked.
      *
-     * @param attrs the attrs
-     * @return true, if is _any_attr_revoked
+     * @param attrs the attributes
+     * @return true, if any of the attributes were revoked 
      */
     public static boolean is_any_attr_revoked(ArrayList<String> attrs) {
 
         // This the Attribute Revocation List (ARL) coming from server DB.
-        ArrayList<String> revocation_list = new ArrayList<>();
+        ArrayList<String> revocation_list;
         revocation_list = Utility.getaRLs();
         boolean revoked = false;
 
@@ -317,8 +312,8 @@ public class Abe {
     /**
      * Dec.
      *
-     * @param pub      the pub
-     * @param prvPart2 the prv part2
+     * @param pub      the public key
+     * @param prvPart2 the second half of the user's private key given by the revocation server
      * @param cph      the cph
      * @param mDec     the m dec
      * @return the element
@@ -363,7 +358,7 @@ public class Abe {
      * Pick satisfy min leaves.
      *
      * @param p        the p
-     * @param prvPart1 the prv part1
+     * @param prvPart1 the first half of the private key - given from the user
      */
     private static void pickSatisfyMinLeaves(AbePolicy p, AbePrvPart1 prvPart1) {
         int i, k, l, c_i;
@@ -407,8 +402,8 @@ public class Abe {
     /**
      * Check satisfy.
      *
-     * @param p        the p
-     * @param prvPart1 the prv part1
+     * @param p        the encryption policy
+     * @param prvPart1 the first half of the private key - given from the user
      */
     private static void checkSatisfy(AbePolicy p, AbePrvPart1 prvPart1) {
         int i, l;
@@ -448,7 +443,7 @@ public class Abe {
      * Small_set_of_satisfied_attrs.
      *
      * @param cph      the cph
-     * @param prvPart1 the prv part1
+     * @param prvPart1 the first half of the private key - given from the user
      * @return the array list
      */
     public static ArrayList<String> small_set_of_satisfied_attrs(AbeCph cph, AbePrvPart1 prvPart1) {
@@ -465,9 +460,6 @@ public class Abe {
         pickSatisfyMinLeaves(cph.p, prvPart1);
 
         get_the_min_list(cph.p, attrs_list);
-
-        // return new String[] { "small", "set", "of", "satisfied", "attributes"
-        // };
         return attrs_list;
     }
 
@@ -475,7 +467,7 @@ public class Abe {
      * Gets the _the_min_list.
      *
      * @param policy the policy
-     * @param attrs  the attrs
+     * @param attrs  the attributes
      */
     public static void get_the_min_list(AbePolicy policy, ArrayList<String> attrs) {
 
@@ -498,8 +490,8 @@ public class Abe {
     /**
      * Fill policy.
      *
-     * @param p      the p
-     * @param pub    the pub
+     * @param p      the policy
+     * @param pub    the public key
      * @param e      the e
      * @param cjis   the cjis
      * @param cphKey the cph key
@@ -650,12 +642,6 @@ public class Abe {
             this.policy = p;
         }
 
-
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-         */
         @Override
         public int compare(Integer o1, Integer o2) {
             int k, l;

@@ -1,7 +1,5 @@
 package com.mitu.utils;
 
-
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,33 +14,22 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
-
 /**
  * The Class Utility.
  *
  * @author mitu
  */
 public class Utility {
-
     public static void copyAssets() {
 
-//        AssetManager assetManager = PhrActivity.context.getAssets();
         String[] files = null;
         InputStream in = null;
         OutputStream out = null;
         String filename = "a.properties";
-//        Log.e("SD", PhrActivity.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + filename);
         try {
-//            in = assetManager.open(filename);
-//            out = new FileOutputStream(PhrActivity.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/" + filename);
             assert in != null;
             copyFile(in, out);
             in.close();
-//            in = null;
-//            out.flush();
-//            out.close();
-//            out = null;
         } catch (IOException e) {
             System.err.println("tag Failed to copy asset file: " + filename + " " + e);
         }
@@ -59,14 +46,6 @@ public class Utility {
 
     private static ArrayList<String> aRLs = new ArrayList<>();
 
-	/* connect element of array with blank */
-
-    /**
-     * Array2 str.
-     *
-     * @param arr the arr
-     * @return the string
-     */
     public static String array2Str(String[] arr) {
         int len = arr.length;
         StringBuilder str = new StringBuilder(arr[0]);
@@ -93,6 +72,7 @@ public class Utility {
     public static void println(Object o) {
         System.out.println(o);
     }
+
     /**
      * Access file.
      *
@@ -132,7 +112,6 @@ public class Utility {
     }
 
     public static void serializeObject(String file, Object object) throws IOException {
-
         FileOutputStream fout = new FileOutputStream(file);
         ObjectOutputStream oos = new ObjectOutputStream(fout);
         oos.writeObject(object);
@@ -159,8 +138,6 @@ public class Utility {
                 return bos.toByteArray();
             }
         }
-        // ignore close exception
-        // ignore close exception
     }
 
     public static Object bytetArrayToObject(byte[] bytes) throws IOException, ClassNotFoundException {
@@ -170,7 +147,5 @@ public class Utility {
                 return in.readObject();
             }
         }
-        // ignore close exception
-        // ignore close exception
     }
 }

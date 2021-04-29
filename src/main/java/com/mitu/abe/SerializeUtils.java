@@ -57,12 +57,6 @@ public class SerializeUtils {
         return offset + len;
     }
 
-    /**
-     * Serialize string.
-     *
-     * @param arrlist the arrlist
-     * @param s       the s
-     */
     public static void serializeString(ArrayList<Byte> arrlist, String s) {
         byte[] b = s.getBytes();
         serializeUint32(arrlist, b.length);
@@ -78,15 +72,6 @@ public class SerializeUtils {
 	 * 
 	 * String str = sb.substring(0);
 	 */
-
-    /**
-     * Unserialize string.
-     *
-     * @param arr    the arr
-     * @param offset the offset
-     * @param sb     the sb
-     * @return the int
-     */
     public static int unserializeString(byte[] arr, int offset, StringBuffer sb) {
         /*int i;
         int len;
@@ -209,7 +194,7 @@ public class SerializeUtils {
     /**
      * Serialize bswabe msk.
      *
-     * @param msk the msk
+     * @param msk the master key
      * @return the byte[]
      */
     public static byte[] serializeBswabeMsk(AbeMsk msk) {
@@ -230,15 +215,6 @@ public class SerializeUtils {
         return Byte_arr2byte_arr(arrlist);
     }
 
-	/* Method has been test okay */
-
-    /**
-     * Unserialize bswabe msk.
-     *
-     * @param pub the pub
-     * @param b   the b
-     * @return the abe msk
-     */
     public static AbeMsk unserializeBswabeMsk(AbePub pub, byte[] b) {
         int offset = 0, i, len;
         AbeMsk msk = new AbeMsk();
@@ -268,12 +244,6 @@ public class SerializeUtils {
         return msk;
     }
 
-    /**
-     * Serialize bswabe prv part1.
-     *
-     * @param prv the prv
-     * @return the byte[]
-     */
     public static byte[] serializeBswabePrvPart1(AbePrvPart1 prv) {
         ArrayList<Byte> arrlist;
         int prvCompsLen, i;
@@ -291,12 +261,6 @@ public class SerializeUtils {
         return Byte_arr2byte_arr(arrlist);
     }
 
-    /**
-     * Serialize bswabe prv part2.
-     *
-     * @param prv the prv
-     * @return the byte[]
-     */
     public static byte[] serializeBswabePrvPart2(AbePrvPart2 prv) {
         ArrayList<Byte> arrlist;
         int prvCompsLen, i;
@@ -314,12 +278,6 @@ public class SerializeUtils {
         return Byte_arr2byte_arr(arrlist);
     }
 
-    /**
-     * Serialize bswabe m dec.
-     *
-     * @param mDec the m dec
-     * @return the byte[]
-     */
     public static byte[] serializeBswabeMDec(AbeMDec mDec) {
         ArrayList<Byte> arrlist;
         int mDecAttrListLen, i;
@@ -336,13 +294,6 @@ public class SerializeUtils {
         return Byte_arr2byte_arr(arrlist);
     }
 
-    /**
-     * Unserialize bswabe m dec.
-     *
-     * @param pub the pub
-     * @param b   the b
-     * @return the abe m dec
-     */
     public static AbeMDec unserializeBswabeMDec(AbePub pub, byte[] b) {
 
         AbeMDec mDec;
@@ -373,13 +324,6 @@ public class SerializeUtils {
         return mDec;
     }
 
-    /**
-     * Unserialize bswabe prv part2.
-     *
-     * @param pub the pub
-     * @param b   the b
-     * @return the abe prv part2
-     */
     public static AbePrvPart2 unserializeBswabePrvPart2(AbePub pub, byte[] b) {
 
         AbePrvPart2 prvPart2;
@@ -414,13 +358,6 @@ public class SerializeUtils {
         return prvPart2;
     }
 
-    /**
-     * Unserialize bswabe prv part1.
-     *
-     * @param pub the pub
-     * @param b   the b
-     * @return the abe prv part1
-     */
     public static AbePrvPart1 unserializeBswabePrvPart1(AbePub pub, byte[] b) {
 
         AbePrvPart1 prvPart1;
@@ -452,12 +389,6 @@ public class SerializeUtils {
         return prvPart1;
     }
 
-    /**
-     * Bswabe cph serialize.
-     *
-     * @param cph the cph
-     * @return the byte[]
-     */
     public static byte[] bswabeCphSerialize(AbeCph cph) {
         ArrayList<Byte> arrlist = new ArrayList<>();
         int cphCompsLen, i;
@@ -478,13 +409,6 @@ public class SerializeUtils {
         return Byte_arr2byte_arr(arrlist);
     }
 
-    /**
-     * Bswabe cph unserialize.
-     *
-     * @param pub    the pub
-     * @param cphBuf the cph buf
-     * @return the abe cph
-     */
     public static AbeCph bswabeCphUnserialize(AbePub pub, byte[] cphBuf) {
         AbeCph cph = new AbeCph();
         int offset = 0, i, len;
@@ -524,12 +448,6 @@ public class SerializeUtils {
 	/* Method has been test okay */
     /* potential problem: the number to be serialize is less than 2^31 */
 
-    /**
-     * Serialize uint32.
-     *
-     * @param arrlist the arrlist
-     * @param k       the k
-     */
     private static void serializeUint32(ArrayList<Byte> arrlist, int k) {
         int i;
         byte b;
@@ -545,15 +463,6 @@ public class SerializeUtils {
 	 * 
 	 * You have to do offset+=4 after call this method
 	 */
-	/* Method has been test okay */
-
-    /**
-     * Unserialize uint32.
-     *
-     * @param arr    the arr
-     * @param offset the offset
-     * @return the int
-     */
     private static int unserializeUint32(byte[] arr, int offset) {
         int i;
         int r = 0;
@@ -563,12 +472,7 @@ public class SerializeUtils {
         return r;
     }
 
-    /**
-     * Serialize policy.
-     *
-     * @param arrlist the arrlist
-     * @param p       the p
-     */
+
     private static void serializePolicy(ArrayList<Byte> arrlist, AbePolicy p) {
         serializeUint32(arrlist, p.k);
 
@@ -585,14 +489,6 @@ public class SerializeUtils {
         }
     }
 
-    /**
-     * Unserialize policy.
-     *
-     * @param pub    the pub
-     * @param arr    the arr
-     * @param offset the offset
-     * @return the abe policy
-     */
     private static AbePolicy unserializePolicy(AbePub pub, byte[] arr, int[] offset) {
         int i;
         int n;
@@ -627,35 +523,17 @@ public class SerializeUtils {
         return p;
     }
 
-    /**
-     * Byte2int.
-     *
-     * @param b the b
-     * @return the int
-     */
     private static int byte2int(byte b) {
         if (b >= 0)
             return b;
         return (256 + b);
     }
 
-    /**
-     * Byte arr list append.
-     *
-     * @param arrlist the arrlist
-     * @param b       the b
-     */
     private static void byteArrListAppend(ArrayList<Byte> arrlist, byte[] b) {
         int len = b.length;
         for (byte value : b) arrlist.add(value);
     }
 
-    /**
-     * Byte_arr2byte_arr.
-     *
-     * @param B the b
-     * @return the byte[]
-     */
     public static byte[] Byte_arr2byte_arr(ArrayList<Byte> B) {
         int len = B.size();
         byte[] b = new byte[len];

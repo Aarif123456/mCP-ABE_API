@@ -135,12 +135,6 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         return 2;
     }
 
-    /**
-     * Builds k-bit lookup window for base a
-     *
-     * @param k
-     * @return
-     */
     protected List<Element> buildPowWindow(int k) {
         int s;
         int lookupSize;
@@ -168,8 +162,6 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
     /**
      * left-to-right exponentiation with k-bit window.
      * NB. must have k >= 1.
-     *
-     * @param n
      */
     protected void elementPowWind(BigInteger n) {
         /* early abort if raising to power 0 */

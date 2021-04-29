@@ -107,9 +107,6 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
      * used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
      */
     final void twice(JacobPoint V, Element a, Element b, Element c) {
-        //if(V.isInfinity())
-        //	return;
-
         Element x = V.getX();
         Element y = V.getY();
         Element z = V.getZ();
@@ -140,16 +137,8 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         V.setZ(z3);
 
         b.set(z3.duplicate().mul(t4));
-//        a.set(Q.getX().duplicate().mul(t4).add(x).mul(t5));
-//        c.set(t1.twice());
         a.set(t5).mul(t4);
         c.set(t5).mul(x).sub(t1).sub(t1);
-
-
-        // (2 y z * z^2 * Q.y)i - (2 y^2 - ((3 x^2 + a z^4) (z^2 Q.x + x)))
-        // (2 y z * z^2 * Q.y)i - (2 y^2 - ((3 x^2 + a z^4)x + (3 x^2 + a z^4)(z^2 Q.x)))
-//        u.getX().set(t4.duplicate().mul(Q.getX()).add(x).mul(t5).sub(t1).sub(t1));
-//        u.getY().set(z3.duplicate().mul(t4).mul(Q.getY()));
     }
 
     /**
@@ -198,10 +187,6 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         a.set(t6);
         b.set(z3);
         c.set(t6).mul(x).sub(z3.duplicate().mul(y));
-
-        //(z3 Q.y)i -(z3 y - t6 (Q.x + x))
-//        u.getX().set(Q.getX().duplicate().add(x).mul(t6).sub(z3.duplicate().mul(y)));
-//        u.getY().set(z3.duplicate().mul(Q.getY()));
     }
 
 
@@ -234,12 +219,10 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
                     case 1:
                         add(V, in1, a, b, c);
                         processingInfo.addRow(a, b, c);
-
                         break;
                     case -1:
                         add(V, nP, a, b, c);
                         processingInfo.addRow(a, b, c);
-
                         break;
                 }
             }

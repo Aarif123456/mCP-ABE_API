@@ -1,9 +1,4 @@
-/*
- * 
- */
 package com.mitu.cpabe;
-
-//import android.util.Log;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,10 +6,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AESCoder.
- */
 public class AESCoder {
 
 	/**
@@ -46,7 +37,7 @@ public class AESCoder {
 		Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 		//Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
 		cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-		System.out.println(" IN AES CODE: Encrypted succesfully!");
+		System.out.println(" IN AES CODE: Encrypted successfully!");
 		return cipher.doFinal(plaintext);
 	}
 

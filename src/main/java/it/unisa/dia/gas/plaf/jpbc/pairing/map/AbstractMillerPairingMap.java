@@ -199,7 +199,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         //c = -(2 Vy^2 + a Vx);
 
         a.set(Vx).square();
-//        a.add(a).add(a);
         a.mul(3);
         a.add(curveA);
         a.negate();
@@ -445,7 +444,6 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         }
 
         public boolean isInfinity() {
-            //return this.equals(JacobPoint.INFINITY);
             return this.z.isZero();
         }
 

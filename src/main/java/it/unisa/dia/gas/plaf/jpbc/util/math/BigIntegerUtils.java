@@ -147,10 +147,6 @@ public class BigIntegerUtils {
      * Compute trace of Frobenius at q^n given trace at q
      * see p.105 of Blake, Seroussi and Smart
      *
-     * @param q
-     * @param trace
-     * @param n
-     * @return
      */
     public static BigInteger computeTrace(BigInteger q, BigInteger trace, int n) {
         int i;
@@ -223,10 +219,6 @@ public class BigIntegerUtils {
     /**
      * Calculate the Legendre symbol (a/p). This is defined only for p an odd positive prime,
      * and for such p it's identical to the Jacobi symbol.
-     *
-     * @param a
-     * @param n
-     * @return
      */
     public static int legendre(BigInteger a, BigInteger n) {
         return jacobi(a, n);
@@ -330,11 +322,6 @@ public class BigIntegerUtils {
     /**
      * Compute trace of Frobenius at q^n given trace at q.
      * See p.105 of Blake, Seroussi and Smart.
-     *
-     * @param q
-     * @param trace
-     * @param n
-     * @return
      */
     public static BigInteger traceN(BigInteger q, BigInteger trace, int n) {
         BigInteger c2 = TWO;

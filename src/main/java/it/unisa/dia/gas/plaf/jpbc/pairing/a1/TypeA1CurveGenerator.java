@@ -33,11 +33,9 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
         long l;
 
         while (true) {
-//            System.out.printf("Finding order...%n");
             while (true) {
                 order = BigInteger.ONE;
                 for (int i = 0; i < numPrimes; i++) {
-
                     boolean isNew = false;
                     while (!isNew) {
 //                        primes[i] = BigIntegerUtils.generateSolinasPrime(bits, random);
@@ -58,10 +56,8 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
 //                if ((order.bitLength() + 7) / 8 == order.bitLength() / 8)
 //                    break;
             }
-//            System.out.printf("order= %s%n", order);
 
             // If order is even, ideally check all even l, not just multiples of 4
-//            System.out.printf("Finding l...%n");
             l = 4;
             n = order.multiply(BigIntegerUtils.FOUR);
 
@@ -70,18 +66,11 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
                 p = p.add(n);
                 l += 4;
             }
-//            System.out.printf("l=%d%n",l);
-
-//            System.out.printf("lhs=%d, rhs=%d%n",(p.bitLength() + 7) / 8, (p.bitLength() / 8));
-
 //            if ((p.bitLength() + 7) / 8 == p.bitLength() / 8)
 //                break;
             break;
-
-//            System.out.printf("No way, repeat!%n");
         }
-//        System.out.printf("order hamming weight=%d%n", BigIntegerUtils.hammingWeight(order));
-
+        
         PropertiesParameters params = new PropertiesParameters();
         params.put("type", "a1");
         params.put("p", p.toString());

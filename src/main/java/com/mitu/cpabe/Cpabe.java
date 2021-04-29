@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.mitu.cpabe;
 
 import com.google.gson.JsonObject;

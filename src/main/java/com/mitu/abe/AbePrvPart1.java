@@ -1,19 +1,10 @@
-/*
- * 
- */
 package com.mitu.abe;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AbePrvPart1.
+/*
+ * A first half of the private key - belongs to the user 
  */
 public class AbePrvPart1 {
-	/*
-	 * A private key
-	 */
-
-	/** The comps1. */
 	ArrayList<AbePrvCompPart1> comps1;
 }

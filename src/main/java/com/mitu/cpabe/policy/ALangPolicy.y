@@ -7,19 +7,12 @@
 
 %code {
 	public CpabePolicy finalPolicy;
-	public static void main(String args[])
-	{
-//		PolicyLang p = new PolicyLang();
-//		String[]
-		
-	}
 }
 
 %code imports {
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-//import bswabe.BswabePolicy;
 }
 
 
@@ -191,11 +184,7 @@ import java.util.StringTokenizer;
 		String lx;
 		String rx;
 		String s;
-		
-		
-		
-		
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -271,7 +260,6 @@ class PolicyLangLexer implements PolicyLang.Lexer {
 
 	@Override
 	public Object getLVal() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

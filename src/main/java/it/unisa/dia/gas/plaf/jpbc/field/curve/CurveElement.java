@@ -246,7 +246,7 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
 
         if (field.quotientCmp != null) {
             // If we're working with a quotient group we must account for different
-            // representatives of the same coset.
+            // representatives of the same co-set.
             return this.duplicate().div(element).pow(field.quotientCmp).isOne();
         }
 

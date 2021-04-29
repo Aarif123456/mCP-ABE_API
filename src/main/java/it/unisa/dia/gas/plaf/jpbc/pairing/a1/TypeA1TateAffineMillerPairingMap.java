@@ -163,10 +163,6 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         in1.negate();
         in.mul(temp);
 
-/*        element_invert(temp, in);
-        element_neg(in1, in1);
-        element_mul(in, in, temp);
-  */
         //2. Exponentiate by (q+1)/r
 
         //Instead of:

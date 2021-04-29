@@ -204,9 +204,6 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         b.set(z3);
         c.set(t6).mul(x).sub(z3.duplicate().mul(y));
 
-        //(z3 Q.y)i -(z3 y - t6 (Q.x + x))
-//        u.getX().set(Q.getX().duplicate().add(x).mul(t6).sub(z3.duplicate().mul(y)));
-//        u.getY().set(z3.duplicate().mul(Q.getY()));
     }
 
 
