@@ -591,13 +591,6 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
 
     /**
      * Karatsuba for degree 2 polynomials
-     *
-     * @param dst
-     * @param c3
-     * @param c4
-     * @param s1
-     * @param s2
-     * @param scratch
      */
     protected void kar_poly_2(List<E> dst, Element c3, Element c4, List<E> s1, List<E> s2, List<E> scratch) {
         Element c01, c02, c12;

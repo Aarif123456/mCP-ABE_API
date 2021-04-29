@@ -15,7 +15,7 @@ import java.util.concurrent.Executor;
  */
 public class ContextExecutor extends PoolExecutor implements MutablePairingParameters {
 
-    private MutablePairingParameters parameters;
+    private final MutablePairingParameters parameters;
 
 
     public ContextExecutor(MutablePairingParameters parameters) {

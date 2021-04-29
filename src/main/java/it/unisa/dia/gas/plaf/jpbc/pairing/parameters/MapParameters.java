@@ -1,21 +1,18 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.parameters;
 
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class MapParameters implements MutablePairingParameters {
 
-    protected Map<String, Object> values;
+    protected final Map<String, Object> values;
 
 
     public MapParameters() {
-        this.values = new LinkedHashMap<String, Object>();
+        this.values = new LinkedHashMap<>();
     }
 
     public MapParameters(Map<String, Object> values) {

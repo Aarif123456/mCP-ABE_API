@@ -13,14 +13,14 @@ import java.util.Map;
  */
 public class FileChannelDisk<S extends Sector> implements Disk<S> {
 
-    protected List<Sector> sectors;
-    protected Map<String, Sector> sectorsMap;
+    protected final List<Sector> sectors;
+    protected final Map<String, Sector> sectorsMap;
 
     protected FileChannel channel;
 
     public FileChannelDisk() {
-        this.sectors = new ArrayList<Sector>();
-        this.sectorsMap = new HashMap<String, Sector>();
+        this.sectors = new ArrayList<>();
+        this.sectorsMap = new HashMap<>();
     }
 
     public S getSectorAt(int index) {

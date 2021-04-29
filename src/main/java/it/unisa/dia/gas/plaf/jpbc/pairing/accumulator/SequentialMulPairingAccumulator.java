@@ -14,9 +14,8 @@ import java.util.concurrent.Callable;
  */
 public class SequentialMulPairingAccumulator implements PairingAccumulator {
 
-    private Pairing pairing;
-    private Element value;
-
+    private final Pairing pairing;
+    private final Element value;
 
     public SequentialMulPairingAccumulator(Pairing pairing) {
         this.pairing = pairing;

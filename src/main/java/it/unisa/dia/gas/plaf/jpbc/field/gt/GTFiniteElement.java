@@ -10,7 +10,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GTFiniteElement extends AbstractElement {
-    protected PairingMap pairing;
+    protected final PairingMap pairing;
     protected Element value;
 
 

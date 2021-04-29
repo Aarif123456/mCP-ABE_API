@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
  */
 public abstract class AbstractPairingAccumulator extends AbstractAccumulator<Element> implements PairingAccumulator {
 
-    protected Pairing pairing;
+    protected final Pairing pairing;
 
 
     public AbstractPairingAccumulator(Pairing pairing) {

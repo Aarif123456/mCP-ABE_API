@@ -10,8 +10,8 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class QuadraticField<F extends Field, E extends QuadraticElement> extends AbstractFieldOver<F, E> {
-    protected BigInteger order;
-    protected int fixedLengthInBytes;
+    protected final BigInteger order;
+    protected final int fixedLengthInBytes;
 
 
     public QuadraticField(SecureRandom random, F targetField) {

@@ -10,10 +10,10 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class ZrField extends AbstractField<ZrElement> {
-    protected BigInteger order;
+    protected final BigInteger order;
     protected ZrElement nqr;
-    protected int fixedLengthInBytes;
-    protected BigInteger twoInverse;
+    protected final int fixedLengthInBytes;
+    protected final BigInteger twoInverse;
 
 
     public ZrField(BigInteger order) {

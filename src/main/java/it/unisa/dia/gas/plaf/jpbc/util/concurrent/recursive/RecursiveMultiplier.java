@@ -11,9 +11,9 @@ import java.util.concurrent.RecursiveTask;
 public class RecursiveMultiplier extends RecursiveTask<Element> {
     static final int SEQUENTIAL_THRESHOLD = 2;
 
-    Element[] elements;
-    int low;
-    int high;
+    final Element[] elements;
+    final int low;
+    final int high;
 
     public RecursiveMultiplier(Element[] elements, int lo, int hi) {
         this.elements = elements;

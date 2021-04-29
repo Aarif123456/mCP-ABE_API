@@ -21,7 +21,7 @@ import java.util.List;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeDPairing extends AbstractPairing {
-    protected PairingParameters curveParams;
+    protected final PairingParameters curveParams;
 
     protected int k;
 

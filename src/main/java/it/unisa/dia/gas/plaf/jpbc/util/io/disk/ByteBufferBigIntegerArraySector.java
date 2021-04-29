@@ -18,8 +18,11 @@ import java.util.Map;
 public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> {
 
     protected ByteBuffer buffer;
-    protected int offset, recordSize, recordLength, numRecords;
-    protected int lengthInBytes;
+    protected final int offset;
+    protected final int recordSize;
+    protected final int recordLength;
+    protected final int numRecords;
+    protected final int lengthInBytes;
 
     protected PairingDataInput in;
     protected PairingDataOutput out;
@@ -28,7 +31,7 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
 
 
 
-    public ByteBufferBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
+    public ByteBufferBigIntegerArraySector(int recordSize, int numRecords) {
         this.lengthInBytes = 4 + ((recordSize + 4) * numRecords);
 
         this.offset = 4;
@@ -37,10 +40,10 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
         this.numRecords = numRecords;
     }
 
-    public ByteBufferBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+    public ByteBufferBigIntegerArraySector(int recordSize, int numRecords, String... labels) {
         this(recordSize, numRecords);
 
-        labelsMap = new HashMap<String, Integer>(labels.length);
+        labelsMap = new HashMap<>(labels.length);
         for (int i = 0; i < labels.length; i++) {
             labelsMap.put(labels[i], i);
         }

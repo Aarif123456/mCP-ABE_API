@@ -15,8 +15,9 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeECurveGenerator implements PairingParametersGenerator {
-    protected SecureRandom random;
-    protected int rBits, qBits;
+    protected final SecureRandom random;
+    protected final int rBits;
+    protected final int qBits;
 
 
     public TypeECurveGenerator(SecureRandom random, int rBits, int qBits) {

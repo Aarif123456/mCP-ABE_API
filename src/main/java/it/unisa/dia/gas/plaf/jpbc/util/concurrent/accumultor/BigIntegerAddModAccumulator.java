@@ -8,7 +8,7 @@ import java.math.BigInteger;
  */
 public class BigIntegerAddModAccumulator extends AbstractAccumulator<BigInteger> {
 
-    private BigInteger modulo;
+    private final BigInteger modulo;
 
 
     public BigIntegerAddModAccumulator(BigInteger modulo) {

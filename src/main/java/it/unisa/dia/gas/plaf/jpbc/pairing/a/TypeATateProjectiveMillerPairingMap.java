@@ -16,7 +16,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMap {
-    protected TypeAPairing pairing;
+    protected final TypeAPairing pairing;
 
     protected int pairingPreProcessingTableLength = -1;
     protected int pairingPreProcessingLenghtInBytes = -1;

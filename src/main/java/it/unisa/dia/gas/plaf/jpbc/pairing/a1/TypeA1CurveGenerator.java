@@ -12,8 +12,9 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeA1CurveGenerator implements PairingParametersGenerator {
-    protected SecureRandom random;
-    protected int numPrimes, bits;
+    protected final SecureRandom random;
+    protected final int numPrimes;
+    protected final int bits;
 
 
     public TypeA1CurveGenerator(SecureRandom random, int numPrimes, int bits) {

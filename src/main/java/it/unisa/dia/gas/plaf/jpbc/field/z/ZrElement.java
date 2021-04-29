@@ -11,7 +11,7 @@ import java.math.BigInteger;
  */
 public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
 
-    protected BigInteger order;
+    protected final BigInteger order;
 
 
     public ZrElement(F field) {

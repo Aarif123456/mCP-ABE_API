@@ -10,9 +10,9 @@ import java.util.concurrent.RecursiveTask;
 public class RecursiveBigIntegerMultiplier extends RecursiveTask<BigInteger> {
     static final int SEQUENTIAL_THRESHOLD = 2;
 
-    BigInteger[] values;
-    int low;
-    int high;
+    final BigInteger[] values;
+    final int low;
+    final int high;
 
     public RecursiveBigIntegerMultiplier(BigInteger[] values, int lo, int hi) {
         this.values = values;

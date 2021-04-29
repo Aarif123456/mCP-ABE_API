@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorCompletionService;
  */
 public class PoolExecutor<T> implements Pool<T> {
 
-    protected CompletionService<T> pool;
+    protected final CompletionService<T> pool;
     protected int counter;
 
 
@@ -20,7 +20,7 @@ public class PoolExecutor<T> implements Pool<T> {
     }
 
     public PoolExecutor(Executor executor) {
-        this.pool = new ExecutorCompletionService<T>(executor);
+        this.pool = new ExecutorCompletionService<>(executor);
         this.counter = 0;
     }
 

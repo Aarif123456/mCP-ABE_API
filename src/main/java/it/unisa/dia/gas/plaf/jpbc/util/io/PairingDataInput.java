@@ -11,7 +11,7 @@ import java.math.BigInteger;
  */
 public class PairingDataInput implements DataInput {
 
-    private DataInput dataInput;
+    private final DataInput dataInput;
     private Pairing pairing;
 
 

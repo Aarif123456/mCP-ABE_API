@@ -11,8 +11,8 @@ import java.math.BigInteger;
  */
 public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZElement<F> {
 
-    protected BigInteger order;
-    protected BigInteger halfOrder;
+    protected final BigInteger order;
+    protected final BigInteger halfOrder;
 
 
     public SymmetricZrElement(F field) {
@@ -325,7 +325,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
         return value.toString();
     }
 
-    private final SymmetricZrElement mod() {
+    private SymmetricZrElement mod() {
         if (this.value.compareTo(halfOrder) > 0)
             this.value = this.value.subtract(order);
 

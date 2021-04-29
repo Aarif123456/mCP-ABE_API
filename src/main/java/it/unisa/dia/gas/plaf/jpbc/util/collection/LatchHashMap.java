@@ -12,10 +12,10 @@ import java.util.concurrent.CountDownLatch;
  */
 public class LatchHashMap<K, V> implements Map<K, V> {
 
-    private Map<K, ValueLatch> internalMap;
+    private final Map<K, ValueLatch> internalMap;
 
     public LatchHashMap() {
-        this.internalMap = new HashMap<K, ValueLatch>();
+        this.internalMap = new HashMap<>();
     }
 
 
@@ -68,6 +68,7 @@ public class LatchHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
+    /* This function is a bit misleading it actually check if the inner type are even */
     public boolean equals(Object o) {
         return internalMap.equals(o);
     }
@@ -92,7 +93,7 @@ public class LatchHashMap<K, V> implements Map<K, V> {
     }
 
 
-    class ValueLatch<V> extends CountDownLatch {
+    static class ValueLatch<V> extends CountDownLatch {
 
         V value;
 

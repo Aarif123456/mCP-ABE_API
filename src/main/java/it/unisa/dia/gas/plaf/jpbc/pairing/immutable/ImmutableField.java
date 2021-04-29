@@ -13,7 +13,7 @@ import java.math.BigInteger;
  */
 public class ImmutableField implements Field {
 
-    protected Field field;
+    protected final Field field;
 
 
     public ImmutableField(Field field) {

@@ -12,8 +12,8 @@ import java.io.IOException;
  */
 public class PairingStreamWriter {
 
-    private ByteArrayOutputStream baos;
-    private DataOutputStream dos;
+    private final ByteArrayOutputStream baos;
+    private final DataOutputStream dos;
 
 
     public PairingStreamWriter(int size) {

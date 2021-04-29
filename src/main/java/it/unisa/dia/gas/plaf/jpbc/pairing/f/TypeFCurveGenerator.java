@@ -18,8 +18,8 @@ import java.security.SecureRandom;
  * for some b \in F_q.
  */
 public class TypeFCurveGenerator implements PairingParametersGenerator {
-    protected SecureRandom random;
-    protected int rBits; // The number of bits in r, the order of the subgroup G1
+    protected final SecureRandom random;
+    protected final int rBits; // The number of bits in r, the order of the subgroup G1
 
 
     public TypeFCurveGenerator(SecureRandom random, int rBits) {

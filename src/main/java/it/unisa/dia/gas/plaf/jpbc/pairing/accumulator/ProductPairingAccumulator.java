@@ -14,10 +14,11 @@ import java.util.concurrent.Callable;
  */
 public class ProductPairingAccumulator implements PairingAccumulator {
 
-    private Pairing pairing;
+    private final Pairing pairing;
 
     private int cursor;
-    private Element[] in1, in2;
+    private final Element[] in1;
+    private final Element[] in2;
     private Element result;
 
 

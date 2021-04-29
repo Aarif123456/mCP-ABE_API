@@ -386,9 +386,7 @@ public class BigIntegerUtils {
     }
 
     public static BigInteger mod(BigInteger a, BigInteger b) {
-        BigInteger res = a.mod(b);
-
-        return res;
+        return a.mod(b);
     }
 
 
@@ -398,7 +396,7 @@ public class BigIntegerUtils {
      * Otherwise returns 0.
      */
     public static abstract class TrialDivide {
-        protected BigInteger limit;
+        protected final BigInteger limit;
 
         public TrialDivide(BigInteger limit) {
             this.limit = limit;

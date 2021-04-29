@@ -187,7 +187,6 @@ public class PairingFactory {
             try {
                 return (Pairing) getPairingMethod.invoke(null, random, parameters);
             } catch (Exception e) {
-                // Ignore
                 e.printStackTrace();
             }
             return null;
@@ -250,7 +249,6 @@ public class PairingFactory {
             try {
                 return (Pairing) getPairingMethod.invoke(null, parameters);
             } catch (Exception e) {
-                // Ignore
                 e.printStackTrace();
             }
             return null;
@@ -262,14 +260,11 @@ public class PairingFactory {
     }
 
 
-    public static interface SecureRandomCreator {
-
+    public interface SecureRandomCreator {
         SecureRandom newSecureRandom();
-
     }
 
     public static class DefaultSecureRandomCreator implements SecureRandomCreator {
-
         public SecureRandom newSecureRandom() {
             return new SecureRandom();
         }

@@ -13,8 +13,9 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class ProductPairing implements Pairing {
-    protected Pairing basePairing;
-    protected Field G1, G2;
+    protected final Pairing basePairing;
+    protected final Field G1;
+    protected final Field G2;
 
     public ProductPairing(SecureRandom random, Pairing basePairing, int n) {
         this.basePairing = basePairing;

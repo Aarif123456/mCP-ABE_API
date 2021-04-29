@@ -12,7 +12,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 import java.util.List;
 
 public class TypeGTateAffineNoDenomMillerPairingMap extends AbstractMillerPairingMap<Polynomial> {
-    protected TypeGPairing pairing;
+    protected final TypeGPairing pairing;
 
 
     public TypeGTateAffineNoDenomMillerPairingMap(TypeGPairing pairing) {

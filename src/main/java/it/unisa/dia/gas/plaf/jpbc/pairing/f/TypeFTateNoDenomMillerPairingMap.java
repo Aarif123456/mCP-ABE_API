@@ -8,7 +8,7 @@ import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractMillerPairingMap;
 
 public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
-    protected TypeFPairing pairingData;
+    protected final TypeFPairing pairingData;
 
 
     public TypeFTateNoDenomMillerPairingMap(TypeFPairing pairing) {

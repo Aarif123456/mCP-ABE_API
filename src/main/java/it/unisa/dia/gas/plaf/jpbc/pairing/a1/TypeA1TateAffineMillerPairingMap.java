@@ -14,7 +14,7 @@ import java.math.BigInteger;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<Element> {
-    protected TypeA1Pairing pairing;
+    protected final TypeA1Pairing pairing;
 
 
     public TypeA1TateAffineMillerPairingMap(TypeA1Pairing pairing) {

@@ -12,8 +12,8 @@ import java.util.List;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class VectorElementPowPreProcessing implements ElementPowPreProcessing {
-    protected VectorField field;
-    protected ElementPowPreProcessing[] processings;
+    protected final VectorField field;
+    protected final ElementPowPreProcessing[] processings;
 
     public VectorElementPowPreProcessing(VectorElement vector) {
         this.field = vector.getField();

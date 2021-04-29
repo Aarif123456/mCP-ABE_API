@@ -11,7 +11,7 @@ import it.unisa.dia.gas.plaf.jpbc.pairing.map.AbstractPairingMap;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
-    protected TypeEPairing pairing;
+    protected final TypeEPairing pairing;
 
 
     public TypeETateProjectiveMillerPairingMap(TypeEPairing pairing) {

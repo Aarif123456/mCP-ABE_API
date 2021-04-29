@@ -11,14 +11,14 @@ import java.io.DataInputStream;
  */
 public class FieldStreamReader {
 
-    private Field field;
-    private byte[] buffer;
-    private int offset;
+    private final Field field;
+    private final byte[] buffer;
+    private final int offset;
 
     private int cursor;
 
-    private DataInputStream dis;
-    private ExByteArrayInputStream bais;
+    private final DataInputStream dis;
+    private final ExByteArrayInputStream bais;
 
 
     public FieldStreamReader(Field field, byte[] buffer, int offset) {

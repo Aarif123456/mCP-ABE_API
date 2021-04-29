@@ -16,7 +16,7 @@ import java.util.List;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairingMap<Polynomial> {
-    protected TypeDPairing pairing;
+    protected final TypeDPairing pairing;
 
     protected int pairingPreProcessingTableLength = -1;
     protected int pairingPreProcessingLengthInBytes = -1;

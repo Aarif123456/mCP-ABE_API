@@ -9,7 +9,7 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
  */
 public class ImmutablePairingPreProcessing implements PairingPreProcessing {
 
-    private PairingPreProcessing pairingPreProcessing;
+    private final PairingPreProcessing pairingPreProcessing;
 
     public ImmutablePairingPreProcessing(PairingPreProcessing pairingPreProcessing) {
         this.pairingPreProcessing = pairingPreProcessing;

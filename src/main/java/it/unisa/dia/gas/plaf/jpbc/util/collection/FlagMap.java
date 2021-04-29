@@ -6,10 +6,10 @@ package it.unisa.dia.gas.plaf.jpbc.util.collection;
  */
 public class FlagMap<K> {
 
-    protected LatchHashMap<K, Boolean> flags;
+    protected final LatchHashMap<K, Boolean> flags;
 
     public FlagMap() {
-        this.flags = new LatchHashMap<K, Boolean>();
+        this.flags = new LatchHashMap<>();
     }
 
     public void get(K key) {

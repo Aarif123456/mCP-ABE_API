@@ -14,13 +14,13 @@ import java.util.Map;
  */
 public class ImmutableParing implements Pairing {
 
-    private Pairing pairing;
-    private Map<Integer, Field> fieldMap;
+    private final Pairing pairing;
+    private final Map<Integer, Field> fieldMap;
 
 
     public ImmutableParing(Pairing pairing) {
         this.pairing = pairing;
-        this.fieldMap = new HashMap<Integer, Field>();
+        this.fieldMap = new HashMap<>();
     }
 
 

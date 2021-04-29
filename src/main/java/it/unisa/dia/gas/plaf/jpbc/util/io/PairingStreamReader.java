@@ -12,14 +12,14 @@ import java.io.DataInputStream;
  */
 public class PairingStreamReader {
 
-    private Pairing pairing;
-    private byte[] buffer;
-    private int offset;
+    private final Pairing pairing;
+    private final byte[] buffer;
+    private final int offset;
 
     private int cursor;
 
-    private DataInputStream dis;
-    private ExByteArrayInputStream bais;
+    private final DataInputStream dis;
+    private final ExByteArrayInputStream bais;
 
 
     public PairingStreamReader(Pairing pairing, byte[] buffer, int offset) {

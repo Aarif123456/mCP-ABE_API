@@ -12,7 +12,7 @@ import java.util.List;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModElement> {
-    protected PolyElement irreduciblePoly;
+    protected final PolyElement irreduciblePoly;
     protected PolyModElement nqr;
     protected BigInteger order;
     protected int n;

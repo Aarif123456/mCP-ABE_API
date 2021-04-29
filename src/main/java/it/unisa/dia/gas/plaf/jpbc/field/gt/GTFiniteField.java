@@ -11,8 +11,8 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class GTFiniteField<F extends Field> extends AbstractFieldOver<F, GTFiniteElement> {
-    protected PairingMap pairing;
-    protected BigInteger order;
+    protected final PairingMap pairing;
+    protected final BigInteger order;
 
 
     public GTFiniteField(SecureRandom random, BigInteger order, PairingMap pairing, F targetField) {

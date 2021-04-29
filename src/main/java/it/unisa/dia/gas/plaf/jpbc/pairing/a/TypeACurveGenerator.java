@@ -16,10 +16,10 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeACurveGenerator implements PairingParametersGenerator {
-    protected SecureRandom random;
-    protected int rbits, qbits;
-    protected boolean generateCurveFieldGen;
-
+    protected final SecureRandom random;
+    protected final int rbits;
+    protected final int qbits;
+    protected final boolean generateCurveFieldGen;
 
     public TypeACurveGenerator(SecureRandom random, int rbits, int qbits, boolean generateCurveFieldGen) {
         this.random = random;

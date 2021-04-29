@@ -412,8 +412,6 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
      * (1) f(x) | x^{q^n} - x, and
      * (2) gcd(f(x), x^{q^{n/d}} - x) = 1 for all primes d | n.
      * (Recall GF(p) is the splitting field for x^p - x.)
-     *
-     * @return
      */
     public boolean isIrriducible() {
         // 0, units are not irreducibles.

@@ -409,7 +409,7 @@ public class Base64
      * in which case one of them will be picked, though there is
      * no guarantee as to which one will be picked.
      */
-    private final static byte[] getAlphabet( int options ) {
+    private static byte[] getAlphabet(int options ) {
         if ((options & URL_SAFE) == URL_SAFE) {
             return _URL_SAFE_ALPHABET;
         } else if ((options & ORDERED) == ORDERED) {
@@ -427,7 +427,7 @@ public class Base64
      * in which case one of them will be picked, though there is
      * no guarantee as to which one will be picked.
      */
-    private final static byte[] getDecodabet( int options ) {
+    private static byte[] getDecodabet(int options ) {
         if( (options & URL_SAFE) == URL_SAFE) {
             return _URL_SAFE_DECODABET;
         } else if ((options & ORDERED) == ORDERED) {
@@ -1640,15 +1640,15 @@ public class Base64
      */
     public static class InputStream extends java.io.FilterInputStream {
         
-        private boolean encode;         // Encoding or decoding
+        private final boolean encode;         // Encoding or decoding
         private int     position;       // Current position in the buffer
-        private byte[]  buffer;         // Small buffer holding converted data
-        private int     bufferLength;   // Length of buffer (3 or 4)
+        private final byte[]  buffer;         // Small buffer holding converted data
+        private final int     bufferLength;   // Length of buffer (3 or 4)
         private int     numSigBytes;    // Number of meaningful bytes in the buffer
         private int     lineLength;
-        private boolean breakLines;     // Break lines at less than 80 characters
-        private int     options;        // Record options used to create the stream.
-        private byte[]  decodabet;      // Local copies to avoid extra method calls
+        private final boolean breakLines;     // Break lines at less than 80 characters
+        private final int     options;        // Record options used to create the stream.
+        private final byte[]  decodabet;      // Local copies to avoid extra method calls
         
         
         /**
@@ -1853,16 +1853,16 @@ public class Base64
      */
     public static class OutputStream extends java.io.FilterOutputStream {
         
-        private boolean encode;
+        private final boolean encode;
         private int     position;
         private byte[]  buffer;
-        private int     bufferLength;
+        private final int     bufferLength;
         private int     lineLength;
-        private boolean breakLines;
-        private byte[]  b4;         // Scratch used in a few places
+        private final boolean breakLines;
+        private final byte[]  b4;         // Scratch used in a few places
         private boolean suspendEncoding;
-        private int     options;    // Record for later
-        private byte[]  decodabet;  // Local copies to avoid extra method calls
+        private final int     options;    // Record for later
+        private final byte[]  decodabet;  // Local copies to avoid extra method calls
         
         /**
          * Constructs a {@link Base64.OutputStream} in ENCODE mode.

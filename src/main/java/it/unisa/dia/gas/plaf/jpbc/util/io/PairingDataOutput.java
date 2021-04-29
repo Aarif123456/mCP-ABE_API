@@ -11,9 +11,9 @@ import java.math.BigInteger;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class PairingDataOutput implements DataOutput {
-    private DataOutput dataOutput;
+    private final DataOutput dataOutput;
 
-    private Pairing pairing;
+    private final Pairing pairing;
 
 
     public PairingDataOutput(DataOutput dataOutput) {

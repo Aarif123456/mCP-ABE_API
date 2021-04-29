@@ -10,12 +10,12 @@ import java.security.SecureRandom;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class SymmetricZrField extends AbstractField<SymmetricZrElement> {
-    protected BigInteger order;
-    protected BigInteger halfOrder;
+    protected final BigInteger order;
+    protected final BigInteger halfOrder;
     
     protected SymmetricZrElement nqr;
-    protected int fixedLengthInBytes;
-    protected BigInteger twoInverse;
+    protected final int fixedLengthInBytes;
+    protected final BigInteger twoInverse;
 
 
     public SymmetricZrField(BigInteger order) {

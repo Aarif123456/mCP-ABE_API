@@ -14,13 +14,13 @@ import java.util.List;
 public abstract class AbstractPolyElement<E extends Element, F extends AbstractFieldOver>
         extends AbstractElement<F> implements Polynomial<E> {
 
-    protected List<E> coefficients;
+    protected final List<E> coefficients;
 
 
     protected AbstractPolyElement(F field) {
         super(field);
 
-        this.coefficients = new ArrayList<E>();
+        this.coefficients = new ArrayList<>();
     }
 
 

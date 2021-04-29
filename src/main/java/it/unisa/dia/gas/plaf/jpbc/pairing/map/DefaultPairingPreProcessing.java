@@ -11,8 +11,8 @@ import it.unisa.dia.gas.jpbc.PairingPreProcessing;
  */
 public class DefaultPairingPreProcessing implements PairingPreProcessing {
 
-    protected Pairing pairing;
-    protected Element in1;
+    protected final Pairing pairing;
+    protected final Element in1;
 
     public DefaultPairingPreProcessing(Pairing pairing, Element in1) {
         this.pairing = pairing;

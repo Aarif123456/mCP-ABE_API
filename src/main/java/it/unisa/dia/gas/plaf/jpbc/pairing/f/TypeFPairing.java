@@ -23,7 +23,7 @@ import java.util.List;
  * @author Angelo De Caro (jpbclib@gmail.com)
  */
 public class TypeFPairing extends AbstractPairing {
-    protected PairingParameters curveParams;
+    protected final PairingParameters curveParams;
 
     protected BigInteger q;
     protected BigInteger r;
