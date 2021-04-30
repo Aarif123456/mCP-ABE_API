@@ -18,26 +18,26 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     public SymmetricZrElement(F field) {
         super(field);
 
-        this.value = BigInteger.ZERO;
+        value = BigInteger.ZERO;
 
-        this.order = field.getOrder();
-        this.halfOrder = field.halfOrder;
+        order = field.getOrder();
+        halfOrder = field.halfOrder;
     }
 
     public SymmetricZrElement(F field, BigInteger value) {
         super(field);
 
-        this.order = field.getOrder();
-        this.halfOrder = field.halfOrder;
+        order = field.getOrder();
+        halfOrder = field.halfOrder;
         set(value);
     }
 
     public SymmetricZrElement(SymmetricZrElement<F> zrElement) {
         super(zrElement.getField());
 
-        this.order = zrElement.field.getOrder();
-        this.halfOrder = zrElement.field.halfOrder;
-        this.value = zrElement.value.mod(order);
+        order = zrElement.field.getOrder();
+        halfOrder = zrElement.field.halfOrder;
+        value = zrElement.value.mod(order);
     }
 
 
@@ -82,31 +82,31 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
 
     public SymmetricZrElement twice() {
 //        this.value = value.multiply(BigIntegerUtils.TWO).mod(order);
-        this.value = value.add(value).mod(order);
+        value = value.add(value).mod(order);
 
         return mod();
     }
 
     public SymmetricZrElement mul(int z) {
-        this.value = this.value.multiply(BigInteger.valueOf(z)).mod(order);
+        value = value.multiply(BigInteger.valueOf(z)).mod(order);
 
         return mod();
     }
 
     public SymmetricZrElement setToZero() {
-        this.value = BigInteger.ZERO;
+        value = BigInteger.ZERO;
 
         return this;
     }
 
     public SymmetricZrElement setToOne() {
-        this.value = BigInteger.ONE;
+        value = BigInteger.ONE;
 
         return this;
     }
 
     public SymmetricZrElement setToRandom() {
-        this.value = BigIntegerUtils.getRandom(order, field.getRandom());
+        value = BigIntegerUtils.getRandom(order, field.getRandom());
 
         return mod();
     }
@@ -145,7 +145,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
             z = z.divide(BigIntegerUtils.TWO);
         }
 
-        this.value = z;
+        value = z;
 
         return this;
     }
@@ -217,13 +217,13 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     }
 
     public SymmetricZrElement mul(BigInteger n) {
-        this.value = this.value.multiply(n).mod(order);
+        value = value.multiply(n).mod(order);
 
         return mod();
     }
 
     public SymmetricZrElement mulZn(Element z) {
-        this.value = this.value.multiply(z.toBigInteger()).mod(order);
+        value = value.multiply(z.toBigInteger()).mod(order);
 
         return mod();
     }
@@ -274,7 +274,7 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
 
 
     public SymmetricZrElement pow(BigInteger n) {
-        this.value = this.value.modPow(n, order);
+        value = value.modPow(n, order);
 
         return mod();
     }
@@ -326,8 +326,8 @@ public class SymmetricZrElement<F extends SymmetricZrField> extends AbstractZEle
     }
 
     private SymmetricZrElement mod() {
-        if (this.value.compareTo(halfOrder) > 0)
-            this.value = this.value.subtract(order);
+        if (value.compareTo(halfOrder) > 0)
+            value = value.subtract(order);
 
         return this;
     }

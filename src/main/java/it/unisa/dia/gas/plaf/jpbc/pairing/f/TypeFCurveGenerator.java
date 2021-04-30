@@ -1,6 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.f;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.PairingParameters;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
+import it.unisa.dia.gas.jpbc.Point;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyField;
@@ -145,7 +149,7 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         return params;
     }
 
-    protected BigInteger tryMinusX(BigInteger x) {
+    protected static BigInteger tryMinusX(BigInteger x) {
         // 36x^4 + 36x^3 + 24x^2 - 6x + 1 = ((36(x - 1)x + 24)x - 6)x + 1
 
         return x.subtract(BigInteger.ONE)
@@ -158,7 +162,7 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
                 .add(BigInteger.ONE);
     }
 
-    protected BigInteger tryPlusX(BigInteger x) {
+    protected static BigInteger tryPlusX(BigInteger x) {
         // 36x^4 + 36x^3 + 24x^2 + 6x + 1 = ((36(x - 1)x + 24)x + 6)x + 1
         return x.add(BigInteger.ONE)
                 .multiply(x)

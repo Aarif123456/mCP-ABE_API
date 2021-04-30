@@ -14,15 +14,15 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
     public QuadraticElement(QuadraticField field) {
         super(field);
 
-        this.x = (E) field.getTargetField().newElement();
-        this.y = (E) field.getTargetField().newElement();
+        x = (E) field.getTargetField().newElement();
+        y = (E) field.getTargetField().newElement();
     }
 
     public QuadraticElement(QuadraticElement element) {
         super(element.getField());
 
-        this.x = (E) element.x.duplicate();
-        this.y = (E) element.y.duplicate();
+        x = (E) element.x.duplicate();
+        y = (E) element.y.duplicate();
     }
 
 
@@ -42,8 +42,8 @@ public class QuadraticElement<E extends Element> extends AbstractPointElement<E,
     public QuadraticElement set(Element e) {
         QuadraticElement element = (QuadraticElement) e;
 
-        this.x.set(element.x);
-        this.y.set(element.y);
+        x.set(element.x);
+        y.set(element.y);
 
         return this;
     }

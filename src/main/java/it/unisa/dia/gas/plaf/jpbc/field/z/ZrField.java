@@ -31,11 +31,11 @@ public class ZrField extends AbstractField<ZrElement> {
     public ZrField(SecureRandom random, BigInteger order, BigInteger nqr) {
         super(random);
         this.order = order;
-        this.orderIsOdd = BigIntegerUtils.isOdd(order);
+        orderIsOdd = BigIntegerUtils.isOdd(order);
 
-        this.fixedLengthInBytes = (order.bitLength() + 7) / 8;
+        fixedLengthInBytes = (order.bitLength() + 7) / 8;
 
-        this.twoInverse = BigIntegerUtils.TWO.modInverse(order);
+        twoInverse = BigIntegerUtils.TWO.modInverse(order);
 
         if (nqr != null)
             this.nqr = newElement().set(nqr);

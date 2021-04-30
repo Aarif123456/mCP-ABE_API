@@ -13,10 +13,10 @@ public class SerializeUtils {
      * Serialize bswabe pub.
      */
 
-    private static int rBits = 160;
-    private static int qBits = 512;
+    private static final int rBits = 160;
+    private static final int qBits = 512;
 
-    public static void serializeElement(ArrayList<Byte> arrlist, Element e) {
+    public static void serializeElement(ArrayList<? super Byte> arrlist, Element e) {
         byte[] arr_e = e.toBytes();
         serializeUint32(arrlist, arr_e.length);
         byteArrListAppend(arrlist, arr_e);
@@ -37,7 +37,7 @@ public class SerializeUtils {
         return offset + len;
     }
 
-    public static void serializeString(ArrayList<Byte> arrlist, String s) {
+    public static void serializeString(ArrayList<? super Byte> arrlist, String s) {
         byte[] b = s.getBytes();
         serializeUint32(arrlist, b.length);
         byteArrListAppend(arrlist, b);
@@ -53,22 +53,9 @@ public class SerializeUtils {
      * String str = sb.substring(0);
      */
     public static int unserializeString(byte[] arr, int offset, StringBuffer sb) {
-        /*int i;
-        int len;
-		byte[] str_byte;
-
-		len = unserializeUint32(arr, offset);
-		offset += 4;
-		str_byte = new byte[len];
-		for (i = 0; i < len; i++)
-			str_byte[i] = arr[offset + i];
-
-		sb.append(new String(str_byte));
-		return offset + len;*/
 
         int i;
         int len;
-        byte[] str_byte;
         StringBuilder s = new StringBuilder();
 
         len = unserializeUint32(arr, offset);
@@ -122,7 +109,6 @@ public class SerializeUtils {
 
         pub.p = PairingFactory.getPairing(parameters);
         Pairing pairing = pub.p;*/
-//        File file = new File(PhrActivity.context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "a.properties");
         pub.p = PairingFactory.getPairing(loadMap);
         Pairing pairing = pub.p;
 
@@ -359,9 +345,9 @@ public class SerializeUtils {
         ArrayList<Byte> arrlist = new ArrayList<>();
         int cphCompsLen, i;
 
-        SerializeUtils.serializeElement(arrlist, cph.c1);
-        SerializeUtils.serializeElement(arrlist, cph.c0);
-        SerializeUtils.serializePolicy(arrlist, cph.p);
+        serializeElement(arrlist, cph.c1);
+        serializeElement(arrlist, cph.c0);
+        serializePolicy(arrlist, cph.p);
 
         cphCompsLen = cph.cjis.size();
 
@@ -383,11 +369,11 @@ public class SerializeUtils {
         cph.c1 = pub.p.getGT().newElement();
         cph.c0 = pub.p.getG1().newElement();
 
-        offset = SerializeUtils.unserializeElement(cphBuf, offset, cph.c1);
-        offset = SerializeUtils.unserializeElement(cphBuf, offset, cph.c0);
+        offset = unserializeElement(cphBuf, offset, cph.c1);
+        offset = unserializeElement(cphBuf, offset, cph.c0);
 
         offset_arr[0] = offset;
-        cph.p = SerializeUtils.unserializePolicy(pub, cphBuf, offset_arr);
+        cph.p = unserializePolicy(pub, cphBuf, offset_arr);
         offset = offset_arr[0];
 
         cph.cjis = new ArrayList<>();
@@ -414,7 +400,7 @@ public class SerializeUtils {
     /* Method has been test okay */
     /* potential problem: the number to be serialize is less than 2^31 */
 
-    private static void serializeUint32(ArrayList<Byte> arrlist, int k) {
+    private static void serializeUint32(ArrayList<? super Byte> arrlist, int k) {
         int i;
         byte b;
 
@@ -495,7 +481,7 @@ public class SerializeUtils {
         return (256 + b);
     }
 
-    private static void byteArrListAppend(ArrayList<Byte> arrlist, byte[] b) {
+    private static void byteArrListAppend(ArrayList<? super Byte> arrlist, byte[] b) {
         int len = b.length;
         for (byte value : b) arrlist.add(value);
     }

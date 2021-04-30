@@ -20,8 +20,8 @@ public class PoolExecutor<T> implements Pool<T> {
     }
 
     public PoolExecutor(Executor executor) {
-        this.pool = new ExecutorCompletionService<>(executor);
-        this.counter = 0;
+        pool = new ExecutorCompletionService<>(executor);
+        counter = 0;
     }
 
 

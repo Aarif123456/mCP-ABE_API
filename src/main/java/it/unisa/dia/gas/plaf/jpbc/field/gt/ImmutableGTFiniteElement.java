@@ -12,8 +12,8 @@ public class ImmutableGTFiniteElement extends GTFiniteElement {
     public ImmutableGTFiniteElement(GTFiniteElement gtFiniteElement) {
         super(gtFiniteElement);
 
-        this.value = gtFiniteElement.value.getImmutable();
-        this.immutable = true;
+        value = gtFiniteElement.value.getImmutable();
+        immutable = true;
     }
 
     @Override

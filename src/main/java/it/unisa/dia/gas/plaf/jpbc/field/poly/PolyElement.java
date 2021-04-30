@@ -74,7 +74,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public boolean isZero() {
-        return coefficients.size() == 0;
+        return coefficients.isEmpty();
     }
 
     public PolyElement<E> setToOne() {
@@ -260,7 +260,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
 
         PolyElement<E> element = (PolyElement<E>) e;
 
-        int n = this.coefficients.size();
+        int n = coefficients.size();
         int n1 = element.coefficients.size();
         if (n != n1)
             return false;
@@ -337,10 +337,10 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public void setCoefficient1(int n) {
-        if (this.coefficients.size() < n + 1) {
+        if (coefficients.size() < n + 1) {
             ensureSize(n + 1);
         }
-        this.coefficients.get(n).setToOne();
+        coefficients.get(n).setToOne();
     }
 
 
@@ -389,7 +389,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public void makeMonic() {
-        int n = this.coefficients.size();
+        int n = coefficients.size();
         if (n == 0)
             return;
 
@@ -423,17 +423,17 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
 
         PolyModField rxmod = new PolyModField(field.getRandom(), this);
 
-        final PolyModElement xpow = rxmod.newElement();
+        PolyModElement xpow = rxmod.newElement();
 
         // The degree fits in an unsigned int but I'm lazy and want to use my
         // mpz trial division code.
 
-        final PolyElement g = getField().newElement();
+        PolyElement g = getField().newElement();
 
-        final PolyModElement x = rxmod.newElement();
+        PolyModElement x = rxmod.newElement();
         x.getCoefficient(1).setToOne();
 
-        final BigInteger deg = BigInteger.valueOf(getDegree());
+        BigInteger deg = BigInteger.valueOf(getDegree());
 
         BigIntegerUtils.TrialDivide trialDivide = new BigIntegerUtils.TrialDivide(null) {
             protected int fun(BigInteger factor, int multiplicity) {
@@ -452,7 +452,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
 
         if (trialDivide.trialDivide(deg) == 0) {
             // By now condition (2) has been satisfied. Check (1).
-            BigInteger z = getField().getTargetField().getOrder().pow(this.getDegree());
+            BigInteger z = getField().getTargetField().getOrder().pow(getDegree());
             xpow.set(x).pow(z).sub(x);
             return xpow.isZero();
         }
@@ -461,7 +461,7 @@ public class PolyElement<E extends Element> extends AbstractPolyElement<E, PolyF
     }
 
     public PolyElement<E> gcd(PolyElement g) {
-        PolyElement a = this.duplicate();
+        PolyElement a = duplicate();
         PolyElement b = g.duplicate();
         Element r = field.newElement();
 

@@ -19,7 +19,7 @@ public class SequentialMulPairingAccumulator implements PairingAccumulator {
 
     public SequentialMulPairingAccumulator(Pairing pairing) {
         this.pairing = pairing;
-        this.value = pairing.getGT().newOneElement();
+        value = pairing.getGT().newOneElement();
     }
 
     public SequentialMulPairingAccumulator(Pairing pairing, Element value) {

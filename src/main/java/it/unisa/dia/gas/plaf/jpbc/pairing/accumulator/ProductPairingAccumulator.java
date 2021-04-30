@@ -23,9 +23,9 @@ public class ProductPairingAccumulator implements PairingAccumulator {
 
     public ProductPairingAccumulator(Pairing pairing, int n) {
         this.pairing = pairing;
-        this.in1 = new Element[n];
-        this.in2 = new Element[n];
-        this.cursor = 0;
+        in1 = new Element[n];
+        in2 = new Element[n];
+        cursor = 0;
     }
 
 

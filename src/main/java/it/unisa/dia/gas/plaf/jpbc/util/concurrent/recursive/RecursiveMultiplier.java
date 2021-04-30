@@ -17,8 +17,8 @@ public class RecursiveMultiplier extends RecursiveTask<Element> {
 
     public RecursiveMultiplier(Element[] elements, int lo, int hi) {
         this.elements = elements;
-        this.low = lo;
-        this.high = hi;
+        low = lo;
+        high = hi;
     }
 
     protected Element compute() {

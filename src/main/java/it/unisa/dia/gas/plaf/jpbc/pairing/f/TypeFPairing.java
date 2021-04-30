@@ -64,7 +64,7 @@ public class TypeFPairing extends AbstractPairing {
     protected void initParams() {
         // validate the type
         String type = curveParams.getString("type");
-        if (type == null || !type.equalsIgnoreCase("f"))
+        if (!"f".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'f'.");
 
         // load params

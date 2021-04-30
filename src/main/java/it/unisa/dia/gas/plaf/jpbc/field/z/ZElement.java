@@ -14,7 +14,7 @@ public class ZElement extends AbstractZElement<ZField> {
     public ZElement(ZField field) {
         super(field);
 
-        this.value = BigInteger.ZERO;
+        value = BigInteger.ZERO;
     }
 
     public ZElement(ZField field, BigInteger value) {
@@ -26,7 +26,7 @@ public class ZElement extends AbstractZElement<ZField> {
     public ZElement(ZElement zrElement) {
         super(zrElement.getField());
 
-        this.value = zrElement.value;
+        value = zrElement.value;
     }
 
 
@@ -71,25 +71,25 @@ public class ZElement extends AbstractZElement<ZField> {
 
     public ZElement twice() {
 //        this.value = value.multiply(BigIntegerUtils.TWO);
-        this.value = value.add(value);
+        value = value.add(value);
 
         return this;
     }
 
     public ZElement mul(int z) {
-        this.value = this.value.multiply(BigInteger.valueOf(z));
+        value = value.multiply(BigInteger.valueOf(z));
 
         return this;
     }
 
     public ZElement setToZero() {
-        this.value = BigInteger.ZERO;
+        value = BigInteger.ZERO;
 
         return this;
     }
 
     public ZElement setToOne() {
-        this.value = BigInteger.ONE;
+        value = BigInteger.ONE;
 
         return this;
     }
@@ -157,13 +157,13 @@ public class ZElement extends AbstractZElement<ZField> {
     }
 
     public ZElement mul(BigInteger n) {
-        this.value = this.value.multiply(n);
+        value = value.multiply(n);
 
         return this;
     }
 
     public ZElement mulZn(Element z) {
-        this.value = this.value.multiply(z.toBigInteger());
+        value = value.multiply(z.toBigInteger());
 
         return this;
     }

@@ -9,7 +9,7 @@ import java.math.BigInteger;
 public class BigIntegerMulAccumulator extends AbstractAccumulator<BigInteger> {
 
     public BigIntegerMulAccumulator() {
-        this.result = BigInteger.ONE;
+        result = BigInteger.ONE;
     }
 
 

@@ -17,22 +17,22 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     public ZrElement(F field) {
         super(field);
 
-        this.value = BigInteger.ZERO;
-        this.order = field.getOrder();
+        value = BigInteger.ZERO;
+        order = field.getOrder();
     }
 
     public ZrElement(F field, BigInteger value) {
         super(field);
 
         this.value = value;
-        this.order = field.getOrder();
+        order = field.getOrder();
     }
 
     public ZrElement(ZrElement<F> zrElement) {
         super(zrElement.getField());
 
-        this.value = zrElement.value;
-        this.order = zrElement.field.getOrder();
+        value = zrElement.value;
+        order = zrElement.field.getOrder();
     }
 
 
@@ -77,31 +77,31 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
 
     public ZrElement twice() {
 //        this.value = value.multiply(BigIntegerUtils.TWO).mod(order);
-        this.value = value.add(value).mod(order);
+        value = value.add(value).mod(order);
 
         return this;
     }
 
     public ZrElement mul(int z) {
-        this.value = this.value.multiply(BigInteger.valueOf(z)).mod(order);
+        value = value.multiply(BigInteger.valueOf(z)).mod(order);
 
         return this;
     }
 
     public ZrElement setToZero() {
-        this.value = BigInteger.ZERO;
+        value = BigInteger.ZERO;
 
         return this;
     }
 
     public ZrElement setToOne() {
-        this.value = BigInteger.ONE;
+        value = BigInteger.ONE;
 
         return this;
     }
 
     public ZrElement setToRandom() {
-        this.value = BigIntegerUtils.getRandom(order, field.getRandom());
+        value = BigIntegerUtils.getRandom(order, field.getRandom());
 
         return this;
     }
@@ -140,7 +140,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
             z = z.divide(BigIntegerUtils.TWO);
         }
 
-        this.value = z;
+        value = z;
 
         return this;
     }
@@ -216,13 +216,13 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
     }
 
     public ZrElement mul(BigInteger n) {
-        this.value = this.value.multiply(n).mod(order);
+        value = value.multiply(n).mod(order);
 
         return this;
     }
 
     public ZrElement mulZn(Element z) {
-        this.value = this.value.multiply(z.toBigInteger()).mod(order);
+        value = value.multiply(z.toBigInteger()).mod(order);
 
         return this;
     }
@@ -273,7 +273,7 @@ public class ZrElement<F extends ZrField> extends AbstractZElement<F> {
 
 
     public ZrElement pow(BigInteger n) {
-        this.value = this.value.modPow(n, order);
+        value = value.modPow(n, order);
 
         return this;
     }

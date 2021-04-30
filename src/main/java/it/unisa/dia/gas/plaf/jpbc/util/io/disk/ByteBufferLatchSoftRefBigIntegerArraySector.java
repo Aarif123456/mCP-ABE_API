@@ -14,16 +14,16 @@ public class ByteBufferLatchSoftRefBigIntegerArraySector extends ByteBufferSoftR
     protected FlagMap<Integer> flags;
 
 
-    public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords) throws IOException {
+    public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords) {
         super(recordSize, numRecords);
 
-        this.flags = new FlagMap<>();
+        flags = new FlagMap<>();
     }
 
     public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
         super(recordSize, numRecords, labels);
 
-        this.flags = new FlagMap<>();
+        flags = new FlagMap<>();
     }
 
 

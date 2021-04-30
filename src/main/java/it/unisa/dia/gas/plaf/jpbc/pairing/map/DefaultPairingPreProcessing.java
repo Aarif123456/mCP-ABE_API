@@ -21,7 +21,7 @@ public class DefaultPairingPreProcessing implements PairingPreProcessing {
 
     public DefaultPairingPreProcessing(Pairing pairing, Field field, byte[] source, int offset) {
         this.pairing = pairing;
-        this.in1 = field.newElementFromBytes(source, offset);
+        in1 = field.newElementFromBytes(source, offset);
     }
 
     public Element pairing(Element in2) {

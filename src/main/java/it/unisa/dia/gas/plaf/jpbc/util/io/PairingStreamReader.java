@@ -25,15 +25,15 @@ public class PairingStreamReader {
         this.buffer = buffer;
         this.offset = offset;
 
-        this.cursor = offset;
+        cursor = offset;
 
-        this.bais = new ExByteArrayInputStream(buffer, offset, buffer.length - offset);
-        this.dis = new DataInputStream(bais);
+        bais = new ExByteArrayInputStream(buffer, offset, buffer.length - offset);
+        dis = new DataInputStream(bais);
     }
 
 
     public void reset() {
-        this.cursor = this.offset;
+        cursor = offset;
     }
 
     public Element[] readElements(int... ids) {

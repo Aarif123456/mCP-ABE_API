@@ -114,7 +114,7 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
     }
 
 
-    protected int optimalPowWindowSize(BigInteger n) {
+    protected static int optimalPowWindowSize(BigInteger n) {
         int expBits;
 
         expBits = n.bitLength();
@@ -202,7 +202,7 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
     }
 
 
-    protected String[] tokenize(String value) {
+    protected static String[] tokenize(String value) {
         StringTokenizer tokenizer = new StringTokenizer(value, ",");
         int n = tokenizer.countTokens();
 

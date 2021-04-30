@@ -15,7 +15,7 @@ public class LatchHashMap<K, V> implements Map<K, V> {
     private final Map<K, ValueLatch> internalMap;
 
     public LatchHashMap() {
-        this.internalMap = new HashMap<>();
+        internalMap = new HashMap<>();
     }
 
 

@@ -34,7 +34,7 @@ public abstract class AbstractPairingMap implements PairingMap {
         return pairing.getG1().getLengthInBytes();
     }
 
-    public PairingPreProcessing pairing(final Point in1) {
+    public PairingPreProcessing pairing(Point in1) {
         return new DefaultPairingPreProcessing(pairing, in1);
     }
 
@@ -57,7 +57,7 @@ public abstract class AbstractPairingMap implements PairingMap {
     }
 
 
-    protected final void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
+    protected static void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
         // Vx = Vx * z^-2
         Vx.mul(e0.set(z.invert()).square());
         // Vy = Vy * z^-3

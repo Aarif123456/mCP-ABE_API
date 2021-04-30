@@ -11,7 +11,7 @@ public class ImmutableZrElement extends ZrElement {
 
     public ImmutableZrElement(ZrElement zrElement) {
         super(zrElement);
-        this.immutable = true;
+        immutable = true;
     }
 
     @Override
@@ -66,77 +66,77 @@ public class ImmutableZrElement extends ZrElement {
 
     @Override
     public ZrElement twice() {
-        return (ZrElement) super.duplicate().twice().getImmutable();
+        return (ZrElement) duplicate().twice().getImmutable();
     }
 
     @Override
     public ZrElement mul(int z) {
-        return (ZrElement) super.duplicate().mul(z).getImmutable();
+        return (ZrElement) duplicate().mul(z).getImmutable();
     }
 
     @Override
     public ZrElement square() {
-        return (ZrElement) super.duplicate().square().getImmutable();
+        return (ZrElement) duplicate().square().getImmutable();
     }
 
     @Override
     public ZrElement invert() {
-        return (ZrElement) super.duplicate().invert().getImmutable();
+        return (ZrElement) duplicate().invert().getImmutable();
     }
 
     @Override
     public ZrElement halve() {
-        return (ZrElement) super.duplicate().halve().getImmutable();
+        return (ZrElement) duplicate().halve().getImmutable();
     }
 
     @Override
     public ZrElement negate() {
-        return (ZrElement) super.duplicate().negate().getImmutable();
+        return (ZrElement) duplicate().negate().getImmutable();
     }
 
     @Override
     public ZrElement add(Element element) {
-        return (ZrElement) super.duplicate().add(element).getImmutable();
+        return (ZrElement) duplicate().add(element).getImmutable();
     }
 
     @Override
     public ZrElement sub(Element element) {
-        return (ZrElement) super.duplicate().sub(element).getImmutable();
+        return (ZrElement) duplicate().sub(element).getImmutable();
     }
 
     @Override
     public ZrElement div(Element element) {
-        return (ZrElement) super.duplicate().div(element).getImmutable();
+        return (ZrElement) duplicate().div(element).getImmutable();
     }
 
     @Override
     public ZrElement mul(Element element) {
-        return (ZrElement) super.duplicate().mul(element).getImmutable();
+        return (ZrElement) duplicate().mul(element).getImmutable();
     }
 
     @Override
     public ZrElement mul(BigInteger n) {
-        return (ZrElement) super.duplicate().mul(n).getImmutable();
+        return (ZrElement) duplicate().mul(n).getImmutable();
     }
 
     @Override
     public ZrElement mulZn(Element z) {
-        return (ZrElement) super.duplicate().mulZn(z).getImmutable();
+        return (ZrElement) duplicate().mulZn(z).getImmutable();
     }
 
     @Override
     public ZrElement sqrt() {
-        return (ZrElement) super.duplicate().sqrt().getImmutable();
+        return (ZrElement) duplicate().sqrt().getImmutable();
     }
 
     @Override
     public ZrElement pow(BigInteger n) {
-        return (ZrElement) super.duplicate().pow(n).getImmutable();
+        return (ZrElement) duplicate().pow(n).getImmutable();
     }
 
     @Override
     public ZrElement powZn(Element n) {
-        return (ZrElement) super.duplicate().powZn(n).getImmutable();
+        return (ZrElement) duplicate().powZn(n).getImmutable();
     }
 
 }

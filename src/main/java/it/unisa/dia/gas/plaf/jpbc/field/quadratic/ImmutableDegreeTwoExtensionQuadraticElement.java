@@ -12,10 +12,10 @@ public class ImmutableDegreeTwoExtensionQuadraticElement<E extends Element> exte
     public ImmutableDegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticElement<E> element) {
         super((DegreeTwoExtensionQuadraticField) element.getField());
 
-        this.x = (E) element.getX().getImmutable();
-        this.y = (E) element.getY().getImmutable();
+        x = (E) element.getX().getImmutable();
+        y = (E) element.getY().getImmutable();
 
-        this.immutable = true;
+        immutable = true;
     }
 
     @Override
@@ -60,67 +60,67 @@ public class ImmutableDegreeTwoExtensionQuadraticElement<E extends Element> exte
 
     @Override
     public QuadraticElement twice() {
-        return (QuadraticElement) super.duplicate().twice().getImmutable();
+        return (QuadraticElement) duplicate().twice().getImmutable();
     }
 
     @Override
     public QuadraticElement mul(int z) {
-        return (QuadraticElement) super.duplicate().mul(z).getImmutable();
+        return (QuadraticElement) duplicate().mul(z).getImmutable();
     }
 
     @Override
     public DegreeTwoExtensionQuadraticElement square() {
-        return (DegreeTwoExtensionQuadraticElement) super.duplicate().square().getImmutable();
+        return (DegreeTwoExtensionQuadraticElement) duplicate().square().getImmutable();
     }
 
     @Override
     public DegreeTwoExtensionQuadraticElement invert() {
-        return (DegreeTwoExtensionQuadraticElement) super.duplicate().invert().getImmutable();
+        return (DegreeTwoExtensionQuadraticElement) duplicate().invert().getImmutable();
     }
 
     @Override
     public QuadraticElement negate() {
-        return (QuadraticElement) super.duplicate().negate().getImmutable();
+        return (QuadraticElement) duplicate().negate().getImmutable();
     }
 
     @Override
     public QuadraticElement add(Element e) {
-        return (QuadraticElement) super.duplicate().add(e).getImmutable();
+        return (QuadraticElement) duplicate().add(e).getImmutable();
     }
 
     @Override
     public QuadraticElement sub(Element e) {
-        return (QuadraticElement) super.duplicate().sub(e).getImmutable();
+        return (QuadraticElement) duplicate().sub(e).getImmutable();
     }
 
     @Override
     public DegreeTwoExtensionQuadraticElement mul(Element e) {
-        return (DegreeTwoExtensionQuadraticElement) super.duplicate().mul(e).getImmutable();
+        return (DegreeTwoExtensionQuadraticElement) duplicate().mul(e).getImmutable();
     }
 
     @Override
     public QuadraticElement mul(BigInteger n) {
-        return (QuadraticElement) super.duplicate().mul(n).getImmutable();
+        return (QuadraticElement) duplicate().mul(n).getImmutable();
     }
 
     @Override
     public QuadraticElement mulZn(Element e) {
-        return (QuadraticElement) super.duplicate().mulZn(e).getImmutable();
+        return (QuadraticElement) duplicate().mulZn(e).getImmutable();
     }
 
     @Override
     public DegreeTwoExtensionQuadraticElement sqrt() {
-        return (DegreeTwoExtensionQuadraticElement) super.duplicate().sqrt().getImmutable();
+        return (DegreeTwoExtensionQuadraticElement) duplicate().sqrt().getImmutable();
     }
 
     @Override
     public QuadraticElement powZn(Element n) {
-        return (QuadraticElement) super.duplicate().powZn(n).getImmutable();
+        return (QuadraticElement) duplicate().powZn(n).getImmutable();
     }
 
     @Override
     public QuadraticElement setFromHash(byte[] source, int offset, int length) {
-        return (QuadraticElement) super.duplicate().setFromHash(source, offset, length).getImmutable();
+        return (QuadraticElement) duplicate().setFromHash(source, offset, length).getImmutable();
     }
 
     @Override
@@ -150,17 +150,17 @@ public class ImmutableDegreeTwoExtensionQuadraticElement<E extends Element> exte
 
     @Override
     public Element pow(BigInteger n) {
-        return super.duplicate().pow(n).getImmutable();
+        return duplicate().pow(n).getImmutable();
     }
 
     @Override
     public Element halve() {
-        return super.duplicate().halve().getImmutable();
+        return duplicate().halve().getImmutable();
     }
 
     @Override
     public Element div(Element element) {
-        return super.duplicate().div(element).getImmutable();
+        return duplicate().div(element).getImmutable();
     }
 
 }

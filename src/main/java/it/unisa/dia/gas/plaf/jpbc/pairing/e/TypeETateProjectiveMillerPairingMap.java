@@ -118,7 +118,7 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
     }
 
 
-    void proj_double(Element Zx, Element Zy, Element e0, Element e1, Element e2, Element e3, Element z, Element z2, Element cca) {
+    static void proj_double(Element Zx, Element Zy, Element e0, Element e1, Element e2, Element e3, Element z, Element z2, Element cca) {
 
         e0.set(Zx).square();
         e1.set(e0).twice();
@@ -152,8 +152,8 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
         Zy.set(e0).sub(e2);
     }
 
-    void do_tangent(Element e, Element edenom, Element a, Element b, Element c, Element e0, Element e1, Element z, Element z2,
-                    Element Zx, Element Zy, Element cca, Element numx, Element numy, Element denomx, Element denomy
+    static void do_tangent(Element e, Element edenom, Element a, Element b, Element c, Element e0, Element e1, Element z, Element z2,
+                           Element Zx, Element Zy, Element cca, Element numx, Element numy, Element denomx, Element denomy
     ) {
 
         a.set(z2).square();
@@ -185,7 +185,7 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
         edenom.mul(e0);
     }
 
-    void do_vertical(Element e, Element edenom, Element Ax, Element e0, Element z2, Element numx, Element denomx) {
+    static void do_vertical(Element e, Element edenom, Element Ax, Element e0, Element z2, Element numx, Element denomx) {
         e0.set(numx).mul(z2);
         e0.sub(Ax);
         e.mul(e0);
@@ -195,8 +195,8 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
         edenom.mul(e0);
     }
 
-    void do_line(Element e, Element edenom, Point A, Point B, Element a, Element b, Element c, Element e0, Element e1,
-                 Element numx, Element numy, Element denomx, Element denomy) {
+    static void do_line(Element e, Element edenom, Point A, Point B, Element a, Element b, Element c, Element e0, Element e1,
+                        Element numx, Element numy, Element denomx, Element denomy) {
 
         Element Ax = A.getX();
         Element Ay = A.getY();

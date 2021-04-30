@@ -19,8 +19,8 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
     protected FileChannel channel;
 
     public FileChannelDisk() {
-        this.sectors = new ArrayList<>();
-        this.sectorsMap = new HashMap<>();
+        sectors = new ArrayList<>();
+        sectorsMap = new HashMap<>();
     }
 
     public S getSectorAt(int index) {

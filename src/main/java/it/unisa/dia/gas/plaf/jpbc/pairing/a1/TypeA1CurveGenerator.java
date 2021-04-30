@@ -38,45 +38,34 @@ public class TypeA1CurveGenerator implements PairingParametersGenerator {
         BigInteger[] primes = new BigInteger[numPrimes];
         BigInteger order, n, p;
         long l;
-
-        while (true) {
-            while (true) {
-                order = BigInteger.ONE;
-                for (int i = 0; i < numPrimes; i++) {
-                    boolean isNew = false;
-                    while (!isNew) {
+        order = BigInteger.ONE;
+        for (int i = 0; i < numPrimes; i++) {
+            boolean isNew = false;
+            while (!isNew) {
 //                        primes[i] = BigIntegerUtils.generateSolinasPrime(bits, random);
-                        primes[i] = BigInteger.probablePrime(bits, random);
-                        isNew = true;
-                        for (int j = 0; j < i; j++) {
-                            if (primes[i].equals(primes[j])) {
-                                isNew = false;
-                                break;
-                            }
-                        }
+                primes[i] = BigInteger.probablePrime(bits, random);
+                isNew = true;
+                for (int j = 0; j < i; j++) {
+                    if (primes[i].equals(primes[j])) {
+                        isNew = false;
+                        break;
                     }
-
-                    order = order.multiply(primes[i]);
                 }
-
-                break;
-//                if ((order.bitLength() + 7) / 8 == order.bitLength() / 8)
-//                    break;
             }
 
-            // If order is even, ideally check all even l, not just multiples of 4
-            l = 4;
-            n = order.multiply(BigIntegerUtils.FOUR);
-
-            p = n.subtract(BigInteger.ONE);
-            while (!p.isProbablePrime(10)) {
-                p = p.add(n);
-                l += 4;
-            }
-//            if ((p.bitLength() + 7) / 8 == p.bitLength() / 8)
-//                break;
-            break;
+            order = order.multiply(primes[i]);
         }
+
+        // If order is even, ideally check all even l, not just multiples of 4
+        l = 4;
+        n = order.multiply(BigIntegerUtils.FOUR);
+
+        p = n.subtract(BigInteger.ONE);
+        while (!p.isProbablePrime(10)) {
+            p = p.add(n);
+            l += 4;
+        }
+
 
         PropertiesParameters params = new PropertiesParameters();
         params.put("type", "a1");

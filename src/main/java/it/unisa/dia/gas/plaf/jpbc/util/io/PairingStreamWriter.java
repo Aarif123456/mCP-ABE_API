@@ -17,8 +17,8 @@ public class PairingStreamWriter {
 
 
     public PairingStreamWriter(int size) {
-        this.baos = new ByteArrayOutputStream(size);
-        this.dos = new DataOutputStream(baos);
+        baos = new ByteArrayOutputStream(size);
+        dos = new DataOutputStream(baos);
     }
 
 

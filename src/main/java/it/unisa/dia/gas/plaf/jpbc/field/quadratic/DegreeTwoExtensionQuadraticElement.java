@@ -11,15 +11,15 @@ public class DegreeTwoExtensionQuadraticElement<E extends Element> extends Quadr
     public DegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticField field) {
         super(field);
 
-        this.x = (E) field.getTargetField().newElement();
-        this.y = (E) field.getTargetField().newElement();
+        x = (E) field.getTargetField().newElement();
+        y = (E) field.getTargetField().newElement();
     }
 
     public DegreeTwoExtensionQuadraticElement(DegreeTwoExtensionQuadraticElement element) {
         super((QuadraticField) element.field);
 
-        this.x = (E) element.x.duplicate();
-        this.y = (E) element.y.duplicate();
+        x = (E) element.x.duplicate();
+        y = (E) element.y.duplicate();
     }
 
 

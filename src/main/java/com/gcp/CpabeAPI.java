@@ -55,7 +55,7 @@ public class CpabeAPI implements HttpFunction {
 
     }
 
-    private String respondQuery(HttpRequest request, PrintWriter writer) {
+    private static String respondQuery(HttpRequest request, PrintWriter writer) {
         var method = "";
         Gson gson = new Gson();
         JsonObject js = new JsonObject();
@@ -167,7 +167,7 @@ public class CpabeAPI implements HttpFunction {
         return method;
     }
 
-    private String respondMethod(JsonObject body, PrintWriter writer) {
+    private static String respondMethod(JsonObject body, PrintWriter writer) {
         var method = "";
         Gson gson = new Gson();
         JsonObject js = new JsonObject();

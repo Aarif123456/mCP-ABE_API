@@ -24,8 +24,8 @@ public class AbstractElementPowPreProcessing implements ElementPowPreProcessing 
 
 
     public AbstractElementPowPreProcessing(Element g, int k) {
-        this.field = g.getField();
-        this.bits = field.getOrder().bitLength();
+        field = g.getField();
+        bits = field.getOrder().bitLength();
         this.k = k;
 
         initTable(g);
@@ -33,7 +33,7 @@ public class AbstractElementPowPreProcessing implements ElementPowPreProcessing 
 
     public AbstractElementPowPreProcessing(Field field, int k, byte[] source, int offset) {
         this.field = field;
-        this.bits = field.getOrder().bitLength();
+        bits = field.getOrder().bitLength();
         this.k = k;
 
         initTableFromBytes(source, offset);

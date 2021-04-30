@@ -1,7 +1,11 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.parameters;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Angelo De Caro (jpbclib@gmail.com)
@@ -12,7 +16,7 @@ public class MapParameters implements MutablePairingParameters {
 
 
     public MapParameters() {
-        this.values = new LinkedHashMap<>();
+        values = new LinkedHashMap<>();
     }
 
     public MapParameters(Map<String, Object> values) {
@@ -123,9 +127,9 @@ public class MapParameters implements MutablePairingParameters {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MapParameters that = (MapParameters) o;
+        MapParameters otherMap = (MapParameters) o;
 
-        return Objects.equals(values, that.values);
+        return Objects.equals(values, otherMap.values);
     }
 
     @Override

@@ -1,6 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.d;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
+import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveElement;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteElement;
@@ -149,7 +153,7 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
 
     final void qPower(int sign, PolyModElement e2,
                       Element e0re, Element e0im, Element e0re0, Element e0im0,
-                      List<Element> inre, List<Element> inim) {
+                      List<? extends Element> inre, List<? extends Element> inim) {
         e2.set(pairing.xPowq).polymodConstMul(inre.get(1));
         e0re.set(e2);
         e2.set(pairing.xPowq2).polymodConstMul(inre.get(2));
@@ -238,7 +242,7 @@ public class TypeDTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
     }
 
 
-    protected void millerStep(Point<Polynomial> out, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
+    protected void millerStep(Point<? extends Polynomial> out, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
         // a, b, c are in Fq
         // point Q is (Qx, Qy * sqrt(nqr)) where nqr is used to construct
         // the quadratic field extension Fqk of Fqd

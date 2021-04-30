@@ -22,7 +22,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
     protected int pairingPreProcessingLengthInBytes = -1;
 
 
-    public TypeATateAffineMillerPairingMap(final TypeAPairing pairing) {
+    public TypeATateAffineMillerPairingMap(TypeAPairing pairing) {
         super(pairing);
 
         this.pairing = pairing;
@@ -32,7 +32,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
     /**
      * in1, in2 are from E(F_q), out from F_q^2
      */
-    public Element pairing(final Point in1, final Point in2) {
+    public Element pairing(Point in1, Point in2) {
         // could save a couple of inversions by avoiding
         // this function and rewriting lineStep() to handle projective coords
         // convert V from weighted projective (Jacobian) to affine
@@ -216,7 +216,7 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         return element;
     }
 
-    final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
+    static void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
         //element_pow_mpz(out, f, tateExp);

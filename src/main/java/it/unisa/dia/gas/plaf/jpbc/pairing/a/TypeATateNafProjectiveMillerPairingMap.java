@@ -26,7 +26,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         super(pairing);
 
         this.pairing = pairing;
-        this.r = BigIntegerUtils.naf(pairing.r, (byte) 2);
+        r = BigIntegerUtils.naf(pairing.r, (byte) 2);
     }
 
     /**
@@ -100,7 +100,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     }
 
 
-    final void tatePow(Point out, Point in, BigInteger cofactor) {
+    static void tatePow(Point out, Point in, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
         //element_pow_mpz(out, f, tateExp);
@@ -123,7 +123,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     /**
      * point doubling in Jacobian coordinates
      */
-    final void twice(JacobPoint V, Element a, Element b, Element c) {
+    static void twice(JacobPoint V, Element a, Element b, Element c) {
         //if(V.isInfinity())
         //	return;
 
@@ -160,7 +160,7 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
     /**
      * add two point, save result in the first argument
      */
-    final void add(JacobPoint V, Point P, Element a, Element b, Element c) {
+    static void add(JacobPoint V, Point P, Element a, Element b, Element c) {
         Element x1 = V.getX();
         Element y1 = V.getY();
         Element z1 = V.getZ();

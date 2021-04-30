@@ -16,8 +16,8 @@ public class RecursiveBigIntegerMultiplier extends RecursiveTask<BigInteger> {
 
     public RecursiveBigIntegerMultiplier(BigInteger[] values, int lo, int hi) {
         this.values = values;
-        this.low = lo;
-        this.high = hi;
+        low = lo;
+        high = hi;
     }
 
     protected BigInteger compute() {

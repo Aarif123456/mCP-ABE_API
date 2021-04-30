@@ -98,7 +98,7 @@ public class TypeGTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
 
     final void qPower(int sign, PolyModElement e2,
                       Element e0re, Element e0im, Element e0re0, Element e0im0,
-                      List<Element> inre, List<Element> inim) {
+                      List<? extends Element> inre, List<? extends Element> inim) {
         e2.set(pairing.xPowq).polymodConstMul(inre.get(1));
         e0re.set(e2);
         e2.set(pairing.xPowq2).polymodConstMul(inre.get(2));
@@ -167,7 +167,7 @@ public class TypeGTateAffineNoDenomMillerPairingMap extends AbstractMillerPairin
         return f;
     }
 
-    protected void millerStep(Point<Polynomial> out, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
+    protected void millerStep(Point<? extends Polynomial> out, Element a, Element b, Element c, Polynomial Qx, Polynomial Qy) {
         // a, b, c are in Fq
         // point Q is (Qx, Qy * sqrt(nqr)) where nqr is used to construct
         // the quadratic field extension Fqk of Fqd

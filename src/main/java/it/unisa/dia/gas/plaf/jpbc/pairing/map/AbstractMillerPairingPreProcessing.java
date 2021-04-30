@@ -16,11 +16,11 @@ public abstract class AbstractMillerPairingPreProcessing implements PairingPrePr
     }
 
     protected AbstractMillerPairingPreProcessing(Point in1, int processingInfoSize) {
-        this.processingInfo = new AbstractMillerPairingMap.MillerPreProcessingInfo(processingInfoSize);
+        processingInfo = new AbstractMillerPairingMap.MillerPreProcessingInfo(processingInfoSize);
     }
 
     protected AbstractMillerPairingPreProcessing(Pairing pairing, byte[] source, int offset) {
-        this.processingInfo = new AbstractMillerPairingMap.MillerPreProcessingInfo(pairing, source, offset);
+        processingInfo = new AbstractMillerPairingMap.MillerPreProcessingInfo(pairing, source, offset);
     }
 
     public byte[] toBytes() {

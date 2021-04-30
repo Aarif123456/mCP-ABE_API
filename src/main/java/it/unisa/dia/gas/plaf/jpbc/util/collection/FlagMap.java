@@ -9,7 +9,7 @@ public class FlagMap<K> {
     protected final LatchHashMap<K, Boolean> flags;
 
     public FlagMap() {
-        this.flags = new LatchHashMap<>();
+        flags = new LatchHashMap<>();
     }
 
     public void get(K key) {

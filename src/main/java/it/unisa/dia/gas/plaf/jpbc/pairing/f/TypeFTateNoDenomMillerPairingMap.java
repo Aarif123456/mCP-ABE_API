@@ -14,7 +14,7 @@ public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
     public TypeFTateNoDenomMillerPairingMap(TypeFPairing pairing) {
         super(pairing);
 
-        this.pairingData = pairing;
+        pairingData = pairing;
     }
 
 
@@ -52,7 +52,7 @@ public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
     }
 
 
-    private void qPower(Polynomial element, Polynomial e1, Element e) {
+    private static void qPower(Polynomial element, Polynomial e1, Element e) {
         e1.getCoefficient(0).set(element.getCoefficient(0));
         e1.getCoefficient(1).set(element.getCoefficient(1).duplicate().mul(e));
 

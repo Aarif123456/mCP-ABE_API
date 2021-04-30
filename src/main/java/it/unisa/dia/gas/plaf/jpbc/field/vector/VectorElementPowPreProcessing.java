@@ -16,8 +16,8 @@ public class VectorElementPowPreProcessing implements ElementPowPreProcessing {
     protected final ElementPowPreProcessing[] processings;
 
     public VectorElementPowPreProcessing(VectorElement vector) {
-        this.field = vector.getField();
-        this.processings = new ElementPowPreProcessing[vector.getSize()];
+        field = vector.getField();
+        processings = new ElementPowPreProcessing[vector.getSize()];
         for (int i = 0; i < processings.length; i++) {
             processings[i] = vector.getAt(i).getElementPowPreProcessing();
         }

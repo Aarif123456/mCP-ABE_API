@@ -587,7 +587,7 @@ public class PolyModElement<E extends Element> extends AbstractPolyElement<E, Po
     /**
      * Karatsuba for degree 2 polynomials
      */
-    protected void kar_poly_2(List<E> dst, Element c3, Element c4, List<E> s1, List<E> s2, List<E> scratch) {
+    protected void kar_poly_2(List<E> dst, Element c3, Element c4, List<? extends E> s1, List<? extends E> s2, List<? extends E> scratch) {
         Element c01, c02, c12;
 
         c12 = scratch.get(0);

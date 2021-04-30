@@ -50,9 +50,9 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
 
 
     protected void init(BigInteger nqr) {
-        this.n = irreduciblePoly.getDegree();
+        n = irreduciblePoly.getDegree();
 
-        this.order = targetField.getOrder().pow(irreduciblePoly.getDegree());
+        order = targetField.getOrder().pow(irreduciblePoly.getDegree());
         if (nqr != null) {
             this.nqr = newElement();
             this.nqr.getCoefficient(0).set(nqr);

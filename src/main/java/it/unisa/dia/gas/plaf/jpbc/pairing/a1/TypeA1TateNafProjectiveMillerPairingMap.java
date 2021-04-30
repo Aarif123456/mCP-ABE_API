@@ -24,7 +24,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
         super(pairing);
 
         this.pairing = pairing;
-        this.r = BigIntegerUtils.naf(pairing.r, (byte) 2);
+        r = BigIntegerUtils.naf(pairing.r, (byte) 2);
     }
 
     /**
@@ -106,7 +106,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     /**
      * used by tate pairing, point doubling in Jacobian coordinates, and return the value of f
      */
-    final void twice(JacobPoint V, Element a, Element b, Element c) {
+    static void twice(JacobPoint V, Element a, Element b, Element c) {
         Element x = V.getX();
         Element y = V.getY();
         Element z = V.getZ();
@@ -144,7 +144,7 @@ public class TypeA1TateNafProjectiveMillerPairingMap extends AbstractMillerPairi
     /**
      * used by Tate paring, add two point, save result in the first argument, return the value of f
      */
-    final void add(JacobPoint V, Point P, Element a, Element b, Element c) {
+    static void add(JacobPoint V, Point P, Element a, Element b, Element c) {
         Element x1 = V.getX();
         Element y1 = V.getY();
         Element z1 = V.getZ();

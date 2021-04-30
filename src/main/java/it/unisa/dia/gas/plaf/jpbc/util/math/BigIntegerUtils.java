@@ -96,7 +96,7 @@ public class BigIntegerUtils {
         int exp2, sign1;
 
         while (true) {
-            r = BigInteger.ZERO;
+            r = ZERO;
 
             if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
                 exp2 = bits - 1;
@@ -107,7 +107,7 @@ public class BigIntegerUtils {
             }
             r = r.setBit(exp2);
 
-            q = BigInteger.ZERO.setBit((random.nextInt(Integer.MAX_VALUE) % (exp2 - 1)) + 1);
+            q = ZERO.setBit((random.nextInt(Integer.MAX_VALUE) % (exp2 - 1)) + 1);
 
             if (sign1 > 0) {
                 r = r.add(q);
@@ -116,9 +116,9 @@ public class BigIntegerUtils {
             }
 
             if (random.nextInt(Integer.MAX_VALUE) % 2 != 0) {
-                r = r.add(BigInteger.ONE);
+                r = r.add(ONE);
             } else {
-                r = r.subtract(BigInteger.ONE);
+                r = r.subtract(ONE);
             }
 
             if (r.isProbablePrime(10))
@@ -170,7 +170,7 @@ public class BigIntegerUtils {
     // Given q, t such that #E(F_q) = q - t + 1, compute #E(F_q^k).
 
     public static BigInteger pbc_mpz_curve_order_extn(BigInteger q, BigInteger t, int k) {
-        BigInteger z = q.pow(k).add(BigInteger.ONE);
+        BigInteger z = q.pow(k).add(ONE);
         BigInteger tk = computeTrace(q, t, k);
         z = z.subtract(tk);
         return z;
@@ -312,9 +312,9 @@ public class BigIntegerUtils {
 
     public static BigInteger getRandom(int nbBits, SecureRandom random) {
         if (nbBits <= 1)
-            return random.nextBoolean() ? BigInteger.ZERO : BigInteger.ONE;
+            return random.nextBoolean() ? ZERO : ONE;
         else
-            return new BigInteger(nbBits, random).subtract(BigInteger.ONE.shiftLeft(nbBits - 1));
+            return new BigInteger(nbBits, random).subtract(ONE.shiftLeft(nbBits - 1));
     }
 
 
@@ -405,11 +405,11 @@ public class BigIntegerUtils {
             BigInteger m = n;
             BigInteger p = TWO;
 
-            while (m.compareTo(BigInteger.ONE) != 0) {
+            while (m.compareTo(ONE) != 0) {
                 if (m.isProbablePrime(10))
                     p = m;
 
-                if (limit != null && !limit.equals(BigInteger.ZERO) && p.compareTo(limit) > 0)
+                if (limit != null && !limit.equals(ZERO) && p.compareTo(limit) > 0)
                     p = m;
 
                 if (isDivisible(m, p)) {

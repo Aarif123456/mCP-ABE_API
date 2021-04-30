@@ -12,7 +12,7 @@ public class BigIntegerAddModAccumulator extends AbstractAccumulator<BigInteger>
 
 
     public BigIntegerAddModAccumulator(BigInteger modulo) {
-        this.result = BigInteger.ZERO;
+        result = BigInteger.ZERO;
         this.modulo = modulo;
     }
 

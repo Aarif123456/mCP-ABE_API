@@ -1,6 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.product;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
+import it.unisa.dia.gas.jpbc.Vector;
 import it.unisa.dia.gas.plaf.jpbc.field.vector.VectorField;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulator;
 import it.unisa.dia.gas.plaf.jpbc.pairing.accumulator.PairingAccumulatorFactory;
@@ -20,8 +24,8 @@ public class ProductPairing implements Pairing {
     public ProductPairing(SecureRandom random, Pairing basePairing, int n) {
         this.basePairing = basePairing;
 
-        this.G1 = new VectorField(random, basePairing.getG1(), n);
-        this.G2 = new VectorField(random, basePairing.getG2(), n);
+        G1 = new VectorField(random, basePairing.getG1(), n);
+        G2 = new VectorField(random, basePairing.getG2(), n);
     }
 
 
@@ -89,7 +93,7 @@ public class ProductPairing implements Pairing {
         return combiner.awaitResult();
     }
 
-    public PairingPreProcessing getPairingPreProcessingFromElement(final Element in1) {
+    public PairingPreProcessing getPairingPreProcessingFromElement(Element in1) {
         return new DefaultPairingPreProcessing(this, in1);
     }
 

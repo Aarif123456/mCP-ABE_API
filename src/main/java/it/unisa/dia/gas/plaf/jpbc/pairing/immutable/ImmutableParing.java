@@ -20,7 +20,7 @@ public class ImmutableParing implements Pairing {
 
     public ImmutableParing(Pairing pairing) {
         this.pairing = pairing;
-        this.fieldMap = new HashMap<>();
+        fieldMap = new HashMap<>();
     }
 
 

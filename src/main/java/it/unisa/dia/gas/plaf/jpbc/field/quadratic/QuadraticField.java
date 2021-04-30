@@ -17,7 +17,7 @@ public class QuadraticField<F extends Field, E extends QuadraticElement> extends
     public QuadraticField(SecureRandom random, F targetField) {
         super(random, targetField);
 
-        this.order = targetField.getOrder().multiply(targetField.getOrder());
+        order = targetField.getOrder().multiply(targetField.getOrder());
 
         if (targetField.getLengthInBytes() < 0) {
             //f->length_in_bytes = fq_length_in_bytes;

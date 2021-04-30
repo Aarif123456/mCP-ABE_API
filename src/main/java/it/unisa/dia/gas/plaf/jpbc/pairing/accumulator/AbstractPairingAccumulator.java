@@ -23,7 +23,7 @@ public abstract class AbstractPairingAccumulator extends AbstractAccumulator<Ele
 
     public AbstractPairingAccumulator(Pairing pairing, Element value) {
         this.pairing = pairing;
-        this.result = value;
+        result = value;
     }
 
 
@@ -31,18 +31,18 @@ public abstract class AbstractPairingAccumulator extends AbstractAccumulator<Ele
         throw new IllegalStateException("Invalid call method!");
     }
 
-    public void addPairing(final Element e1, final Element e2) {
+    public void addPairing(Element e1, Element e2) {
         super.accumulate(() -> pairing.pairing(e1, e2));
 
     }
 
-    public PairingAccumulator addPairingInverse(final Element e1, final Element e2) {
+    public PairingAccumulator addPairingInverse(Element e1, Element e2) {
         super.accumulate(() -> pairing.pairing(e1, e2).invert());
 
         return this;
     }
 
-    public PairingAccumulator addPairing(final PairingPreProcessing pairingPreProcessing, final Element e2) {
+    public PairingAccumulator addPairing(PairingPreProcessing pairingPreProcessing, Element e2) {
         super.accumulate(() -> pairingPreProcessing.pairing(e2));
 
         return this;

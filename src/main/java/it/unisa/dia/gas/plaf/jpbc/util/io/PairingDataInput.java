@@ -1,6 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.ElementPowPreProcessing;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.Pairing;
+import it.unisa.dia.gas.jpbc.PairingPreProcessing;
 
 import java.io.DataInput;
 import java.io.IOException;
@@ -117,7 +121,7 @@ public class PairingDataInput implements DataInput {
         byte[] buffer = new byte[size];
         readFully(buffer);
 
-        return getPairing().getPairingPreProcessingFromBytes(buffer, 0);
+        return pairing.getPairingPreProcessingFromBytes(buffer, 0);
     }
 
     public ElementPowPreProcessing readElementPowPreProcessing() throws IOException {

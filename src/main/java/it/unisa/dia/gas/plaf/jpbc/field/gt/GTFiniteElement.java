@@ -18,7 +18,7 @@ public class GTFiniteElement extends AbstractElement {
         super(field);
 
         this.pairing = pairing;
-        this.value = field.getTargetField().newElement().setToOne();
+        value = field.getTargetField().newElement().setToOne();
     }
 
     public GTFiniteElement(PairingMap pairing, GTFiniteField field, Element value) {
@@ -31,8 +31,8 @@ public class GTFiniteElement extends AbstractElement {
     public GTFiniteElement(GTFiniteElement element) {
         super(element.field);
 
-        this.pairing = element.pairing;
-        this.value = element.value;
+        pairing = element.pairing;
+        value = element.value;
     }
 
 
@@ -150,7 +150,7 @@ public class GTFiniteElement extends AbstractElement {
     }
 
     public GTFiniteElement pow(BigInteger n) {
-        this.value.pow(n);
+        value.pow(n);
 
         return this;
     }
@@ -161,7 +161,7 @@ public class GTFiniteElement extends AbstractElement {
     }
 
     public GTFiniteElement powZn(Element n) {
-        this.value.powZn(n);
+        value.powZn(n);
 
         return this;
     }

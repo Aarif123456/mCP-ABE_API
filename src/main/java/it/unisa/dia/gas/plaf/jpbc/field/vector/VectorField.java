@@ -18,7 +18,7 @@ public class VectorField<F extends Field> extends AbstractFieldOver<F, VectorEle
         super(random, targetField);
 
         this.n = n;
-        this.lenInBytes = n * targetField.getLengthInBytes();
+        lenInBytes = n * targetField.getLengthInBytes();
     }
 
 

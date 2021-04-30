@@ -29,11 +29,11 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
 
 
     public ByteBufferBigIntegerArraySector(int recordSize, int numRecords) {
-        this.lengthInBytes = 4 + ((recordSize + 4) * numRecords);
+        lengthInBytes = 4 + ((recordSize + 4) * numRecords);
 
-        this.offset = 4;
+        offset = 4;
         this.recordSize = recordSize;
-        this.recordLength = recordSize + 4;
+        recordLength = recordSize + 4;
         this.numRecords = numRecords;
     }
 
@@ -57,8 +57,8 @@ public class ByteBufferBigIntegerArraySector implements ArraySector<BigInteger> 
 
     public synchronized ArraySector<BigInteger> mapTo(Mode mode, ByteBuffer buffer) {
         this.buffer = buffer;
-        this.in = new PairingDataInput(new ByteBufferDataInput(buffer));
-        this.out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
+        in = new PairingDataInput(new ByteBufferDataInput(buffer));
+        out = new PairingDataOutput(new ByteBufferDataOutput(buffer));
 
         switch (mode) {
             case INIT:

@@ -12,19 +12,19 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ByteBufferSoftRefBigIntegerArraySector extends ByteBufferBigIntegerArraySector {
 
-    protected Map<Integer, SoftReference<BigInteger>> cache;
+    protected final Map<Integer, SoftReference<BigInteger>> cache;
 
 
     public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords) {
         super(recordSize, numRecords);
 
-        this.cache = new ConcurrentHashMap<>();
+        cache = new ConcurrentHashMap<>();
     }
 
-    public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+    public ByteBufferSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) {
         super(recordSize, numRecords, labels);
 
-        this.cache = new ConcurrentHashMap<>();
+        cache = new ConcurrentHashMap<>();
     }
 
 

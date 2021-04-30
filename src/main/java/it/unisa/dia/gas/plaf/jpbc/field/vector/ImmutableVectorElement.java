@@ -12,11 +12,11 @@ public class ImmutableVectorElement<E extends Element> extends VectorElement<E> 
     public ImmutableVectorElement(VectorElement element) {
         super(element.getField());
 
-        this.coeff.clear();
+        coeff.clear();
         for (int i = 0; i < field.n; i++)
             coeff.add((E) element.getAt(i).getImmutable());
 
-        this.immutable = true;
+        immutable = true;
     }
 
     @Override

@@ -17,17 +17,17 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     public CurveElement(F field) {
         super(field);
 
-        this.x = (E) field.getTargetField().newElement();
-        this.y = (E) field.getTargetField().newElement();
-        this.infFlag = 1;
+        x = (E) field.getTargetField().newElement();
+        y = (E) field.getTargetField().newElement();
+        infFlag = 1;
     }
 
     public CurveElement(CurveElement<E, F> curveElement) {
         super(curveElement.getField());
 
-        this.x = (E) curveElement.x.duplicate();
-        this.y = (E) curveElement.y.duplicate();
-        this.infFlag = curveElement.infFlag;
+        x = (E) curveElement.x.duplicate();
+        y = (E) curveElement.y.duplicate();
+        infFlag = curveElement.infFlag;
     }
 
 
@@ -67,9 +67,9 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
             return this;
         }
 
-        this.x.set(element.x);
-        this.y.set(element.y);
-        this.infFlag = 0;
+        x.set(element.x);
+        y.set(element.y);
+        infFlag = 0;
 
         return this;
     }
@@ -167,7 +167,6 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
             return this;
         }
 
-        infFlag = 0;
         y.negate();
 
         return this;
@@ -255,7 +254,7 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
         if (field.quotientCmp != null) {
             // If we're working with a quotient group we must account for different
             // representatives of the same co-set.
-            return this.duplicate().div(element).pow(field.quotientCmp).isOne();
+            return duplicate().div(element).pow(field.quotientCmp).isOne();
         }
 
         return isEqual(element);
@@ -369,7 +368,8 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     }
 
     public boolean isValid() {
-        Element t0, t1;
+        Element t0;
+        Element t1;
 
         if (infFlag != 0)
             return true;
@@ -404,8 +404,8 @@ public class CurveElement<E extends Element, F extends CurveField> extends Abstr
     }
 
     protected boolean isEqual(CurveElement element) {
-        if (this.infFlag != 0 || element.infFlag != 0) {
-            return (this.infFlag != 0 && element.infFlag != 0);
+        if (infFlag != 0 || element.infFlag != 0) {
+            return (infFlag != 0 && element.infFlag != 0);
         }
 
         return x.isEqual(element.x) && y.isEqual(element.y);

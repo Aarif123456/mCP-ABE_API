@@ -151,7 +151,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
         return element;
     }
 
-    final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
+    static void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
         //element_pow_mpz(out, f, tateExp);
@@ -172,7 +172,7 @@ public class TypeA1TateAffineMillerPairingMap extends AbstractMillerPairingMap<E
     }
 
 
-    protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+    protected void millerStep(Point<? extends Element> out, Element a, Element b, Element c, Element Qx, Element Qy) {
         // we will map Q via (x,y) --> (-x, iy)
         // hence:
         // Re(a Qx + b Qy + c) = -a Q'x + c and

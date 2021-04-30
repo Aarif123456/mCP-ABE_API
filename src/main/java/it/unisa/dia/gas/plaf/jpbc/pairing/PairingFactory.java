@@ -32,9 +32,9 @@ public class PairingFactory {
     private boolean immutable = false;
 
     private PairingFactory() {
-        this.instances = new HashMap<>();
-        this.creators = new HashMap<>();
-        this.secureRandomCreator = new DefaultSecureRandomCreator();
+        instances = new HashMap<>();
+        creators = new HashMap<>();
+        secureRandomCreator = new DefaultSecureRandomCreator();
 
         PairingCreator defaultCreator = new EllipticCurvesPairingCreator();
         creators.put("a", defaultCreator);
@@ -54,32 +54,32 @@ public class PairingFactory {
     /*****************************************************************************************/
     /* If we do not give in a secure random then we generate it*/
     public static Pairing getPairing(PairingParameters parameters) {
-        return getInstance().initPairing(parameters);
+        return INSTANCE.initPairing(parameters);
     }
 
     public static Pairing getPairing(Map<String, String> loadMap) {
-        return getInstance().initPairing(loadMap);
+        return INSTANCE.initPairing(loadMap);
     }
 
     public static Pairing getPairing(String parametersPath) {
-        return getInstance().initPairing(parametersPath);
+        return INSTANCE.initPairing(parametersPath);
     }
 
     /*General overloading with SecureRandom given*/
     public static Pairing getPairing(PairingParameters parameters, SecureRandom random) {
-        return getInstance().initPairing(parameters, random);
+        return INSTANCE.initPairing(parameters, random);
     }
 
     public static Pairing getPairing(Map<String, String> loadMap, SecureRandom random) {
-        return getInstance().initPairing(loadMap, random);
+        return INSTANCE.initPairing(loadMap, random);
     }
 
     public static Pairing getPairing(String parametersPath, SecureRandom random) {
-        return getInstance().initPairing(parametersPath, random);
+        return INSTANCE.initPairing(parametersPath, random);
     }
 
     public static PairingParameters getPairingParameters(String parametersPath) {
-        return getInstance().loadParameters(parametersPath);
+        return PairingFactory.loadParameters(parametersPath);
     }
 
     /*****************************************************************************************/
@@ -138,13 +138,13 @@ public class PairingFactory {
     }
 
     /*****************************************************************************************/
-    public PairingParameters loadParameters(Map<String, String> loadMap) {
+    public static PairingParameters loadParameters(Map<String, String> loadMap) {
         PropertiesParameters curveParams = new PropertiesParameters();
         curveParams.load(loadMap);
         return curveParams;
     }
 
-    public PairingParameters loadParameters(String path) {
+    public static PairingParameters loadParameters(String path) {
         PropertiesParameters curveParams = new PropertiesParameters();
         curveParams.load(path);
         return curveParams;

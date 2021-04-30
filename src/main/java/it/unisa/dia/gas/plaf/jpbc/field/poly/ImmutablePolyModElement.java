@@ -16,7 +16,7 @@ public class ImmutablePolyModElement<E extends Element> extends PolyModElement<E
         for (int i = 0; i < field.n; i++) {
             coefficients.add((E) element.getCoefficient(i).getImmutable());
         }
-        this.immutable = true;
+        immutable = true;
     }
 
     @Override
@@ -66,62 +66,62 @@ public class ImmutablePolyModElement<E extends Element> extends PolyModElement<E
 
     @Override
     public PolyModElement<E> twice() {
-        return (PolyModElement<E>) super.duplicate().twice().getImmutable();
+        return (PolyModElement<E>) duplicate().twice().getImmutable();
     }
 
     @Override
     public PolyModElement<E> square() {
-        return (PolyModElement<E>) super.duplicate().square().getImmutable();
+        return (PolyModElement<E>) duplicate().square().getImmutable();
     }
 
     @Override
     public PolyModElement<E> invert() {
-        return (PolyModElement<E>) super.duplicate().invert().getImmutable();
+        return (PolyModElement<E>) duplicate().invert().getImmutable();
     }
 
     @Override
     public PolyModElement<E> negate() {
-        return (PolyModElement<E>) super.duplicate().negate().getImmutable();
+        return (PolyModElement<E>) duplicate().negate().getImmutable();
     }
 
     @Override
     public PolyModElement<E> add(Element e) {
-        return (PolyModElement<E>) super.duplicate().add(e).getImmutable();
+        return (PolyModElement<E>) duplicate().add(e).getImmutable();
     }
 
     @Override
     public PolyModElement<E> sub(Element e) {
-        return (PolyModElement<E>) super.duplicate().sub(e).getImmutable();
+        return (PolyModElement<E>) duplicate().sub(e).getImmutable();
     }
 
     @Override
     public PolyModElement<E> mul(Element e) {
-        return (PolyModElement<E>) super.duplicate().mul(e).getImmutable();
+        return (PolyModElement<E>) duplicate().mul(e).getImmutable();
     }
 
     @Override
     public PolyModElement<E> mul(int z) {
-        return (PolyModElement<E>) super.duplicate().mul(z).getImmutable();
+        return (PolyModElement<E>) duplicate().mul(z).getImmutable();
     }
 
     @Override
     public PolyModElement<E> mul(BigInteger n) {
-        return (PolyModElement<E>) super.duplicate().mul(n).getImmutable();
+        return (PolyModElement<E>) duplicate().mul(n).getImmutable();
     }
 
     @Override
     public Element pow(BigInteger n) {
-        return super.duplicate().pow(n).getImmutable();
+        return duplicate().pow(n).getImmutable();
     }
 
     @Override
     public PolyModElement<E> powZn(Element e) {
-        return (PolyModElement<E>) super.duplicate().powZn(e).getImmutable();
+        return (PolyModElement<E>) duplicate().powZn(e).getImmutable();
     }
 
     @Override
     public PolyModElement<E> sqrt() {
-        return (PolyModElement<E>) super.duplicate().sqrt().getImmutable();
+        return (PolyModElement<E>) duplicate().sqrt().getImmutable();
     }
 
     @Override
@@ -136,17 +136,17 @@ public class ImmutablePolyModElement<E extends Element> extends PolyModElement<E
 
     @Override
     public Element halve() {
-        return super.duplicate().halve().getImmutable();
+        return duplicate().halve().getImmutable();
     }
 
     @Override
     public Element div(Element element) {
-        return super.duplicate().div(element).getImmutable();
+        return duplicate().div(element).getImmutable();
     }
 
     @Override
     public Element mulZn(Element z) {
-        return super.duplicate().mulZn(z).getImmutable();
+        return duplicate().mulZn(z).getImmutable();
     }
 
 }

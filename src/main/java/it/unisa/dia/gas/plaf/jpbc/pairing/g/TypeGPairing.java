@@ -1,6 +1,10 @@
 package it.unisa.dia.gas.plaf.jpbc.pairing.g;
 
-import it.unisa.dia.gas.jpbc.*;
+import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.Field;
+import it.unisa.dia.gas.jpbc.PairingParameters;
+import it.unisa.dia.gas.jpbc.Point;
+import it.unisa.dia.gas.jpbc.Polynomial;
 import it.unisa.dia.gas.plaf.jpbc.field.curve.CurveField;
 import it.unisa.dia.gas.plaf.jpbc.field.gt.GTFiniteField;
 import it.unisa.dia.gas.plaf.jpbc.field.poly.PolyElement;
@@ -58,7 +62,7 @@ public class TypeGPairing extends AbstractPairing {
     protected void initParams() {
         // validate the type
         String type = curveParams.getString("type");
-        if (type == null || !type.equalsIgnoreCase("g"))
+        if (!"g".equalsIgnoreCase(type))
             throw new IllegalArgumentException("Type not valid. Found '" + type + "'. Expected 'g'.");
 
         // load params

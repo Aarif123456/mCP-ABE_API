@@ -20,7 +20,7 @@ public abstract class AbstractPolyElement<E extends Element, F extends AbstractF
     protected AbstractPolyElement(F field) {
         super(field);
 
-        this.coefficients = new ArrayList<>();
+        coefficients = new ArrayList<>();
     }
 
 

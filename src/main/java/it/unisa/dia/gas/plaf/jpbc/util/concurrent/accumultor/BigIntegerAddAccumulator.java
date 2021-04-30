@@ -10,7 +10,7 @@ public class BigIntegerAddAccumulator extends AbstractAccumulator<BigInteger> {
 
 
     public BigIntegerAddAccumulator() {
-        this.result = BigInteger.ZERO;
+        result = BigInteger.ZERO;
     }
 
 

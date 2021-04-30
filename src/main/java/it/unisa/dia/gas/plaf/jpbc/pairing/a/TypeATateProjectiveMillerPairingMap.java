@@ -221,7 +221,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
     }
 
 
-    final void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
+    static void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
         //element_pow_mpz(out, f, tateExp);
@@ -241,7 +241,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         lucasOdd(out, in, temp, cofactor);
     }
 
-    final void tatePow(Point out, Point in, BigInteger cofactor) {
+    static void tatePow(Point out, Point in, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
         //element_pow_mpz(out, f, tateExp);
@@ -261,7 +261,7 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         lucasOdd(out, in, temp, cofactor);
     }
 
-    final void twiceProjective(Element e0, Element a, Element b, Element c, Element Vx, Element Vy, Element z, Element z2) {
+    static void twiceProjective(Element e0, Element a, Element b, Element c, Element Vx, Element Vy, Element z, Element z2) {
         // e0 = 3x^2 + cca z^4  (cca = 1)
         e0.set(Vx).square().add(a.set(e0).twice()).add(a.set(z2).square());
 

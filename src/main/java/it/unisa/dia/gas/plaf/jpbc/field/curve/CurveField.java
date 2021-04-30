@@ -24,7 +24,7 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
     // order #E / quotientCmp, and the points are actually coset
     // representatives. Thus for a comparison, we must multiply by quotientCmp
     // before comparing.
-    protected BigInteger quotientCmp = null;
+    protected BigInteger quotientCmp;
 
     public CurveField(SecureRandom random, Element a, Element b, BigInteger order) {
         this(random, a, b, order, (BigInteger) null);
@@ -106,12 +106,12 @@ public class CurveField<F extends Field> extends AbstractFieldOver<F, CurveEleme
         if (this == o) return true;
         if (!(o instanceof CurveField)) return false;
 
-        CurveField that = (CurveField) o;
+        CurveField otherField = (CurveField) o;
 
-        if (!a.equals(that.a)) return false;
-        if (!b.equals(that.b)) return false;
-        if (!Objects.equals(cofac, that.cofac)) return false;
-        return order.equals(that.order);
+        if (!a.equals(otherField.a)) return false;
+        if (!b.equals(otherField.b)) return false;
+        if (!Objects.equals(cofac, otherField.cofac)) return false;
+        return order.equals(otherField.order);
     }
 
     public int hashCode() {

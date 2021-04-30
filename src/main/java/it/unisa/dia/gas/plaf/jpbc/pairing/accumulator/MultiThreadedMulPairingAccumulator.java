@@ -20,6 +20,6 @@ public class MultiThreadedMulPairingAccumulator extends AbstractPairingAccumulat
 
 
     protected void reduce(Element value) {
-        this.result.mul(value);
+        result.mul(value);
     }
 }

@@ -1,7 +1,16 @@
 package com.mitu.cpabe;
 
 import com.google.gson.JsonObject;
-import com.mitu.abe.*;
+import com.mitu.abe.Abe;
+import com.mitu.abe.AbeCph;
+import com.mitu.abe.AbeCphKey;
+import com.mitu.abe.AbeMDec;
+import com.mitu.abe.AbeMsk;
+import com.mitu.abe.AbePrv;
+import com.mitu.abe.AbePrvPart1;
+import com.mitu.abe.AbePrvPart2;
+import com.mitu.abe.AbePub;
+import com.mitu.abe.SerializeUtils;
 import com.mitu.cpabe.policy.LangPolicy;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
 import com.mitu.utils.exceptions.NoSuchDecryptionTokenFoundException;
@@ -21,7 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Cpabe {
-    static final Map<String, String> defaultMap = new HashMap<String, String>() {{
+    static final Map<String, String> defaultMap = new HashMap<>() {{
         put("type", "a");
         put("q", "8780710799663312522437781984754049815806883199414208211028653399266475630880222957078625179422662221423155858769582317459277713367317481324925129998224791");
         put("h", "12016012264891146079388821366740534204802954401251311822919615131047207289359704531102844802183906537786776");
