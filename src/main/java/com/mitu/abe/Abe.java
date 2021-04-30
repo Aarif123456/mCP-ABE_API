@@ -1,18 +1,22 @@
 package com.mitu.abe;
 
-import com.mitu.utils.Utility;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
-import com.mitu.utils.exceptions.NoSuchDecryptionTokenFoundException;
 import it.unisa.dia.gas.jpbc.Element;
 import it.unisa.dia.gas.jpbc.Pairing;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 public class Abe {
+
+    private static final Pattern AND = Pattern.compile("AND");
+    private static final Pattern SPACE = Pattern.compile(" ");
+    private static final Pattern OR = Pattern.compile("OR");
 
     /**
      * Setup.
@@ -225,8 +229,7 @@ public class Abe {
      * @param cph      the cph
      * @return the abe m dec
      */
-    public static AbeMDec m_dec(AbePub pub, AbePrvPart1 prvPart1, AbeCph cph) throws AttributesNotSatisfiedException,
-            NoSuchDecryptionTokenFoundException {
+    public static AbeMDec m_dec(AbePub pub, AbePrvPart1 prvPart1, AbeCph cph) throws AttributesNotSatisfiedException {
 
         AbeMDec mDec = new AbeMDec();
 
@@ -247,65 +250,34 @@ public class Abe {
             throw new AttributesNotSatisfiedException("Attributes are not satisfied");
         }
 
-        boolean revoked = is_any_attr_revoked(attrs);
-        if (revoked) {
-            System.err.println("Attribute has been revoked!!");
-            throw new NoSuchDecryptionTokenFoundException("Attributes have been revoked");
-        } else {
-            for (String attr : attrs) {
-
-                cji = pub.p.getG1().newElement();
-                dj1 = pub.p.getG1().newElement();
-
-                for (int j = 0; j < cph.cjis.size(); j++) {
-                    if (attr.equals(cph.cjis.get(j).attr)) {
-                        cji = cph.cjis.get(j).cji.duplicate();
-                        break;
-                    }
-                }
-                for (int k = 0; k < prvPart1.comps1.size(); k++) {
-                    if (attr.equals(prvPart1.comps1.get(k).attr)) {
-                        dj1 = prvPart1.comps1.get(k).dj1.duplicate();
-                        break;
-                    }
-                }
-
-                c_t_hat.add(pub.p.pairing(cji, dj1));
-
-            }
-
-            mDec.attrs = attrs;
-            mDec.c_t_hat = pub.p.getGT().newElement();
-            mDec.c_t_hat = c_t_hat.duplicate();
-
-            return mDec;
-        }
-
-    }
-
-    /**
-     * Checks if is _any_attr_revoked.
-     *
-     * @param attrs the attributes
-     * @return true, if any of the attributes were revoked
-     */
-    public static boolean is_any_attr_revoked(ArrayList<String> attrs) {
-
-        // This the Attribute Revocation List (ARL) coming from server DB.
-        ArrayList<String> revocation_list;
-        revocation_list = Utility.getaRLs();
-        boolean revoked = false;
 
         for (String attr : attrs) {
-            for (String s : revocation_list) {
-                if (attr.equals(s)) {
-                    revoked = true;
+
+            cji = pub.p.getG1().newElement();
+            dj1 = pub.p.getG1().newElement();
+
+            for (int j = 0; j < cph.cjis.size(); j++) {
+                if (attr.equals(cph.cjis.get(j).attr)) {
+                    cji = cph.cjis.get(j).cji.duplicate();
                     break;
                 }
             }
+            for (int k = 0; k < prvPart1.comps1.size(); k++) {
+                if (attr.equals(prvPart1.comps1.get(k).attr)) {
+                    dj1 = prvPart1.comps1.get(k).dj1.duplicate();
+                    break;
+                }
+            }
+
+            c_t_hat.add(pub.p.pairing(cji, dj1));
+
         }
 
-        return revoked;
+        mDec.attrs = attrs;
+        mDec.c_t_hat = pub.p.getGT().newElement();
+        mDec.c_t_hat = c_t_hat.duplicate();
+
+        return mDec;
     }
 
     /**
@@ -468,7 +440,7 @@ public class Abe {
      * @param policy the policy
      * @param attrs  the attributes
      */
-    public static void get_the_min_list(AbePolicy policy, ArrayList<String> attrs) {
+    public static void get_the_min_list(AbePolicy policy, ArrayList<? super String> attrs) {
 
         if (policy.satisfiable) {
             if (policy.k == 2) {
@@ -495,7 +467,7 @@ public class Abe {
      * @param cjis   the cjis
      * @param cphKey the cph key
      */
-    private static void fillPolicy(AbePolicy p, AbePub pub, Element e, ArrayList<AbeCjiComp> cjis, AbeCphKey cphKey) {
+    private static void fillPolicy(AbePolicy p, AbePub pub, Element e, ArrayList<? super AbeCjiComp> cjis, AbeCphKey cphKey) {
         int i;
         Element si, t, cji;
         Pairing pairing = pub.p;
@@ -556,10 +528,10 @@ public class Abe {
      * @return the abe policy
      */
     private static AbePolicy parsePolicyPostfix(String s) {
-        s = s.replaceAll("AND", "&");
-        s = s.replaceAll(" ", "");
+        s = AND.matcher(s).replaceAll("&");
+        s = SPACE.matcher(s).replaceAll("");
 
-        s = s.replaceAll("OR", "|");
+        s = OR.matcher(s).replaceAll("|");
         StringTokenizer st = new StringTokenizer(s, "(&|)", true);
 
         return parsePolicyPostfix(st);
@@ -624,7 +596,7 @@ public class Abe {
     /**
      * The Class IntegerComparator.
      */
-    private static class IntegerComparator implements Comparator<Integer> {
+    private static class IntegerComparator implements Comparator<Integer>, Serializable {
 
         /**
          * The policy.
@@ -638,7 +610,7 @@ public class Abe {
          * @param p the p
          */
         public IntegerComparator(AbePolicy p) {
-            this.policy = p;
+            policy = p;
         }
 
         @Override
