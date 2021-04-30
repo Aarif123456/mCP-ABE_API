@@ -1,20 +1,17 @@
 package com.mitu.cpabe;
 
 import com.google.gson.JsonObject;
-import com.mitu.abe.Abe;
-import com.mitu.abe.AbeCph;
-import com.mitu.abe.AbeCphKey;
-import com.mitu.abe.AbeMDec;
-import com.mitu.abe.AbeMsk;
-import com.mitu.abe.AbePrv;
-import com.mitu.abe.AbePrvPart1;
-import com.mitu.abe.AbePrvPart2;
-import com.mitu.abe.AbePub;
-import com.mitu.abe.SerializeUtils;
+import com.mitu.abe.*;
 import com.mitu.cpabe.policy.LangPolicy;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
 import com.mitu.utils.exceptions.NoSuchDecryptionTokenFoundException;
 import it.unisa.dia.gas.jpbc.Element;
+import it.unisa.dia.gas.jpbc.PairingParameters;
+import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.a1.TypeA1CurveGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.e.TypeECurveGenerator;
+import it.unisa.dia.gas.plaf.jpbc.pairing.f.TypeFCurveGenerator;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -41,6 +38,64 @@ public class Cpabe {
         put("sign0", "1");
     }};
 
+    /*TODO: Create method */
+    // public static JsonObject generateCurve(String type="a", int rBits = 160, int qBits = 512){}
+
+    private static String createJsonForParameterMap(String mapString){
+        var sb = new StringBuilder();
+        sb.append("{");
+        var mapStringProperties =  mapString.split("\n");
+        for(int i=0; i<mapStringProperties.length; i++){
+            var entryAndVal = mapStringProperties[i].split(":");
+            sb.append("\"").
+                    append(entryAndVal[0]).
+                    append("\":\"").
+                    append(entryAndVal[1]).
+                    append("\"");
+            if(i<mapStringProperties.length-1){
+                sb.append(",");
+            }
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+    public static JsonObject generateCurve(String type, Map<String, String> parameterMap){
+    	var jsonObject = new JsonObject();
+    	PairingParametersGenerator generator;
+    	
+    	switch (type) {
+            case "a": {
+                /*Get arguments, parse them, */
+                var rBits = Integer.parseInt(parameterMap.getOrDefault("rBits", "160"));
+                var qBits = Integer.parseInt(parameterMap.getOrDefault("qBits", "512"));
+                generator = new TypeACurveGenerator(rBits, qBits);
+                break;
+            }
+            case "a1":
+                var numPrimes = Integer.parseInt(parameterMap.getOrDefault("numPrimes", "2"));
+                var bits = Integer.parseInt(parameterMap.getOrDefault("bits", "512"));
+                generator = new TypeA1CurveGenerator(numPrimes, bits);
+                break;
+            case "e": {
+                var rBits = Integer.parseInt(parameterMap.getOrDefault("rBits", "160"));
+                var qBits = Integer.parseInt(parameterMap.getOrDefault("qBits", "512"));
+                generator = new TypeECurveGenerator(rBits, qBits);
+                break;
+            }
+            case "f": {
+                var rBits = Integer.parseInt(parameterMap.getOrDefault("rBits", "160"));
+                generator = new TypeFCurveGenerator(rBits);
+                break;
+            }
+            default:
+                throw new IllegalArgumentException("Invalid Type of curve: "+type);
+        }
+
+    	PairingParameters parameters = generator.generate();
+    	jsonObject.addProperty("properties", createJsonForParameterMap(parameters.toString(":")));
+    	return jsonObject;
+
+    }
     public static JsonObject setup(String[] attrs) {
         return setup(attrs, defaultMap);
     }
@@ -141,7 +196,7 @@ public class Cpabe {
         m = keyCph.key.duplicate();
 
         if (cph == null) {
-            System.err.println("Error happened in enc");
+            Logger.getLogger(Cpabe.class.getName()).log(Level.SEVERE, "Error happened in enc");
             System.exit(0);
         }
 
@@ -166,7 +221,6 @@ public class Cpabe {
     /*API RETURN: {mDecrypt:string}*/
     public static JsonObject halfDecrypt(String publicKey, String share1, String encFile, Map<String, String> loadMap)
             throws AttributesNotSatisfiedException,
-            NoSuchDecryptionTokenFoundException,
             IOException {
 
         byte[] cphBuf;
@@ -249,7 +303,7 @@ public class Cpabe {
         pub.p.getGT().newElement();
         assert mDec != null;
         m = Abe.dec(pub, privateKeyPart2, cph, mDec).duplicate();
-        plt = AESCoder.decrypt(m.toBytes(), aesBuf);
+        plt = AESCoder.decrypt(m.toBytes(), aesBuf); 
 
         jsonObject.addProperty("decryptedFile", Base64.getEncoder().encodeToString(plt));
         return jsonObject;
