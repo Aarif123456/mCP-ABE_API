@@ -59,13 +59,14 @@ public class Cpabe {
         sb.append("}");
         return sb.toString();
     }
+
+    /*API RETURN: {properties:string}*/
     public static JsonObject generateCurve(String type, Map<String, String> parameterMap){
     	var jsonObject = new JsonObject();
     	PairingParametersGenerator generator;
     	
     	switch (type) {
             case "a": {
-                /*Get arguments, parse them, */
                 var rBits = Integer.parseInt(parameterMap.getOrDefault("rBits", "160"));
                 var qBits = Integer.parseInt(parameterMap.getOrDefault("qBits", "512"));
                 generator = new TypeACurveGenerator(rBits, qBits);

@@ -101,14 +101,7 @@ public class SerializeUtils {
         StringBuffer sb = new StringBuffer();
         offset = unserializeString(b, offset, sb);
         pub.pairingDesc = sb.substring(0);
-
-        /*TODO: create option to generate pairing */
-        /*// JPBC Type A pairing generator...
-        PairingParametersGenerator generator = new TypeACurveGenerator(rBits, qBits);
-        PairingParameters parameters = generator.generate();
-
-        pub.p = PairingFactory.getPairing(parameters);
-        Pairing pairing = pub.p;*/
+        
         pub.p = PairingFactory.getPairing(loadMap);
         Pairing pairing = pub.p;
 
