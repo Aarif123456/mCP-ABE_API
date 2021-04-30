@@ -21,8 +21,13 @@ public class CpabeTest {
     public static void main(String[] args) throws IOException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, InvalidKeyException, NoSuchDecryptionTokenFoundException, AttributesNotSatisfiedException {
         // all possible attributes
         String[] attributeUniverse = {"doctor", "windsor", "detroit", "heart_surgeon", "emergency"};
-        var userAttribute = "heart_surgeon doctor detroit"; // attributes given to the test user
-        var policy = "(doctor AND detroit AND heart_surgeon)"; // Policy used for encrypting file
+        var userAttribute = "doctor detroit heart_surgeon emergency"; // attributes given to the test user
+        var policy = "((doctor AND emergency) OR (heart_surgeon AND emergency))";
+        /* The wrong produce only works if policy not properly bracketed like the case below
+        * but when they are bracketed they cause the issue of giving the bad padding exception...*/
+//        var policy = "(doctor AND emergency AND windsor)"; // fake result need to fix
+        //var policy = "((doctor AND windsor) AND heart_surgeon)"; //anti policy should work TODO: make separate test cases
+        // var policy = "((doctor AND windsor) OR ((heart_surgeon AND emergency) AND doctor))";
         var path = "src/test/java/";
         var inputFile = "RealHuman.png"; // The file we will encrypt
         var decryptedFile = "DECRYPTED_" + inputFile;
