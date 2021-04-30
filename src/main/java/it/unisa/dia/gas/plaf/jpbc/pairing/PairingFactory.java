@@ -239,7 +239,7 @@ public class PairingFactory {
             // Try to load jpbc-pbc factory
             try {
                 Class pbcPairingFactoryClass = Class.forName("it.unisa.dia.gas.plaf.jpbc.pbc.PBCPairingFactory");
-                Method isPBCAvailable = pbcPairingFactoryClass.getMethod("isPBCAvailable", null);
+                Method isPBCAvailable = pbcPairingFactoryClass.getMethod("isPBCAvailable", (Class<?>) null);
 
                 pbcAvailable = ((Boolean) isPBCAvailable.invoke(null));
                 if (pbcAvailable)

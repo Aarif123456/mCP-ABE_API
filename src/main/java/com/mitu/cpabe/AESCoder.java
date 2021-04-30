@@ -35,7 +35,6 @@ public class AESCoder {
         byte[] raw = getRawKey(seed);
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        //Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
         System.out.println(" IN AES CODE: Encrypted successfully!");
         return cipher.doFinal(plaintext);
@@ -54,7 +53,6 @@ public class AESCoder {
         System.out.println("IN AES CODE: DECRYPT");
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        //Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
 
         return cipher.doFinal(ciphertext);

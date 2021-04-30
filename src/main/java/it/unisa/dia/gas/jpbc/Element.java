@@ -3,9 +3,9 @@ package it.unisa.dia.gas.jpbc;
 import java.math.BigInteger;
 
 /**
- * Elements of groups, rings and fields are accessible using the <code>Element</code>
+ * Elements of groups, rings and fields are accessible using the {@code Element}
  * interface. You can obtain an instance of an Element starting from an algebraic structure, such as a particular
- * finite field or elliptic curve group, represented by the <code>Field</code> interface.
+ * finite field or elliptic curve group, represented by the {@code Field} interface.
  *
  * @author Angelo De Caro (jpbclib@gmail.com)
  * @see Field
