@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.gcp.MapLoader.getLoadMap;
 import static com.mitu.cpabe.Cpabe.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
@@ -108,7 +109,7 @@ public class CpabeTest {
                     Gson gson = new Gson();
                     Type collectionType = new HashMapTypeToken().getType();
                     var jsonData = js.get("properties").getAsString();
-                    HashMap<String, String> map = gson.fromJson(jsonData, collectionType);
+                    Map<String, String> map = getLoadMap(jsonData, gson);
                     assertEquals(map.get("type"), type);
                     System.out.println(jsonData);
                 }));
@@ -116,4 +117,7 @@ public class CpabeTest {
 
     private static class HashMapTypeToken extends TypeToken<HashMap<String, String>> {
     }
+
+    /* TODO: make sure encryption with every type of curves*/
+
 }

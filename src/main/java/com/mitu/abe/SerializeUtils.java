@@ -101,7 +101,7 @@ public class SerializeUtils {
         StringBuffer sb = new StringBuffer();
         offset = unserializeString(b, offset, sb);
         pub.pairingDesc = sb.substring(0);
-        
+
         pub.p = PairingFactory.getPairing(loadMap);
         Pairing pairing = pub.p;
 

@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Cpabe {
-    static final Map<String, String> defaultMap = new HashMap<>() {{
+    public static final Map<String, String> defaultMap = new HashMap<>() {{
         put("type", "a");
         put("q", "6369360761975870121762638569043728784537618524939795659581725459764519487632130011828250189407458902559556082799450871019292319559501351774206580668498539");
         put("h", "8716186967272981946338881743674542758348861153366380201939968258588498384514697695543719672616341557740140");
@@ -37,9 +37,6 @@ public class Cpabe {
         put("sign1", "1");
         put("sign0", "1");
     }};
-
-    /*TODO: Create method */
-    // public static JsonObject generateCurve(String type="a", int rBits = 160, int qBits = 512){}
 
     private static String createJsonForParameterMap(String mapString){
         var sb = new StringBuilder();
