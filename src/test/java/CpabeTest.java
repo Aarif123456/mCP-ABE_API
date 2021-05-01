@@ -53,7 +53,7 @@ public class CpabeTest {
         share2 = js.get("share2").getAsString();
     }
 
-    public void testEncryption(String policy, boolean areEqual) throws BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, InvalidKeyException, IOException, AttributesNotSatisfiedException, NoSuchDecryptionTokenFoundException {
+    public void testEncryption(String policy, boolean areEqual) throws BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, InvalidKeyException, IOException, NoSuchDecryptionTokenFoundException {
         File file = new File(path + inputFile);
         var inputFileBytes = Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath()));
 
@@ -63,13 +63,9 @@ public class CpabeTest {
             js = halfDecrypt(publicKey, share1, encryptedFile);
             var mDecryptedFile = js.get("mDecryptedFile").getAsString();
             js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile);
-            // byte[] decryptedFileBytes = Base64.getDecoder().decode(js.get("decryptedFile").getAsString());
             var decryptedFileBytes = js.get("decryptedFile").getAsString();
             assertTrue(areEqual);
             assertEquals(decryptedFileBytes, inputFileBytes);
-            // File f = new File(path + decryptedFile);
-            // var fileOutputStream = new FileOutputStream(f);
-            // fileOutputStream.write(decryptedFileBytes);
         } catch (AttributesNotSatisfiedException e) {
             /* The policy was supposed to fail the user */
             assertFalse(areEqual);
@@ -118,6 +114,6 @@ public class CpabeTest {
     private static class HashMapTypeToken extends TypeToken<HashMap<String, String>> {
     }
 
-    /* TODO: make sure encryption with every type of curves*/
+    /* TODO: make sure encryption works with every type of curve*/
 
 }
