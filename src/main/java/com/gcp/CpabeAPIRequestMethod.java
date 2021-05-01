@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.gcp.MapLoader.getLoadMap;
@@ -43,6 +45,10 @@ public class CpabeAPIRequestMethod {
             }
             case "decrypt": {
                 js = decryptQuery(request, gson);
+                break;
+            }
+            case "generateProperties": {
+                js = generateCurveQuery(request, gson);
                 break;
             }
             default:
@@ -169,4 +175,24 @@ public class CpabeAPIRequestMethod {
         return js;
     }
 
+    private static JsonObject generateCurveQuery(HttpRequest request, Gson gson) {
+        JsonObject js = new JsonObject();
+        Optional<String> typeParam = request.getFirstQueryParameter("type");
+        Optional<String> parameterMapParam = request.getFirstQueryParameter("parameterMap");
+        if (typeParam.isPresent()) {
+            var type = typeParam.get();
+            Map<String, String> parameterMap = parameterMapParam.isPresent() ?
+                    getLoadMap(parameterMapParam.get(), gson) :
+                    new HashMap<>();
+            try {
+                js = generateCurve(type, parameterMap);
+            } catch (NumberFormatException ignored) {
+                js.addProperty("Error", "ERROR: All parameters need to be an Integer");
+            }
+        } else {
+            js.addProperty("Error", "Missing argument for the generate properties function");
+        }
+
+        return js;
+    }
 }

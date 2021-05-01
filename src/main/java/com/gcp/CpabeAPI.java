@@ -12,11 +12,7 @@ import java.net.HttpURLConnection;
 
 import static com.gcp.CpabeAPIRequestMethod.respondQuery;
 import static com.gcp.CpabeApiJsonRequest.respondMethod;
-/*TODO:
-   1.separate code
-   2.add in ability to generate curve
-   3. add in ability to pass in JSON serialized map
-*/
+
 public class CpabeAPI implements HttpFunction {
 
     private static final Gson gson = new Gson();
