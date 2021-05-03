@@ -2,11 +2,11 @@ Endpoint available at: https://us-central1-mcpabe.cloudfunctions.net/test  \
 Argument: method (type of method described below) - each method has its own list of required arguments
 
 ## Description
-m-CP-ABE - based on the paper by https://link.springer.com/chapter/10.1007/978-3-642-10838-9_23 and original code by 
-Mitu kumar
+m-CP-ABE - based on the paper by https://link.springer.com/chapter/10.1007/978-3-642-10838-9_23 and original code by Mitu kumar/
+The CP-ABE implementation comes from [Junwei Wang](https://github.com/junwei-wang/cpabe/)
 The following is in API that implements the mCp-ABE protocol 
 It supports both get and post request
-*Note: properties is supported by the business logic but not by request*
+
 
 # API
 ### GenerateProperties
