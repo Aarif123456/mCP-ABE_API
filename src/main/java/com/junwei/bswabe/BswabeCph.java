@@ -2,6 +2,7 @@ package com.junwei.bswabe;
 
 import it.unisa.dia.gas.jpbc.Element;
 
+/* TODO: track where the class is used and delete if not needed*/
 public class BswabeCph {
 	/*
 	 * A ciphertext. Note that this library only handles encrypting a single
@@ -10,6 +11,6 @@ public class BswabeCph {
 	 * you do yourself).
 	 */
 	public Element cs; /* G_T */
-	public Element c; /* G_1 */
+	public Element c;  /* G_1 */
 	public BswabePolicy p;
 }

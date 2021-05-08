@@ -1,13 +1,13 @@
 package com.junwei.bswabe;
 
-import java.util.ArrayList;
-
 import it.unisa.dia.gas.jpbc.Element;
 
+import java.util.ArrayList;
+
+/*
+ * Holds a private key
+ */
 public class BswabePrv {
-	/*
-	 * A private key
-	 */
 	Element d; /* G_2 */
 	ArrayList<BswabePrvComp> comps; /* BswabePrvComp */
 }

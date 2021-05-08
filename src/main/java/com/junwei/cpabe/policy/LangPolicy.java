@@ -1,17 +1,17 @@
 package com.junwei.cpabe.policy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class LangPolicy {
 
 	public static String[] parseAttribute(String s) {
-		ArrayList<String> str_arr = new ArrayList<String>();
+		ArrayList<String> str_arr = new ArrayList<>();
 		StringTokenizer st = new StringTokenizer(s);
 		String token;
-		String res[];
+		String[] res;
 		int len;
 
 		while (st.hasMoreTokens()) {
@@ -24,7 +24,7 @@ public class LangPolicy {
 			}
 		}
 
-		Collections.sort(str_arr, new SortByAlphabetic());
+		str_arr.sort(new SortByAlphabetic());
 
 		len = str_arr.size();
 		res = new String[len];
@@ -38,11 +38,10 @@ public class LangPolicy {
 				+ "sn:student2 cn:student2 uid:student2 userPassword:student2 "
 				+ "ou:idp o:computer mail:student2@sdu.edu.cn title:student";
 		String[] arr = parseAttribute(attr);
-		for (int i = 0; i < arr.length; i++)
-			System.out.println(arr[i]);
+		for (String s : arr) System.out.println(s);
 	}
 
-	static class SortByAlphabetic implements Comparator<String> {
+	static class SortByAlphabetic implements Comparator<String>, Serializable {
 		@Override
 		public int compare(String s1, String s2) {
 			if (s1.compareTo(s2) >= 0)

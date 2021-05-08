@@ -1,13 +1,15 @@
 package com.junwei.bswabe;
 
-import java.util.ArrayList;
-
 import it.unisa.dia.gas.jpbc.Element;
 
-public class BswabePolicy {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+
+public class BswabePolicy implements Serializable {
 	/* serialized */
 	
-	/* k=1 if leaf, otherwise threshould */
+	/* k=1 if leaf, otherwise threshold */
 	int k;
 	/* attribute string if leaf, otherwise null */
 	String attr;
@@ -19,9 +21,9 @@ public class BswabePolicy {
 	/* only used during encryption */
 	BswabePolynomial q;
 
-	/* only used during decription */
+	/* only used during decryption */
 	boolean satisfiable;
 	int min_leaves;
-	int attri;
-	ArrayList<Integer> satl = new ArrayList<Integer>();
+	int attributes;
+	ArrayList<Integer> satl = new ArrayList<>();
 }

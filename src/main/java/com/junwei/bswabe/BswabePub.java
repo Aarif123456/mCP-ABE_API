@@ -5,9 +5,10 @@ import it.unisa.dia.gas.jpbc.Pairing;
 
 public class BswabePub{
 	/*
-	 * A public key
+	 * The pairing description.
 	 */
 	public String pairingDesc;
+	/* The class used to handle the pairing */
 	public Pairing p;				
 	public Element g;				/* G_1 */
 	public Element h;				/* G_1 */
