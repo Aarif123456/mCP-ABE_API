@@ -24,13 +24,13 @@ The property map holds the parameter needed to generate the key, if you don't pa
 More info available [here](http://gas.dia.unisa.it/projects/jpbc/docs/ecpg.html)
 
 ### Setup
-Input: attributeUniverse, properties(optional)\
+Input: properties(optional)\
 Output: publicKey, masterKey\
 Explanation: Takes the set of all attributes and creates and return a master key and public key. All properties will eventually be converted to be lower-case so make sure the attributes are lower-case.
 
 ### Keygen
-Input: publicKey, masterKey, userAttribute, properties(optional)\
-Output: share1, share2\
+Input: publicKey, masterKey, userAttributes, properties(optional)\
+Output: privateKey\
 Explanation: Uses the public key and master key to create 2 private keys for the doctor to use when decrypting files. One key should be in a database where the doctor will have access. The other should be stored in a database accessible by the revocation server
 
 ### Encrypt
@@ -38,18 +38,9 @@ Input: publicKey,policy, inputFile, properties(optional)\
 Output: encryptedFile\
 Explanation: Uses the public key and encryption policy to return the encrypted file in the storage server (represented in bytes)
 
-### HalfDecrypt
-Input: publicKey, share1, encryptedFile, properties(optional)\
-Output: mDecryptedFile\
-Explanation: If the user has not been revoked, then uses the userID to find the first half of the user's key and then uses that to half decrypt the file and return it.
-
 ### Decrypt
-Input: publicKey, share2, encryptedFile, mDecryptedFile, properties(optional)\
+Input: publicKey, privateKey, encryptedFile, properties(optional)\
 Output: decryptedFile\
-Explanation: Ideally we would use the professional_id to get the second part of the users' decryption key. 
-Then makes a call to the RS to get the half decrypted file. 
-If the RS does not respond with an error, it will then take the half decrypted file and 
-decrypt the rest of it with the second part of the decryption key. Then it will return the decrypted file to the user.
-However, currently it does not make automatic calls to the RS server. Instead, it functions as a straightforward API call.
+Explanation: use the users key and decrypt the encrypted file
 
 
