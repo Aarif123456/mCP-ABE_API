@@ -1,4 +1,5 @@
 package com.junwei.cpabe.policy;
+import com.mitu.utils.exceptions.MalformedAttributesException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.StringTokenizer;
 
 public class LangPolicy {
 
-	public static String[] parseAttribute(String s) {
+	public static String[] parseAttribute(String s) throws MalformedAttributesException {
 		ArrayList<String> str_arr = new ArrayList<>();
 		StringTokenizer st = new StringTokenizer(s);
 		String token;
@@ -19,8 +20,7 @@ public class LangPolicy {
 			if (token.contains(":")) {
 				str_arr.add(token);
 			} else {
-				System.out.println("Some error happens in the input attribute");
-				System.exit(0);
+				throw new MalformedAttributesException("Some error happens in the input attribute");
 			}
 		}
 
@@ -33,7 +33,7 @@ public class LangPolicy {
 		return res;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedAttributesException {
 		String attr = "objectClass:inetOrgPerson objectClass:organizationalPerson "
 				+ "sn:student2 cn:student2 uid:student2 userPassword:student2 "
 				+ "ou:idp o:computer mail:student2@sdu.edu.cn title:student";
