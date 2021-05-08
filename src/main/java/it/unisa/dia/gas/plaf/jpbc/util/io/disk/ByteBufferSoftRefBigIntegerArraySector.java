@@ -1,6 +1,5 @@
 package it.unisa.dia.gas.plaf.jpbc.util.io.disk;
 
-import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.math.BigInteger;
 import java.util.Map;

@@ -79,7 +79,7 @@ public class PairingFactory {
     }
 
     public static PairingParameters getPairingParameters(String parametersPath) {
-        return PairingFactory.loadParameters(parametersPath);
+        return loadParameters(parametersPath);
     }
 
     /*****************************************************************************************/

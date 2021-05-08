@@ -11,7 +11,7 @@ import java.math.BigInteger;
  */
 public class ByteBufferLatchSoftRefBigIntegerArraySector extends ByteBufferSoftRefBigIntegerArraySector {
 
-    protected FlagMap<Integer> flags;
+    protected final FlagMap<Integer> flags;
 
 
     public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords) {
@@ -20,7 +20,7 @@ public class ByteBufferLatchSoftRefBigIntegerArraySector extends ByteBufferSoftR
         flags = new FlagMap<>();
     }
 
-    public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) throws IOException {
+    public ByteBufferLatchSoftRefBigIntegerArraySector(int recordSize, int numRecords, String... labels) {
         super(recordSize, numRecords, labels);
 
         flags = new FlagMap<>();

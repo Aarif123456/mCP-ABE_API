@@ -124,8 +124,6 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
      * point doubling in Jacobian coordinates
      */
     static void twice(JacobPoint V, Element a, Element b, Element c) {
-        //if(V.isInfinity())
-        //	return;
 
         Element x = V.getX();
         Element y = V.getY();

@@ -118,11 +118,7 @@ public class PolyModField<F extends Field> extends AbstractFieldOver<F, PolyModE
             xpwr[i].add(p0);
         }
 
-//        for (PolyModElement polyModElement : xpwr) {
-//            System.out.println("xprw = " + polyModElement);
-//        }
-
-        /*
+/*
         polymod_field_data_ptr p = field - > data;
         element_t p0;
         element_ptr pwrn;

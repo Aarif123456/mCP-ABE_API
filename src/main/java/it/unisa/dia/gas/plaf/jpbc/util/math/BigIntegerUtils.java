@@ -225,24 +225,6 @@ public class BigIntegerUtils {
 
     public static int jacobi(BigInteger a, BigInteger n) {
         /* Precondition: a, n >= 0; n is odd */
-/*        int ans = 0;
-
-        if (ZERO.equals(a))
-            ans = (ONE.equals(n)) ? 1 : 0;
-        else if (TWO.equals(a)) {
-            BigInteger mod = n.mod(EIGHT);
-            if (ONE.equals(mod) || SEVEN.equals(mod))
-                ans = 1;
-            else if (THREE.equals(mod) || FIVE.equals(mod))
-                ans = -1;
-        } else if (a.compareTo(n) >= 0)
-            ans = jacobi(a.mod(n), n);
-        else if (ZERO.equals(a.mod(TWO)))
-            ans = jacobi(TWO, n) * jacobi(a.divide(TWO), n);
-        else
-            ans = (THREE.equals(a.mod(FOUR)) && THREE.equals(n.mod(FOUR))) ? -jacobi(n, a) : jacobi(n, a);
-
-        return ans;*/
 
         if (ZERO.equals(a))
             return 0; // (0/n) = 0

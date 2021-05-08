@@ -72,9 +72,6 @@ public class TypeGPairing extends AbstractPairing {
         r = curveParams.getBigInteger("r");
         a = curveParams.getBigInteger("a");
         b = curveParams.getBigInteger("b");
-//        k = curveParams.getBigInteger("k");
-//        nk = curveParams.getBigInteger("nk");
-//        hk = curveParams.getBigInteger("hk");
         nqr = curveParams.getBigInteger("nqr");
     }
 

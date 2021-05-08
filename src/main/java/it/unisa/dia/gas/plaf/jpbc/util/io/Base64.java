@@ -716,10 +716,10 @@ public class Base64 {
 
         // Return value according to relevant encoding.
         try {
-            return new String(baos.toByteArray(), PREFERRED_ENCODING);
+            return baos.toString(PREFERRED_ENCODING);
         } catch (UnsupportedEncodingException uue) {
             // Fall back to some Java default
-            return new String(baos.toByteArray());
+            return baos.toString();
         }
 
     }
@@ -930,9 +930,7 @@ public class Base64 {
 
                 gzos.write(source, off, len);
                 gzos.close();
-            }
-            // end catch
-            finally {
+            } finally {
                 try {
                     gzos.close();
                 } catch (Exception ignored) {
@@ -1068,8 +1066,6 @@ public class Base64 {
         // Example: Dk==
         if (source[srcOffset + 2] == EQUALS_SIGN) {
             // Two ways to do the same thing. Don't know which way I like best.
-            //int outBuff =   ( ( DECODABET[ source[ srcOffset    ] ] << 24 ) >>>  6 )
-            //              | ( ( DECODABET[ source[ srcOffset + 1] ] << 24 ) >>> 12 );
             int outBuff = ((DECODABET[source[srcOffset]] & 0xFF) << 18)
                     | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12);
 
@@ -1080,9 +1076,6 @@ public class Base64 {
         // Example: DkL=
         else if (source[srcOffset + 3] == EQUALS_SIGN) {
             // Two ways to do the same thing. Don't know which way I like best.
-            //int outBuff =   ( ( DECODABET[ source[ srcOffset     ] ] << 24 ) >>>  6 )
-            //              | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
-            //              | ( ( DECODABET[ source[ srcOffset + 2 ] ] << 24 ) >>> 18 );
             int outBuff = ((DECODABET[source[srcOffset]] & 0xFF) << 18)
                     | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
                     | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6);
@@ -1095,10 +1088,6 @@ public class Base64 {
         // Example: DkLE
         else {
             // Two ways to do the same thing. Don't know which way I like best.
-            //int outBuff =   ( ( DECODABET[ source[ srcOffset     ] ] << 24 ) >>>  6 )
-            //              | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
-            //              | ( ( DECODABET[ source[ srcOffset + 2 ] ] << 24 ) >>> 18 )
-            //              | ( ( DECODABET[ source[ srcOffset + 3 ] ] << 24 ) >>> 24 );
             int outBuff = ((DECODABET[source[srcOffset]] & 0xFF) << 18)
                     | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12)
                     | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6)
@@ -1366,7 +1355,6 @@ public class Base64 {
             obj = ois.readObject();
         }
         // end catch
-        // end catch
         finally {
             try {
                 bais.close();
@@ -1481,9 +1469,7 @@ public class Base64 {
             decodedData = new byte[length];
             System.arraycopy(buffer, 0, decodedData, 0, length);
 
-        }
-        // end catch: java.io.IOException
-        finally {
+        } finally {
             try {
                 bis.close();
             } catch (Exception ignored) {
@@ -1533,9 +1519,7 @@ public class Base64 {
             // Save in a variable to return
             encodedData = new String(buffer, 0, length, PREFERRED_ENCODING);
 
-        }
-        // end catch: java.io.IOException
-        finally {
+        } finally {
             try {
                 bis.close();
             } catch (Exception ignored) {
