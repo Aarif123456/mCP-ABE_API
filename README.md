@@ -32,12 +32,14 @@ Explanation: Takes the set of all attributes and creates and return a master key
 Input: publicKey, masterKey, userAttributes, properties(optional)\
 Output: privateKey\
 Explanation: Uses the public key and master key to create 2 private keys for the doctor to use when decrypting files. One key should be in a database where the doctor will have access. The other should be stored in a database accessible by the revocation server
+\
+*Note: user attributes must be in the shape "attributeType1:property1 attrbuteType2:property2"* Every property must be attached to a property type.
 
 ### Encrypt
-Input: publicKey,policy, inputFile, properties(optional)\
+Input: publicKey, policy, inputFile, properties(optional)\
 Output: encryptedFile\
-Explanation: Uses the public key and encryption policy to return the encrypted file in the storage server (represented in bytes)
-
+Explanation: Uses the public key and encryption policy to return the encrypted file in the storage server (represented in bytes)\
+*Check out test classes to some idea of how the policies are supposed to be formed. If it still doesn't make sense then go* [here](https://github.com/junwei-wang/cpabe/)
 ### Decrypt
 Input: publicKey, privateKey, encryptedFile, properties(optional)\
 Output: decryptedFile\
