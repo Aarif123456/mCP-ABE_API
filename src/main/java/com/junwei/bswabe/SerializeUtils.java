@@ -47,20 +47,21 @@ public class SerializeUtils {
 	 */
 	public static int unserializeString(byte[] arr, int offset, StringBuffer sb) {
 
-        int i;
-        int len;
-        StringBuilder s = new StringBuilder();
+		int i;
+		int len;
+		byte[] str_byte;
 
-        len = unserializeUint32(arr, offset);
-        offset += 4;
+		len = unserializeUint32(arr, offset);
+		offset += 4;
+		str_byte = new byte[len];
+		for (i = 0; i < len; i++)
+			str_byte[i] = arr[offset + i];
 
-        for (i = 0; i < len; i++)
-            s.append(new String(new byte[]{arr[offset + i]}));
 
-        sb.append(s);
 
-        return offset + len;
-    }
+		sb.append(new String(str_byte));
+		return offset + len;
+	}
 
 	public static byte[] serializeBswabePub(BswabePub pub) {
 		ArrayList<Byte> arrayList = new ArrayList<>();
