@@ -1,4 +1,4 @@
-package co.junwei.cpabe.policy;
+package com.junwei.cpabe.policy;
 
 import java.util.ArrayList;
 import java.util.Collections;

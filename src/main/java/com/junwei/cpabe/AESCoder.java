@@ -1,4 +1,4 @@
-package co.junwei.cpabe;
+package com.junwei.cpabe;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;

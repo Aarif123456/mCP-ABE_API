@@ -1,4 +1,4 @@
-package co.junwei.cpabe;
+package com.junwei.cpabe;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

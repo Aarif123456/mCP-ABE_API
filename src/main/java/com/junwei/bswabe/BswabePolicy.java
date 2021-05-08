@@ -1,4 +1,4 @@
-package co.junwei.bswabe;
+package com.junwei.bswabe;
 
 import java.util.ArrayList;
 

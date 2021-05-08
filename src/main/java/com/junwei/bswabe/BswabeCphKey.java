@@ -1,4 +1,4 @@
-package co.junwei.bswabe;
+package com.junwei.bswabe;
 
 import it.unisa.dia.gas.jpbc.Element;
 

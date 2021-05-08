@@ -1,18 +1,18 @@
-package co.junwei.cpabe;
-import co.junwei.cpabe.policy.LangPolicy;
+package com.junwei.cpabe;
+import com.junwei.cpabe.policy.LangPolicy;
 import it.unisa.dia.gas.jpbc.Element;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import co.junwei.bswabe.Bswabe;
-import co.junwei.bswabe.BswabeCph;
-import co.junwei.bswabe.BswabeCphKey;
-import co.junwei.bswabe.BswabeElementBoolean;
-import co.junwei.bswabe.BswabeMsk;
-import co.junwei.bswabe.BswabePrv;
-import co.junwei.bswabe.BswabePub;
-import co.junwei.bswabe.SerializeUtils;
+import com.junwei.bswabe.Bswabe;
+import com.junwei.bswabe.BswabeCph;
+import com.junwei.bswabe.BswabeCphKey;
+import com.junwei.bswabe.BswabeElementBoolean;
+import com.junwei.bswabe.BswabeMsk;
+import com.junwei.bswabe.BswabePrv;
+import com.junwei.bswabe.BswabePub;
+import com.junwei.bswabe.SerializeUtils;
 
 public class Cpabe {
 
