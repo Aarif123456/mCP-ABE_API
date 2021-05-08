@@ -65,9 +65,10 @@ public class FileChannelDisk<S extends Sector> implements Disk<S> {
         }
 
         try {
-            RandomAccessFile f = new RandomAccessFile(filePath, "rw");
-            f.setLength(size);
-            channel = f.getChannel();
+            try (RandomAccessFile f = new RandomAccessFile(filePath, "rw")) {
+                f.setLength(size);
+                channel = f.getChannel();
+            }
 
             int channelCursor = 0;
             for (Sector sector : sectors) {

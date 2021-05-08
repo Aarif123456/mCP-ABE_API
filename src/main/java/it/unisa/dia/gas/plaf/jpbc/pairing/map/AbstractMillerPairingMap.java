@@ -22,7 +22,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
     }
 
 
-    protected final void lineStep(Point<E> f0,
+    protected final void lineStep(Point<? extends E> f0,
                                   Element a, Element b, Element c,
                                   Element Vx, Element Vy,
                                   Element V1x, Element V1y,
@@ -48,7 +48,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         f.mul(f0);
     }
 
-    protected final void lineStep(Point<E> f0,
+    protected final void lineStep(Point<? extends E> f0,
                                   Element a, Element b, Element c,
                                   Element[] Vs,
                                   Element[] V1s,
@@ -80,7 +80,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         }
     }
 
-    protected final void tangentStep(Point<E> f0,
+    protected final void tangentStep(Point<? extends E> f0,
                                      Element a, Element b, Element c,
                                      Element Vx, Element Vy,
                                      Element curveA,
@@ -104,7 +104,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         f.mul(f0);
     }
 
-    protected final void tangentStep(Point<E> f0,
+    protected final void tangentStep(Point<? extends E> f0,
                                      Element a, Element b, Element c,
                                      Element[] Vs,
                                      Element curveA,
@@ -133,7 +133,7 @@ public abstract class AbstractMillerPairingMap<E extends Element> extends Abstra
         }
     }
 
-    protected final void tangentStepProjective(Point<E> f0,
+    protected final void tangentStepProjective(Point<? extends E> f0,
                                                Element a, Element b, Element c,
                                                Element Vx, Element Vy, Element z,
                                                Element z2,
