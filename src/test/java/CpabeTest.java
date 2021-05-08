@@ -2,7 +2,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
-import com.mitu.utils.exceptions.NoSuchDecryptionTokenFoundException;
+import com.mitu.utils.exceptions.MalformedAttributesException;
+import com.mitu.utils.exceptions.MalformedPolicyException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
@@ -20,10 +21,11 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.gcp.MapLoader.getLoadMap;
-import static com.mitu.cpabe.Cpabe.*;
+import static com.junwei.cpabe.Cpabe.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
@@ -32,37 +34,35 @@ public class CpabeTest {
     // The file we will encrypt
     private static final String inputFile = "RealHuman.png";
     // attributes given to the test user
-    private static final String userAttribute = "doctor detroit heart_surgeon emergency";
-    private static final String decryptedFile = "DECRYPTED_" + inputFile;
+    private static final String doctorAttributes = "profession:doctor location:detroit specialization:heartSurgeon department:emergency";
+    private static final String studentAttributes = "objectClass:inetOrgPerson objectClass:organizationalPerson "
+            + "sn:student2 cn:student2 uid:student2 userPassword:student2 "
+            + "ou:idp o:computer mail:student2@sdu.edu.cn title:student";
+    private static final String studentPolicy = "sn:student2 cn:student2 uid:student2 3of3";
+    private static final String testPolicy = "a:foo b:bar c:fim 2of3 d:baf 1of2";
+
+
     // all possible attributes
-    private final String[] attributeUniverse = {"doctor", "windsor", "detroit", "heart_surgeon", "emergency"};
     private JsonObject js;
-    private String publicKey;
-    private String share1;
-    private String share2;
+    private String publicKey, masterKey;
 
 
     @BeforeEach
     public void setUp() {
-        js = setup(attributeUniverse);
+        js = setup();
         publicKey = js.get("publicKey").getAsString();
-        String masterKey = js.get("masterKey").getAsString();
-
-        js = keygen(publicKey, masterKey, userAttribute);
-        share1 = js.get("share1").getAsString();
-        share2 = js.get("share2").getAsString();
+        masterKey = js.get("masterKey").getAsString();
     }
 
-    public void testEncryption(String policy, boolean areEqual) throws BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, InvalidKeyException, IOException, NoSuchDecryptionTokenFoundException {
+    public void cpabeTest(String policy, String userAttribute, boolean areEqual) throws BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, InvalidKeyException, IOException, MalformedPolicyException, MalformedAttributesException  {
         File file = new File(path + inputFile);
         var inputFileBytes = Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath()));
-
+        js = keygen(publicKey, masterKey, userAttribute);
+        String privateKey = js.get("privateKey").getAsString();
         js = encrypt(publicKey, policy, inputFileBytes);
         var encryptedFile = js.get("encryptedFile").getAsString();
-        try {
-            js = halfDecrypt(publicKey, share1, encryptedFile);
-            var mDecryptedFile = js.get("mDecryptedFile").getAsString();
-            js = decrypt(publicKey, share2, encryptedFile, mDecryptedFile);
+        try{
+            js = decrypt(publicKey, privateKey, encryptedFile);
             var decryptedFileBytes = js.get("decryptedFile").getAsString();
             assertTrue(areEqual);
             assertEquals(decryptedFileBytes, inputFileBytes);
@@ -76,23 +76,47 @@ public class CpabeTest {
     @TestFactory
     public Stream<DynamicTest> testWorkingPolicies() {
         var policies = new String[]{
-                "((doctor AND emergency) OR (heart_surgeon AND emergency))",
-                // not working due due to brackets must fix
-                //"((doctor AND windsor) OR ((heart_surgeon AND emergency) AND doctor))"
+            testPolicy,
+            "profession:doctor location:windsor 2of2 specialization:heartSurgeon department:emergency profession:doctor 3of3 1of2",
+            "profession:doctor department:emergency 2of2 specialization:heartSurgeon department:emergency 2of2 1of2",
+            studentPolicy
         };
-        return Arrays.stream(policies).map(policy -> dynamicTest("policy=" + policy,
-                () -> testEncryption(policy, true)));
+
+        var userAttributes = new String[]{
+            "c:fim a:foo",
+            doctorAttributes,
+            doctorAttributes,
+            studentAttributes
+        };
+
+        int testCases = policies.length;
+        return IntStream.range(0, testCases)
+          .mapToObj(testCase -> dynamicTest("testCase=" + testCase,
+                () -> cpabeTest(policies[testCase], userAttributes[testCase], true))
+          );
     }
 
     @TestFactory
     public Stream<DynamicTest> testFailingPolicies() {
         var policies = new String[]{
-                /* Failing for some reason need to fix*/
-                // "(doctor AND emergency AND windsor)",
-                "((doctor AND windsor) AND heart_surgeon)"
+            testPolicy,
+            testPolicy,
+            "profession:doctor department:emergency location:windsor 3of3",
+            "profession:doctor location:windsor specialization:heartSurgeon 3of3"
         };
-        return Arrays.stream(policies).map(policy -> dynamicTest("policy=" + policy,
-                () -> testEncryption(policy, false)));
+        
+        var userAttributes = new String[]{
+            "c:fim",
+            "d:baf1 c:fim1 a:foo",
+            doctorAttributes,
+            doctorAttributes
+        };
+
+        int testCases = policies.length;
+        return IntStream.range(0, testCases)
+          .mapToObj(testCase -> dynamicTest("testCase=" + testCase,
+                () -> cpabeTest(policies[testCase], userAttributes[testCase], false))
+          );
     }
 
     @TestFactory
