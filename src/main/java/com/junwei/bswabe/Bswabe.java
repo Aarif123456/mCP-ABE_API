@@ -139,8 +139,7 @@ public class Bswabe {
 	 * Returns null if an error occurred, in which case a description can be
 	 * retrieved by calling bswabe_error().
 	 */
-	public static BswabeCphKey enc(BswabePub pub, String policy)
-			throws Exception {
+	public static BswabeCphKey enc(BswabePub pub, String policy) throws MalformedPolicyException, NoSuchAlgorithmException {
 		BswabeCphKey keyCph = new BswabeCphKey();
 		BswabeCph cph = new BswabeCph();
 		Element s, m;
@@ -170,6 +169,84 @@ public class Bswabe {
 
 		return keyCph;
 	}
+
+	/*
+     * Delegate a subset of attribute of an existing private key.
+     */
+    public static BswabePrv delegate(BswabePub pub, BswabePrv prv_src, String[] attrs_subset)
+            throws NoSuchAlgorithmException, IllegalArgumentException {
+
+            BswabePrv prv = new BswabePrv();
+            Element g_rt, rt, f_at_rt;
+            Pairing pairing;
+
+            /* initialize */
+            pairing = pub.p;
+            prv.d = pairing.getG2().newElement();
+
+            g_rt = pairing.getG2().newElement();
+            rt = pairing.getZr().newElement();
+            f_at_rt = pairing.getZr().newElement();
+
+            /* compute */
+            rt.setToRandom();
+            f_at_rt = pub.f.duplicate();
+            f_at_rt.powZn(rt);
+            prv.d = prv_src.d.duplicate();
+            prv.d.mul(f_at_rt);
+
+            g_rt = pub.g.duplicate();
+            g_rt.powZn(rt);
+
+            int i, len = attrs_subset.length;
+            prv.comps = new ArrayList<BswabePrvComp>();
+
+            for (i = 0; i < len; i++) {
+                BswabePrvComp comp = new BswabePrvComp();
+                Element h_rtp;
+                Element rtp;
+
+                comp.attr = attrs_subset[i];
+
+                BswabePrvComp comp_src = new BswabePrvComp();
+                boolean comp_src_init = false;
+
+                for (int j = 0; j < prv_src.comps.size(); ++j) {
+                    if (prv_src.comps.get(j).attr.equals(comp.attr)) {
+                        comp_src = prv_src.comps.get(j);
+                        comp_src_init = true;
+                        break;
+                    }
+                }
+
+                if (!comp_src_init) {
+                    throw new IllegalArgumentException("comp_src_init == false");
+                }
+
+                comp.d = pairing.getG2().newElement();
+                comp.dp = pairing.getG1().newElement();
+                h_rtp = pairing.getG2().newElement();
+                rtp = pairing.getZr().newElement();
+
+                elementFromString(h_rtp, comp.attr);
+                rtp.setToRandom();
+
+                h_rtp.powZn(rtp);
+
+                comp.d = g_rt.duplicate();
+                comp.d.mul(h_rtp);
+                comp.d.mul(comp_src.d);
+
+                comp.dp = pub.g.duplicate();
+                comp.dp.powZn(rtp);
+                comp.dp.mul(comp_src.dp);
+
+
+                prv.comps.add(comp);
+            }
+
+            return prv;
+        }
 
 	/*
 	 * Decrypt the specified ciphertext using the given private key, filling in
@@ -414,7 +491,7 @@ public class Bswabe {
 		return q;
 	}
 
-	private static BswabePolicy parsePolicyPostfix(String s) throws Exception {
+	private static BswabePolicy parsePolicyPostfix(String s) throws MalformedPolicyException {
 		String[] toks;
 		ArrayList<BswabePolicy> stack = new ArrayList<>();
 		BswabePolicy root;

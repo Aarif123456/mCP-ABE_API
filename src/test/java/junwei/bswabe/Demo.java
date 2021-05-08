@@ -1,29 +1,29 @@
 package junwei.bswabe;
 
-import com.junwei.bswabe.Bswabe;
-import com.junwei.bswabe.BswabeCph;
-import com.junwei.bswabe.BswabeCphKey;
-import com.junwei.bswabe.BswabeElementBoolean;
-import com.junwei.bswabe.BswabeMsk;
-import com.junwei.bswabe.BswabePrv;
-import com.junwei.bswabe.BswabePub;
-/* TODO: merge with cpabe test*/
+import com.junwei.bswabe.*;
+import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
+import com.mitu.utils.exceptions.MalformedPolicyException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
+
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 public class Demo {
 	final static boolean DEBUG = true;
 
-	final static String dir = "demo/bswabe";
+	final static String dir = "src/test/java/";
 
-	final static String inputfile = dir + "/input.txt";
-	final static String encfile = dir + "input.txt.cpabe";
-	final static String decfile = dir + "input.txt.new";
-
-	/* come test data, choose attr and policy */
-	
-	static final String[] attr = { "baf", "fim1", "fim", "foo" };
-	static final String[] attr_delegate_ok = {"fim", "foo"};
-	static final String[] attr_delegate_ko = {"fim"};
-	static final String policy = "foo bar fim 2of3 baf 1of2";
+	final static String inputfile = dir + "RealHuman.png";
+	final static String encfile = dir + "RealHuman.png.cpabe";
+	final static String decfile = dir + "RealHuman.png.new";
 
 	static String[] attr_kevin = {
 			"business_staff",
@@ -375,32 +375,107 @@ public class Demo {
 			"office_lt_2^16", "office_lt_2^32", "sysadmin" };
 	static String policy_kevin_or_sara = "hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxx 2of2 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxx 1of4 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxx 3of3 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxx 1of2 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxx 4of4 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxx 1of3 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxx 2of2 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxx 1of3 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxx 2of2 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxx 1of3 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxx 5of5 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxxxx 1of4 hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx hire_date_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx hire_date_lt_2^32 4of4 security_team 1of2 sysadmin 2of2 executive_level_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1x executive_level_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1 1of2 executive_level_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1xx 2of2 executive_level_flexint_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1xxx 1of2 executive_level_ge_2^04 executive_level_ge_2^08 executive_level_ge_2^16 executive_level_ge_2^32 1of5 audit_group strategy_team 2of3 business_staff 2of2 1of2";
 
-	public static void main(String[] args) throws Exception {
-		BswabePub pub = new BswabePub();
-		BswabeMsk msk = new BswabeMsk();
-		BswabePrv prv, prv_delegate_ok, prv_delegate_ko;
+	static final String testPolicy = "foo bar fim 2of3 baf 1of2";
+	static BswabePub pub;
+	static BswabeMsk msk;
+
+	private static String[] mergeArray(String[] array1, String[] array2){
+		var result = new String[array1.length + array2.length];  
+		System.arraycopy(array1, 0, result, 0, array1.length);  
+		System.arraycopy(array2, 0, result, array1.length, array2.length);  
+		return result;
+	}
+
+	@BeforeEach
+	public void setUp() {
+		Map<String, String> defaultMap = new HashMap<>() {{
+			put("type", "a");
+			put("q", "6369360761975870121762638569043728784537618524939795659581725459764519487632130011828250189407458902559556082799450871019292319559501351774206580668498539");
+			put("h", "8716186967272981946338881743674542758348861153366380201939968258588498384514697695543719672616341557740140");
+			put("r", "730750818665451459101842416358141509827966402561");
+			put("exp2", "159");
+			put("exp1", "17");
+			put("sign1", "1");
+			put("sign0", "1");
+		}};
+	    pub = new BswabePub();
+		msk = new BswabeMsk();
+		println("//demo for co.junwei.bswabe: start to setup");
+		Bswabe.setup(pub, msk, defaultMap);
+		println("//demo for co.junwei.bswabe: end to setup");
+
+	}
+
+	@TestFactory
+	public Stream<DynamicTest> testBswabeWithPolicesAndAttributes() {
+	    var policies = new String[]{
+	    	testPolicy,
+	    	testPolicy,
+	    	policy_kevin_or_sara,
+	    	policy_kevin_or_sara,
+	    	"doctor windsor 2of2 heart_surgeon emergency doctor 3of3 1of2",
+	    	"doctor emergency 2of2 heart_surgeon emergency 2of2 1of2",
+	    	"doctor emergency windsor 3of3",
+	    	"doctor windsor heart_surgeon 3of3"
+	    };
+	    String[] testSystem = { "baf", "fim1", "fim", "foo" };
+	    String[] saraAndKevinAttr = mergeArray(attr_sara, attr_kevin);
+	    String[] doctorSystem = {"doctor", "windsor", "detroit", "heart_surgeon", "emergency"};
+	    String[] doctorAttributes = "doctor detroit heart_surgeon emergency".split(" ");
+	    // all possible attributes used in keygen
+	    var attrs = new String[][]{
+	    	testSystem,
+	    	testSystem,
+	    	saraAndKevinAttr,
+	    	saraAndKevinAttr,
+	    	doctorSystem,
+	    	doctorSystem,
+	    	doctorSystem,
+	    	doctorSystem
+	    };
+	    var userAttributes = new String[][]{
+	    	/* First one is supposed to fail*/
+	    	{"fim"},
+	    	{"fim", "foo"},
+	    	attr_sara,
+	    	attr_kevin,
+	    	doctorAttributes,
+	    	doctorAttributes,
+	    	doctorAttributes,
+	    	doctorAttributes
+	    };
+
+	    var passes = new boolean[]{
+	    	false,
+	    	true,
+	    	/*Currently sara is not passing - not sure why - it might be correct and the variable might just be missed name */
+	    	true,
+	    	true,
+	    	true,
+	    	true,
+	    	false,
+	    	false
+	    };
+	    int testCases = policies.length;
+	    return IntStream.range(0, testCases)
+	      .mapToObj(testCase -> dynamicTest("testCase=" + testCase,
+	            () -> BswabeTest(policies[testCase], attrs[testCase], userAttributes[testCase], passes[testCase]))
+	      );
+	}
+	
+	public void BswabeTest(String policy, String[] attr, String[] user_attributes, boolean areEqual) throws NoSuchAlgorithmException, MalformedPolicyException, AttributesNotSatisfiedException {
+		BswabePrv prv, prv_delegate;
 		BswabeCph cph;
 		BswabeElementBoolean result;
 
-		//attr = attr_kevin;
-		//attr = attr_sara;
-		//policy = policy_kevin_or_sara;
-
-		println("//demo for co.junwei.bswabe: start to setup");
-		Bswabe.setup(pub, msk);
-		println("//demo for co.junwei.bswabe: end to setup");
-
+		
 		println("\n//demo for co.junwei.bswabe: start to keygen");
 		prv = Bswabe.keygen(pub, msk, attr);
 		println("//demo for co.junwei.bswabe: end to keygen");
 
-		println("\n//demo for co.junwei.bswabe: start to delegate_ok");
-		prv_delegate_ok = Bswabe.delegate(pub, prv, attr_delegate_ok);
-		println("//demo for co.junwei.bswabe: end to delegate_ok");
-
-		println("\n//demo for co.junwei.bswabe: start to delegate_ko");
-		prv_delegate_ko = Bswabe.delegate(pub, prv, attr_delegate_ko);
-		println("//demo for co.junwei.bswabe: end to delegate_ko");
+		println("\n//demo for co.junwei.bswabe: start to delegate");
+		prv_delegate = Bswabe.delegate(pub, prv, user_attributes);
+		println("//demo for co.junwei.bswabe: end to delegate");
 
 		println("\n//demo for co.junwei.bswabe: start to enc");
 		BswabeCphKey crypted = Bswabe.enc(pub, policy);
@@ -410,34 +485,16 @@ public class Demo {
 		println("\n//demo for co.junwei.bswabe: start to dec");
 		result = Bswabe.dec(pub, prv, cph);
 		println("//demo for co.junwei.bswabe: end to dec");
-		if ((result.b) && (result.e.equals(crypted.key)))
-			System.out.println("succeed in decrypt");
-		else
-			System.err.println("failed to decrypting");
-
-		println("\n//demo for co.junwei.bswabe: start to dec with ok delegated key");
-		result = Bswabe.dec(pub, prv_delegate_ok, cph);
-		println("//demo for co.junwei.bswabe: end to dec with ok delegated key");
-		if ((result.b) && (result.e.equals(crypted.key)))
-		    System.out.println("succeed in decrypt with ok delegated key");
-		else
-		    System.err.println("failed to decrypting with ok delegated key");
-
-		println("\n//demo for co.junwei.bswabe: start to dec");
-		result = Bswabe.dec(pub, prv, cph);
-		println("//demo for co.junwei.bswabe: end to dec");
-		if ((result.b) && (result.e.equals(crypted.key)))
-			System.out.println("succeed in decrypt");
-		else
-			System.err.println("failed to decrypting");
-
-		println("\n//demo for co.junwei.bswabe: start to dec with ko delegated key");
-		result = Bswabe.dec(pub, prv_delegate_ko, cph);
-		println("//demo for co.junwei.bswabe: end to dec with ko delegated key");
-		if ((result.b) && (result.e.equals(crypted.key)))
-		    System.err.println("succeed in decrypt with ko delegated key (should not happen)");
-		else
-		    System.out.println("failed to decrypting with ko delegated key");
+		assertTrue((result.b) && (result.e.equals(crypted.key)));
+		try{
+			println("\n//demo for co.junwei.bswabe: start to dec with delegated key");
+			result = Bswabe.dec(pub, prv_delegate, cph);
+			println("//demo for co.junwei.bswabe: end to dec with delegated key");
+			assertEquals((result.b) && (result.e.equals(crypted.key)),  areEqual);
+		} catch (AttributesNotSatisfiedException e) {
+            /* The policy was supposed to fail the user */
+            assertFalse(areEqual);
+        }
 	}
 
 	private static void println(Object o) {
