@@ -18,6 +18,15 @@ public abstract class AbstractPairingMap implements PairingMap {
         this.pairing = pairing;
     }
 
+    protected static void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
+        // Vx = Vx * z^-2
+        Vx.mul(e0.set(z.invert()).square());
+        // Vy = Vy * z^-3
+        Vy.mul(e0.mul(z));
+
+        z.setToOne();
+        z2.setToOne();
+    }
 
     public boolean isProductPairingSupported() {
         return false;
@@ -54,17 +63,6 @@ public abstract class AbstractPairingMap implements PairingMap {
             t0.mul(t1);
             return t0.isOne();
         }
-    }
-
-
-    protected static void pointToAffine(Element Vx, Element Vy, Element z, Element z2, Element e0) {
-        // Vx = Vx * z^-2
-        Vx.mul(e0.set(z.invert()).square());
-        // Vy = Vy * z^-3
-        Vy.mul(e0.mul(z));
-
-        z.setToOne();
-        z2.setToOne();
     }
 
 }

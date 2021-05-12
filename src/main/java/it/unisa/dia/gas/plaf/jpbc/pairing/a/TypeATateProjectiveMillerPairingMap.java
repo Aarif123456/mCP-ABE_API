@@ -28,6 +28,70 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         this.pairing = pairing;
     }
 
+    static void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
+        Element in1 = in.getY();
+        //simpler but slower:
+        //element_pow_mpz(out, f, tateExp);
+
+        //1. Exponentiate by q-1
+        //which is equivalent to the following
+
+        temp.set(in).invert();
+        in1.negate();
+        in.mul(temp);
+
+        //2. Exponentiate by (q+1)/r
+
+        //Instead of:
+        //	element_pow_mpz(out, in, cofactor);
+        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
+        lucasOdd(out, in, temp, cofactor);
+    }
+
+    static void tatePow(Point out, Point in, BigInteger cofactor) {
+        Element in1 = in.getY();
+        //simpler but slower:
+        //element_pow_mpz(out, f, tateExp);
+
+        //1. Exponentiate by q-1
+        //which is equivalent to the following
+
+        Point temp = (Point) in.duplicate().invert();
+        in1.negate();
+        in.mul(temp);
+
+        //2. Exponentiate by (q+1)/r
+
+        //Instead of:
+        //	element_pow_mpz(out, in, cofactor);
+        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
+        lucasOdd(out, in, temp, cofactor);
+    }
+
+    static void twiceProjective(Element e0, Element a, Element b, Element c, Element Vx, Element Vy, Element z, Element z2) {
+        // e0 = 3x^2 + cca z^4  (cca = 1)
+        e0.set(Vx).square().add(a.set(e0).twice()).add(a.set(z2).square());
+
+        // z = 2 y z
+        z.mul(Vy).twice();
+        z2.set(z).square();
+
+        //a = 4 x y^2
+        b.set(Vy).square();
+        a.set(Vx).mul(b).twice().twice();
+
+        // x_out = e0^2 - 2 a
+        c.set(a).twice();
+        Vx.set(e0).square().sub(c);
+
+        //b = 8y^4
+        b.square().twice().twice().twice();
+
+        //y_out = e0(a - x_out) - b
+        a.sub(Vx);
+        e0.mul(a);
+        Vy.set(e0).sub(b);
+    }
 
     /**
      * in1, in2 are from E(F_q), out from F_q^2
@@ -219,73 +283,6 @@ public class TypeATateProjectiveMillerPairingMap extends AbstractMillerPairingMa
         rePart.set(c).sub(imPart.set(a).mul(Qx));
         imPart.set(b).mul(Qy);
     }
-
-
-    static void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
-        Element in1 = in.getY();
-        //simpler but slower:
-        //element_pow_mpz(out, f, tateExp);
-
-        //1. Exponentiate by q-1
-        //which is equivalent to the following
-
-        temp.set(in).invert();
-        in1.negate();
-        in.mul(temp);
-
-        //2. Exponentiate by (q+1)/r
-
-        //Instead of:
-        //	element_pow_mpz(out, in, cofactor);
-        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
-        lucasOdd(out, in, temp, cofactor);
-    }
-
-    static void tatePow(Point out, Point in, BigInteger cofactor) {
-        Element in1 = in.getY();
-        //simpler but slower:
-        //element_pow_mpz(out, f, tateExp);
-
-        //1. Exponentiate by q-1
-        //which is equivalent to the following
-
-        Point temp = (Point) in.duplicate().invert();
-        in1.negate();
-        in.mul(temp);
-
-        //2. Exponentiate by (q+1)/r
-
-        //Instead of:
-        //	element_pow_mpz(out, in, cofactor);
-        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
-        lucasOdd(out, in, temp, cofactor);
-    }
-
-    static void twiceProjective(Element e0, Element a, Element b, Element c, Element Vx, Element Vy, Element z, Element z2) {
-        // e0 = 3x^2 + cca z^4  (cca = 1)
-        e0.set(Vx).square().add(a.set(e0).twice()).add(a.set(z2).square());
-
-        // z = 2 y z
-        z.mul(Vy).twice();
-        z2.set(z).square();
-
-        //a = 4 x y^2
-        b.set(Vy).square();
-        a.set(Vx).mul(b).twice().twice();
-
-        // x_out = e0^2 - 2 a
-        c.set(a).twice();
-        Vx.set(e0).square().sub(c);
-
-        //b = 8y^4
-        b.square().twice().twice().twice();
-
-        //y_out = e0(a - x_out) - b
-        a.sub(Vx);
-        e0.mul(a);
-        Vy.set(e0).sub(b);
-    }
-
 
     public int getPairingPreProcessingTableLength() {
         getPairingPreProcessingLengthInBytes();

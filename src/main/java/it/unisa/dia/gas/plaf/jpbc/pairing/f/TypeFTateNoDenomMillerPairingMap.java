@@ -17,6 +17,16 @@ public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
         pairingData = pairing;
     }
 
+    private static void qPower(Polynomial element, Polynomial e1, Element e) {
+        e1.getCoefficient(0).set(element.getCoefficient(0));
+        e1.getCoefficient(1).set(element.getCoefficient(1).duplicate().mul(e));
+
+        Element epow = e.duplicate().square();
+        e1.getCoefficient(2).set(element.getCoefficient(2).duplicate().mul(epow));
+        e1.getCoefficient(3).set(element.getCoefficient(3).duplicate().mul(epow.mul(e)));
+        e1.getCoefficient(4).set(element.getCoefficient(4).duplicate().mul(epow.mul(e)));
+        e1.getCoefficient(5).set(element.getCoefficient(5).duplicate().mul(epow.mul(e)));
+    }
 
     public Element pairing(Point in1, Point in2) {
         //map from twist: (x, y) --> (v^-2 x, v^-3 y)
@@ -38,7 +48,6 @@ public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
         element.set(tateExp((Polynomial) element));
     }
 
-
     public Element tateExp(Polynomial element) {
         Polynomial x = pairingData.Fq12.newElement();
         Polynomial y = pairingData.Fq12.newElement();
@@ -49,18 +58,6 @@ public class TypeFTateNoDenomMillerPairingMap extends AbstractMillerPairingMap {
         qPower(element, x, pairingData.xPowq2);
 
         return y.mul(x.mul(element).invert()).pow(pairingData.tateExp);
-    }
-
-
-    private static void qPower(Polynomial element, Polynomial e1, Element e) {
-        e1.getCoefficient(0).set(element.getCoefficient(0));
-        e1.getCoefficient(1).set(element.getCoefficient(1).duplicate().mul(e));
-
-        Element epow = e.duplicate().square();
-        e1.getCoefficient(2).set(element.getCoefficient(2).duplicate().mul(epow));
-        e1.getCoefficient(3).set(element.getCoefficient(3).duplicate().mul(epow.mul(e)));
-        e1.getCoefficient(4).set(element.getCoefficient(4).duplicate().mul(epow.mul(e)));
-        e1.getCoefficient(5).set(element.getCoefficient(5).duplicate().mul(epow.mul(e)));
     }
 
     protected Element pairing(Point P, Point Qx, Point Qy) {

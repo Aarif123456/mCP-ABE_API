@@ -20,104 +20,6 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
         this.pairing = pairing;
     }
 
-
-    public Element pairing(Point in1, Point in2) {
-        Element out = pairing.Fq.newElement();
-        Point QR = (Point) in2.duplicate().add(pairing.R);
-
-        e_miller_proj(out, in1, QR, pairing.R);
-        out.pow(pairing.phikonr);
-
-        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
-    }
-
-    public void finalPow(Element element) {
-        element.pow(pairing.phikonr);
-    }
-
-
-    void e_miller_proj(Element res, Point P, Point QR, Point R) {
-        //collate divisions
-        int n;
-        Element cca = ((CurveField) P.getField()).getA();
-        int i;
-
-        Element Zx, Zy;
-        Element Px = P.getX();
-        Element numx = QR.getX();
-        Element numy = QR.getY();
-        Element denomx = R.getX();
-        Element denomy = R.getY();
-
-        Element a = pairing.Fq.newElement();
-        Element b = pairing.Fq.newElement();
-        Element c = pairing.Fq.newElement();
-        Element e0 = pairing.Fq.newElement();
-        Element e1 = pairing.Fq.newElement();
-
-        Element z = pairing.Fq.newOneElement();
-        Element z2 = pairing.Fq.newOneElement();
-
-        Element v = pairing.Fq.newOneElement();
-        Element vd = pairing.Fq.newOneElement();
-        Element v1 = pairing.Fq.newOneElement();
-        Element vd1 = pairing.Fq.newOneElement();
-
-        Point Z = (Point) P.duplicate();
-        Zx = Z.getX();
-        Zy = Z.getY();
-        Point Z1 = (Point) P.getField().newElement();
-
-        n = pairing.exp1;
-        for (i = 0; i < n; i++) {
-            v.square();
-            vd.square();
-
-            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy, cca, numx, numy, denomx, denomy);
-            proj_double(Zx, Zy, e0, e1, a, b, z, z2, cca);
-            do_vertical(vd, v, Zx, e0, z2, numx, denomx);
-        }
-
-        pointToAffine(Zx, Zy, z, z2, e0);
-
-        if (pairing.sign1 < 0) {
-            v1.set(vd);
-            vd1.set(v);
-            do_vertical(vd1, v1, Zx, e0, z2, numx, denomx);
-            Z1.set(Z).negate();
-        } else {
-            v1.set(v);
-            vd1.set(vd);
-            Z1.set(Z);
-        }
-        n = pairing.exp2;
-        for (; i < n; i++) {
-            v.square();
-            vd.square();
-
-            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy, cca, numx, numy, denomx, denomy);
-            proj_double(Zx, Zy, e0, e1, a, b, z, z2, cca);
-            do_vertical(vd, v, Zx, e0, z2, numx, denomx);
-        }
-
-        pointToAffine(Zx, Zy, z, z2, e0);
-
-
-        v.mul(v1);
-        vd.mul(vd1);
-        do_line(v, vd, Z, Z1, a, b, c, e0, e1, numx, numy, denomx, denomy);
-        Z.add(Z1);
-        do_vertical(vd, v, Zx, e0, z2, numx, denomx);
-
-        if (pairing.sign0 > 0) {
-            do_vertical(v, vd, Px, e0, z2, numx, denomx);
-        }
-
-        vd.invert();
-        res.set(v).mul(vd);
-    }
-
-
     static void proj_double(Element Zx, Element Zy, Element e0, Element e1, Element e2, Element e3, Element z, Element z2, Element cca) {
 
         e0.set(Zx).square();
@@ -219,6 +121,101 @@ public class TypeETateProjectiveMillerPairingMap extends AbstractPairingMap {
         e1.set(b).mul(denomy);
         e0.add(e1).add(c);
         edenom.mul(e0);
+    }
+
+    public Element pairing(Point in1, Point in2) {
+        Element out = pairing.Fq.newElement();
+        Point QR = (Point) in2.duplicate().add(pairing.R);
+
+        e_miller_proj(out, in1, QR, pairing.R);
+        out.pow(pairing.phikonr);
+
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
+    }
+
+    public void finalPow(Element element) {
+        element.pow(pairing.phikonr);
+    }
+
+    void e_miller_proj(Element res, Point P, Point QR, Point R) {
+        //collate divisions
+        int n;
+        Element cca = ((CurveField) P.getField()).getA();
+        int i;
+
+        Element Zx, Zy;
+        Element Px = P.getX();
+        Element numx = QR.getX();
+        Element numy = QR.getY();
+        Element denomx = R.getX();
+        Element denomy = R.getY();
+
+        Element a = pairing.Fq.newElement();
+        Element b = pairing.Fq.newElement();
+        Element c = pairing.Fq.newElement();
+        Element e0 = pairing.Fq.newElement();
+        Element e1 = pairing.Fq.newElement();
+
+        Element z = pairing.Fq.newOneElement();
+        Element z2 = pairing.Fq.newOneElement();
+
+        Element v = pairing.Fq.newOneElement();
+        Element vd = pairing.Fq.newOneElement();
+        Element v1 = pairing.Fq.newOneElement();
+        Element vd1 = pairing.Fq.newOneElement();
+
+        Point Z = (Point) P.duplicate();
+        Zx = Z.getX();
+        Zy = Z.getY();
+        Point Z1 = (Point) P.getField().newElement();
+
+        n = pairing.exp1;
+        for (i = 0; i < n; i++) {
+            v.square();
+            vd.square();
+
+            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy, cca, numx, numy, denomx, denomy);
+            proj_double(Zx, Zy, e0, e1, a, b, z, z2, cca);
+            do_vertical(vd, v, Zx, e0, z2, numx, denomx);
+        }
+
+        pointToAffine(Zx, Zy, z, z2, e0);
+
+        if (pairing.sign1 < 0) {
+            v1.set(vd);
+            vd1.set(v);
+            do_vertical(vd1, v1, Zx, e0, z2, numx, denomx);
+            Z1.set(Z).negate();
+        } else {
+            v1.set(v);
+            vd1.set(vd);
+            Z1.set(Z);
+        }
+        n = pairing.exp2;
+        for (; i < n; i++) {
+            v.square();
+            vd.square();
+
+            do_tangent(v, vd, a, b, c, e0, e1, z, z2, Zx, Zy, cca, numx, numy, denomx, denomy);
+            proj_double(Zx, Zy, e0, e1, a, b, z, z2, cca);
+            do_vertical(vd, v, Zx, e0, z2, numx, denomx);
+        }
+
+        pointToAffine(Zx, Zy, z, z2, e0);
+
+
+        v.mul(v1);
+        vd.mul(vd1);
+        do_line(v, vd, Z, Z1, a, b, c, e0, e1, numx, numy, denomx, denomy);
+        Z.add(Z1);
+        do_vertical(vd, v, Zx, e0, z2, numx, denomx);
+
+        if (pairing.sign0 > 0) {
+            do_vertical(v, vd, Px, e0, z2, numx, denomx);
+        }
+
+        vd.invert();
+        res.set(v).mul(vd);
     }
 
 }

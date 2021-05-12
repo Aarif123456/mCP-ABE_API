@@ -11,7 +11,7 @@ import java.util.zip.GZIPOutputStream;
  * <p>Homepage: <a href="http://iharder.net/base64">http://iharder.net/base64</a>.</p>
  *
  * <p>Example:</p>
- *
+ * <p>
  * {@code String encoded = Base64.encode( myByteArray );}
  * <br />
  * {@code byte[] myByteArray = Base64.decode( encoded );}
@@ -29,7 +29,7 @@ import java.util.zip.GZIPOutputStream;
  *
  * <p>The constants defined in Base64 can be OR-ed together to combine options, so you
  * might make a call like this:</p>
- *
+ * <p>
  * {@code String encoded = Base64.encodeBytes( mybytes, Base64.GZIP | Base64.DO_BREAK_LINES );}
  * <p>to compress the data before encoding it and then making the output have newline characters.</p>
  * <p>Also...</p>

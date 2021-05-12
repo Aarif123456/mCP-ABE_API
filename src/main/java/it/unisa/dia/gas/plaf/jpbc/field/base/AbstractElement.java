@@ -21,6 +21,37 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         this.field = field;
     }
 
+    protected static int optimalPowWindowSize(BigInteger n) {
+        int expBits;
+
+        expBits = n.bitLength();
+
+        /* try to minimize 2^k + n/(k+1). */
+        if (expBits > 9065)
+            return 8;
+        if (expBits > 3529)
+            return 7;
+        if (expBits > 1324)
+            return 6;
+        if (expBits > 474)
+            return 5;
+        if (expBits > 157)
+            return 4;
+        if (expBits > 47)
+            return 3;
+        return 2;
+    }
+
+    protected static String[] tokenize(String value) {
+        StringTokenizer tokenizer = new StringTokenizer(value, ",");
+        int n = tokenizer.countTokens();
+
+        String[] tokens = new String[n];
+        for (int i = 0; i < n; i++) {
+            tokens[i] = tokenizer.nextToken();
+        }
+        return tokens;
+    }
 
     public F getField() {
         return field;
@@ -113,28 +144,6 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         return obj instanceof Element && isEqual((Element) obj);
     }
 
-
-    protected static int optimalPowWindowSize(BigInteger n) {
-        int expBits;
-
-        expBits = n.bitLength();
-
-        /* try to minimize 2^k + n/(k+1). */
-        if (expBits > 9065)
-            return 8;
-        if (expBits > 3529)
-            return 7;
-        if (expBits > 1324)
-            return 6;
-        if (expBits > 474)
-            return 5;
-        if (expBits > 157)
-            return 4;
-        if (expBits > 47)
-            return 3;
-        return 2;
-    }
-
     protected List<Element> buildPowWindow(int k) {
         int s;
         int lookupSize;
@@ -199,17 +208,5 @@ public abstract class AbstractElement<F extends AbstractField> implements Elemen
         }
 
         set(result);
-    }
-
-
-    protected static String[] tokenize(String value) {
-        StringTokenizer tokenizer = new StringTokenizer(value, ",");
-        int n = tokenizer.countTokens();
-
-        String[] tokens = new String[n];
-        for (int i = 0; i < n; i++) {
-            tokens[i] = tokenizer.nextToken();
-        }
-        return tokens;
     }
 }

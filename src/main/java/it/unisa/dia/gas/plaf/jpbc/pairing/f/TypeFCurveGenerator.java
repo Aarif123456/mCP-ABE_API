@@ -46,6 +46,31 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         System.out.println(curveParams.toString(" "));
     }
 
+    protected static BigInteger tryMinusX(BigInteger x) {
+        // 36x^4 + 36x^3 + 24x^2 - 6x + 1 = ((36(x - 1)x + 24)x - 6)x + 1
+
+        return x.subtract(BigInteger.ONE)
+                .multiply(x)
+                .multiply(BigInteger.valueOf(36))
+                .add(BigInteger.valueOf(24))
+                .multiply(x)
+                .subtract(BigInteger.valueOf(6))
+                .multiply(x)
+                .add(BigInteger.ONE);
+    }
+
+    protected static BigInteger tryPlusX(BigInteger x) {
+        // 36x^4 + 36x^3 + 24x^2 + 6x + 1 = ((36(x - 1)x + 24)x + 6)x + 1
+        return x.add(BigInteger.ONE)
+                .multiply(x)
+                .multiply(BigInteger.valueOf(36))
+                .add(BigInteger.valueOf(24))
+                .multiply(x)
+                .add(BigInteger.valueOf(6))
+                .multiply(x)
+                .add(BigInteger.ONE);
+    }
+
     public PairingParameters generate() {
         //36 is a 6-bit number
         int xbit = (rBits - 6) / 4;
@@ -143,31 +168,6 @@ public class TypeFCurveGenerator implements PairingParametersGenerator {
         params.put("alpha1", f.getCoefficient(0).getY().toBigInteger().toString());
 
         return params;
-    }
-
-    protected static BigInteger tryMinusX(BigInteger x) {
-        // 36x^4 + 36x^3 + 24x^2 - 6x + 1 = ((36(x - 1)x + 24)x - 6)x + 1
-
-        return x.subtract(BigInteger.ONE)
-                .multiply(x)
-                .multiply(BigInteger.valueOf(36))
-                .add(BigInteger.valueOf(24))
-                .multiply(x)
-                .subtract(BigInteger.valueOf(6))
-                .multiply(x)
-                .add(BigInteger.ONE);
-    }
-
-    protected static BigInteger tryPlusX(BigInteger x) {
-        // 36x^4 + 36x^3 + 24x^2 + 6x + 1 = ((36(x - 1)x + 24)x + 6)x + 1
-        return x.add(BigInteger.ONE)
-                .multiply(x)
-                .multiply(BigInteger.valueOf(36))
-                .add(BigInteger.valueOf(24))
-                .multiply(x)
-                .add(BigInteger.valueOf(6))
-                .multiply(x)
-                .add(BigInteger.ONE);
     }
 
 }

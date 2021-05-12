@@ -29,77 +29,6 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
         r = BigIntegerUtils.naf(pairing.r, (byte) 2);
     }
 
-    /**
-     * in1, in2 are from E(F_q), out from F_q^2
-     */
-    public Element pairing(Point P, Point Q) {
-        Point f = pairing.Fq2.newOneElement();
-        Point u = pairing.Fq2.newElement();
-
-        JacobPoint V = new JacobPoint(P.getX(), P.getY(), P.getX().getField().newOneElement());
-        Point nP = (Point) P.duplicate().negate();
-
-        Element a = pairing.Fq.newElement();
-        Element b = pairing.Fq.newElement();
-        Element c = pairing.Fq.newElement();
-
-        for (int i = r.length - 2; i >= 0; i--) {
-            twice(V, a, b, c);
-
-            millerStep(u, a, b, c, Q.getX(), Q.getY());
-            f.square().mul(u);
-
-            switch (r[i]) {
-                case 1:
-                    add(V, P, a, b, c);
-
-                    millerStep(u, a, b, c, Q.getX(), Q.getY());
-                    f.mul(u);
-                    break;
-                case -1:
-                    add(V, nP, a, b, c);
-
-                    millerStep(u, a, b, c, Q.getX(), Q.getY());
-                    f.mul(u);
-                    break;
-            }
-        }
-
-        Point out = pairing.Fq2.newElement();
-        tatePow(out, f, pairing.phikOnr);
-        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
-    }
-
-    public void finalPow(Element element) {
-        Element t0 = element.getField().newElement();
-        tatePow((Point) t0, (Point) element, pairing.phikOnr);
-        element.set(t0);
-    }
-
-    public int getPairingPreProcessingLengthInBytes() {
-        if (pairingPreProcessingLengthInBytes == -1) {
-            pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
-            pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
-        }
-
-        return pairingPreProcessingLengthInBytes;
-    }
-
-    public PairingPreProcessing pairing(Point in1) {
-        return new TypeATateNafProjectiveMillerPairingPreProcessing(in1);
-    }
-
-    public PairingPreProcessing pairing(byte[] source, int offset) {
-        return new TypeATateNafProjectiveMillerPairingPreProcessing(source, offset);
-    }
-
-
-    protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
-        out.getX().set(c).add(a.duplicate().mul((Qx)));
-        out.getY().set(b).mul(Qy);
-    }
-
-
     static void tatePow(Point out, Point in, BigInteger cofactor) {
         Element in1 = in.getY();
         //simpler but slower:
@@ -204,6 +133,74 @@ public class TypeATateNafProjectiveMillerPairingMap extends AbstractMillerPairin
 
     }
 
+    /**
+     * in1, in2 are from E(F_q), out from F_q^2
+     */
+    public Element pairing(Point P, Point Q) {
+        Point f = pairing.Fq2.newOneElement();
+        Point u = pairing.Fq2.newElement();
+
+        JacobPoint V = new JacobPoint(P.getX(), P.getY(), P.getX().getField().newOneElement());
+        Point nP = (Point) P.duplicate().negate();
+
+        Element a = pairing.Fq.newElement();
+        Element b = pairing.Fq.newElement();
+        Element c = pairing.Fq.newElement();
+
+        for (int i = r.length - 2; i >= 0; i--) {
+            twice(V, a, b, c);
+
+            millerStep(u, a, b, c, Q.getX(), Q.getY());
+            f.square().mul(u);
+
+            switch (r[i]) {
+                case 1:
+                    add(V, P, a, b, c);
+
+                    millerStep(u, a, b, c, Q.getX(), Q.getY());
+                    f.mul(u);
+                    break;
+                case -1:
+                    add(V, nP, a, b, c);
+
+                    millerStep(u, a, b, c, Q.getX(), Q.getY());
+                    f.mul(u);
+                    break;
+            }
+        }
+
+        Point out = pairing.Fq2.newElement();
+        tatePow(out, f, pairing.phikOnr);
+        return new GTFiniteElement(this, (GTFiniteField) pairing.getGT(), out);
+    }
+
+    public void finalPow(Element element) {
+        Element t0 = element.getField().newElement();
+        tatePow((Point) t0, (Point) element, pairing.phikOnr);
+        element.set(t0);
+    }
+
+    public int getPairingPreProcessingLengthInBytes() {
+        if (pairingPreProcessingLengthInBytes == -1) {
+            pairingPreProcessingTableLength = r.length - 1 + BigIntegerUtils.hammingWeight(r, r.length - 2);
+            pairingPreProcessingLengthInBytes = 4 + (pairingPreProcessingTableLength * 3 * pairing.Fq.getLengthInBytes());
+        }
+
+        return pairingPreProcessingLengthInBytes;
+    }
+
+    public PairingPreProcessing pairing(Point in1) {
+        return new TypeATateNafProjectiveMillerPairingPreProcessing(in1);
+    }
+
+    public PairingPreProcessing pairing(byte[] source, int offset) {
+        return new TypeATateNafProjectiveMillerPairingPreProcessing(source, offset);
+    }
+
+    protected final void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {
+        out.getX().set(c).add(a.duplicate().mul((Qx)));
+        out.getY().set(b).mul(Qy);
+    }
 
     public int getPairingPreProcessingTableLength() {
         getPairingPreProcessingLengthInBytes();
