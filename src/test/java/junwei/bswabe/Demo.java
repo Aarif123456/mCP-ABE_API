@@ -1,12 +1,6 @@
 package junwei.bswabe;
 
-import com.junwei.bswabe.Bswabe;
-import com.junwei.bswabe.BswabeCph;
-import com.junwei.bswabe.BswabeCphKey;
-import com.junwei.bswabe.BswabeElementBoolean;
-import com.junwei.bswabe.BswabeMsk;
-import com.junwei.bswabe.BswabePrv;
-import com.junwei.bswabe.BswabePub;
+import com.junwei.bswabe.*;
 import com.mitu.utils.exceptions.AttributesNotSatisfiedException;
 import com.mitu.utils.exceptions.MalformedPolicyException;
 import org.junit.jupiter.api.BeforeEach;

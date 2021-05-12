@@ -8,6 +8,6 @@ import java.util.ArrayList;
  * Holds a private key
  */
 public class BswabePrv {
-	Element d; /* G_2 */
-	ArrayList<BswabePrvComp> comps; /* BswabePrvComp */
+    Element d; /* G_2 */
+    ArrayList<BswabePrvComp> comps; /* BswabePrvComp */
 }

@@ -3,15 +3,7 @@ package it.unisa.dia.gas.plaf.jpbc.pairing.parameters;
 import it.unisa.dia.gas.jpbc.PairingParameters;
 import it.unisa.dia.gas.plaf.jpbc.util.io.Base64;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.Externalizable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.io.*;
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
 import java.util.Map;

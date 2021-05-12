@@ -28,6 +28,25 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         this.pairing = pairing;
     }
 
+    static void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
+        Element in1 = in.getY();
+        //simpler but slower:
+        //element_pow_mpz(out, f, tateExp);
+
+        //1. Exponentiate by q-1
+        //which is equivalent to the following
+
+        temp.set(in).invert();
+        in1.negate();
+        in.mul(temp);
+
+        //2. Exponentiate by (q+1)/r
+
+        //Instead of:
+        //	element_pow_mpz(out, in, cofactor);
+        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
+        lucasOdd(out, in, temp, cofactor);
+    }
 
     /**
      * in1, in2 are from E(F_q), out from F_q^2
@@ -214,26 +233,6 @@ public class TypeATateAffineMillerPairingMap extends AbstractMillerPairingMap {
         element.set(t0);
 
         return element;
-    }
-
-    static void tatePow(Point out, Point in, Point temp, BigInteger cofactor) {
-        Element in1 = in.getY();
-        //simpler but slower:
-        //element_pow_mpz(out, f, tateExp);
-
-        //1. Exponentiate by q-1
-        //which is equivalent to the following
-
-        temp.set(in).invert();
-        in1.negate();
-        in.mul(temp);
-
-        //2. Exponentiate by (q+1)/r
-
-        //Instead of:
-        //	element_pow_mpz(out, in, cofactor);
-        //we use Lucas sequences (see "Compressed Pairings", Scott and Barreto)
-        lucasOdd(out, in, temp, cofactor);
     }
 
     protected void millerStep(Point out, Element a, Element b, Element c, Element Qx, Element Qy) {

@@ -1,4 +1,5 @@
 package com.junwei.cpabe.policy;
+
 import com.mitu.utils.exceptions.MalformedAttributesException;
 
 import java.io.Serializable;
@@ -8,46 +9,46 @@ import java.util.StringTokenizer;
 
 public class LangPolicy {
 
-	public static String[] parseAttribute(String s) throws MalformedAttributesException {
-		ArrayList<String> str_arr = new ArrayList<>();
-		StringTokenizer st = new StringTokenizer(s);
-		String token;
-		String[] res;
-		int len;
+    public static String[] parseAttribute(String s) throws MalformedAttributesException {
+        ArrayList<String> str_arr = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(s);
+        String token;
+        String[] res;
+        int len;
 
-		while (st.hasMoreTokens()) {
-			token = st.nextToken();
-			if (token.contains(":")) {
-				str_arr.add(token);
-			} else {
-				throw new MalformedAttributesException("Some error happens in the input attribute");
-			}
-		}
+        while (st.hasMoreTokens()) {
+            token = st.nextToken();
+            if (token.contains(":")) {
+                str_arr.add(token);
+            } else {
+                throw new MalformedAttributesException("Some error happens in the input attribute");
+            }
+        }
 
-		str_arr.sort(new SortByAlphabetic());
+        str_arr.sort(new SortByAlphabetic());
 
-		len = str_arr.size();
-		res = new String[len];
-		for (int i = 0; i < len; i++)
-			res[i] = str_arr.get(i);
-		return res;
-	}
+        len = str_arr.size();
+        res = new String[len];
+        for (int i = 0; i < len; i++)
+            res[i] = str_arr.get(i);
+        return res;
+    }
 
-	public static void main(String[] args) throws MalformedAttributesException {
-		String attr = "objectClass:inetOrgPerson objectClass:organizationalPerson "
-				+ "sn:student2 cn:student2 uid:student2 userPassword:student2 "
-				+ "ou:idp o:computer mail:student2@sdu.edu.cn title:student";
-		String[] arr = parseAttribute(attr);
-		for (String s : arr) System.out.println(s);
-	}
+    public static void main(String[] args) throws MalformedAttributesException {
+        String attr = "objectClass:inetOrgPerson objectClass:organizationalPerson "
+                + "sn:student2 cn:student2 uid:student2 userPassword:student2 "
+                + "ou:idp o:computer mail:student2@sdu.edu.cn title:student";
+        String[] arr = parseAttribute(attr);
+        for (String s : arr) System.out.println(s);
+    }
 
-	static class SortByAlphabetic implements Comparator<String>, Serializable {
-		@Override
-		public int compare(String s1, String s2) {
-			if (s1.compareTo(s2) >= 0)
-				return 1;
-			return 0;
-		}
+    static class SortByAlphabetic implements Comparator<String>, Serializable {
+        @Override
+        public int compare(String s1, String s2) {
+            if (s1.compareTo(s2) >= 0)
+                return 1;
+            return 0;
+        }
 
-	}
+    }
 }

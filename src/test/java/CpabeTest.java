@@ -54,14 +54,14 @@ public class CpabeTest {
         masterKey = js.get("masterKey").getAsString();
     }
 
-    public void cpabeTest(String policy, String userAttribute, boolean areEqual) throws BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, InvalidKeyException, IOException, MalformedPolicyException, MalformedAttributesException  {
+    public void cpabeTest(String policy, String userAttribute, boolean areEqual) throws BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException, InvalidKeyException, IOException, MalformedPolicyException, MalformedAttributesException {
         File file = new File(path + inputFile);
         var inputFileBytes = Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath()));
         js = keygen(publicKey, masterKey, userAttribute);
         String privateKey = js.get("privateKey").getAsString();
         js = encrypt(publicKey, policy, inputFileBytes);
         var encryptedFile = js.get("encryptedFile").getAsString();
-        try{
+        try {
             js = decrypt(publicKey, privateKey, encryptedFile);
             var decryptedFileBytes = js.get("decryptedFile").getAsString();
             assertTrue(areEqual);
@@ -76,47 +76,47 @@ public class CpabeTest {
     @TestFactory
     public Stream<DynamicTest> testWorkingPolicies() {
         var policies = new String[]{
-            testPolicy,
-            "profession:doctor location:windsor 2of2 specialization:heartSurgeon department:emergency profession:doctor 3of3 1of2",
-            "profession:doctor department:emergency 2of2 specialization:heartSurgeon department:emergency 2of2 1of2",
-            studentPolicy
+                testPolicy,
+                "profession:doctor location:windsor 2of2 specialization:heartSurgeon department:emergency profession:doctor 3of3 1of2",
+                "profession:doctor department:emergency 2of2 specialization:heartSurgeon department:emergency 2of2 1of2",
+                studentPolicy
         };
 
         var userAttributes = new String[]{
-            "c:fim a:foo",
-            doctorAttributes,
-            doctorAttributes,
-            studentAttributes
+                "c:fim a:foo",
+                doctorAttributes,
+                doctorAttributes,
+                studentAttributes
         };
 
         int testCases = policies.length;
         return IntStream.range(0, testCases)
-          .mapToObj(testCase -> dynamicTest("testCase=" + testCase,
-                () -> cpabeTest(policies[testCase], userAttributes[testCase], true))
-          );
+                .mapToObj(testCase -> dynamicTest("testCase=" + testCase,
+                        () -> cpabeTest(policies[testCase], userAttributes[testCase], true))
+                );
     }
 
     @TestFactory
     public Stream<DynamicTest> testFailingPolicies() {
         var policies = new String[]{
-            testPolicy,
-            testPolicy,
-            "profession:doctor department:emergency location:windsor 3of3",
-            "profession:doctor location:windsor specialization:heartSurgeon 3of3"
+                testPolicy,
+                testPolicy,
+                "profession:doctor department:emergency location:windsor 3of3",
+                "profession:doctor location:windsor specialization:heartSurgeon 3of3"
         };
-        
+
         var userAttributes = new String[]{
-            "c:fim",
-            "d:baf1 c:fim1 a:foo",
-            doctorAttributes,
-            doctorAttributes
+                "c:fim",
+                "d:baf1 c:fim1 a:foo",
+                doctorAttributes,
+                doctorAttributes
         };
 
         int testCases = policies.length;
         return IntStream.range(0, testCases)
-          .mapToObj(testCase -> dynamicTest("testCase=" + testCase,
-                () -> cpabeTest(policies[testCase], userAttributes[testCase], false))
-          );
+                .mapToObj(testCase -> dynamicTest("testCase=" + testCase,
+                        () -> cpabeTest(policies[testCase], userAttributes[testCase], false))
+                );
     }
 
     @TestFactory

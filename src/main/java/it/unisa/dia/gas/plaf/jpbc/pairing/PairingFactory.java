@@ -83,6 +83,19 @@ public class PairingFactory {
     }
 
     /*****************************************************************************************/
+    public static PairingParameters loadParameters(Map<String, String> loadMap) {
+        PropertiesParameters curveParams = new PropertiesParameters();
+        curveParams.load(loadMap);
+        return curveParams;
+    }
+
+    public static PairingParameters loadParameters(String path) {
+        PropertiesParameters curveParams = new PropertiesParameters();
+        curveParams.load(path);
+        return curveParams;
+    }
+
+    /*****************************************************************************************/
     /* If we do not give in a secure random then we generate it*/
     public Pairing initPairing(String parametersPath) {
         return initPairing(loadParameters(parametersPath), secureRandomCreator.newSecureRandom());
@@ -135,19 +148,6 @@ public class PairingFactory {
             instances.put(parameters, pairing);
 
         return pairing;
-    }
-
-    /*****************************************************************************************/
-    public static PairingParameters loadParameters(Map<String, String> loadMap) {
-        PropertiesParameters curveParams = new PropertiesParameters();
-        curveParams.load(loadMap);
-        return curveParams;
-    }
-
-    public static PairingParameters loadParameters(String path) {
-        PropertiesParameters curveParams = new PropertiesParameters();
-        curveParams.load(path);
-        return curveParams;
     }
 
     /*****************************************************************************************/

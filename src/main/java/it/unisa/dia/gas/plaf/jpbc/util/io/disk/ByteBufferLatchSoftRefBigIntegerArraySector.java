@@ -2,7 +2,6 @@ package it.unisa.dia.gas.plaf.jpbc.util.io.disk;
 
 import it.unisa.dia.gas.plaf.jpbc.util.collection.FlagMap;
 
-import java.io.IOException;
 import java.math.BigInteger;
 
 /**
