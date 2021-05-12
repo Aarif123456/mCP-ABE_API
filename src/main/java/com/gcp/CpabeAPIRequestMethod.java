@@ -21,49 +21,22 @@ import java.util.Optional;
 import static com.gcp.MapLoader.getLoadMap;
 import static com.junwei.cpabe.Cpabe.*;
 
-public class CpabeAPIRequestMethod {
-    public static String respondQuery(HttpRequest request, PrintWriter writer) {
+public class CpabeAPIRequestMethod extends CpabeQueries {
+    public void respondQuery(HttpRequest request, PrintWriter writer) throws IOException {
         var method = "";
-        Gson gson = new Gson();
-        JsonObject js;
         Optional<String> methodParam = request.getFirstQueryParameter("method");
-        if (methodParam.isEmpty()) return null;
+        if (methodParam.isEmpty()) return;
         method = methodParam.get();
-        switch (method) {
-            case "setup":
-                js = setupRequest(request, gson);
-                break;
-            case "keygen": {
-                js = keygenQuery(request, gson);
-                break;
-            }
-            case "encrypt": {
-                js = encryptQuery(request, gson);
-                break;
-            }
-            case "decrypt": {
-                js = decryptQuery(request, gson);
-                break;
-            }
-            case "generateProperties": {
-                js = generateCurveQuery(request, gson);
-                break;
-            }
-            default:
-                js = new JsonObject();
-                js.addProperty("Error", "Method type not recognized of type\"" + method + "\"");
-        }
-        writer.write(gson.toJson(js));
-        return method;
+        runQueries(request, writer, method);
     }
 
-    private static JsonObject setupRequest(HttpRequest request, Gson gson) {
+    public JsonObject setupQuery(HttpRequest request, Gson gson) {
         Optional<String> properties = request.getFirstQueryParameter("properties");
         var loadMap = properties.isPresent() ? getLoadMap(properties.get(), gson) : defaultMap;
         return setup(loadMap);
     }
 
-    private static JsonObject keygenQuery(HttpRequest request, Gson gson) {
+    public JsonObject keygenQuery(HttpRequest request, Gson gson) {
         JsonObject js = new JsonObject();
         Optional<String> publicKeyParam = request.getFirstQueryParameter("publicKey");
         Optional<String> masterKeyParam = request.getFirstQueryParameter("masterKey");
@@ -76,7 +49,7 @@ public class CpabeAPIRequestMethod {
             var loadMap = properties.isPresent() ? getLoadMap(properties.get(), gson) : defaultMap;
             try {
                 js = keygen(publicKey, masterKey, userAttributes, loadMap);
-            } catch (NoSuchAlgorithmException | MalformedAttributesException e){
+            } catch (NoSuchAlgorithmException | MalformedAttributesException e) {
                 js.addProperty("Error", e.getMessage());
             }
         } else {
@@ -85,7 +58,7 @@ public class CpabeAPIRequestMethod {
         return js;
     }
 
-    private static JsonObject encryptQuery(HttpRequest request, Gson gson) {
+    public JsonObject encryptQuery(HttpRequest request, Gson gson) {
         JsonObject js = new JsonObject();
         Optional<String> publicKeyParam = request.getFirstQueryParameter("publicKey");
         Optional<String> policyParam = request.getFirstQueryParameter("policy");
@@ -108,7 +81,7 @@ public class CpabeAPIRequestMethod {
         return js;
     }
 
-    private static JsonObject decryptQuery(HttpRequest request, Gson gson) {
+    public JsonObject decryptQuery(HttpRequest request, Gson gson) {
         JsonObject js = new JsonObject();
         Optional<String> publicKeyParam = request.getFirstQueryParameter("publicKey");
         Optional<String> privateKeyParam = request.getFirstQueryParameter("privateKey");
@@ -121,7 +94,7 @@ public class CpabeAPIRequestMethod {
             var encryptedFile = encryptedFileParam.get();
             try {
                 var loadMap = properties.isPresent() ? getLoadMap(properties.get(), gson) : defaultMap;
-                js = decrypt(publicKey, privateKey, encryptedFile,loadMap);
+                js = decrypt(publicKey, privateKey, encryptedFile, loadMap);
             } catch (IllegalBlockSizeException | NoSuchAlgorithmException | IOException | BadPaddingException | NoSuchPaddingException | InvalidKeyException | AttributesNotSatisfiedException e) {
                 js.addProperty("Error", e.getMessage());
             }
@@ -131,7 +104,7 @@ public class CpabeAPIRequestMethod {
         return js;
     }
 
-    private static JsonObject generateCurveQuery(HttpRequest request, Gson gson) {
+    public JsonObject generateCurveQuery(HttpRequest request, Gson gson) {
         JsonObject js = new JsonObject();
         Optional<String> typeParam = request.getFirstQueryParameter("type");
         Optional<String> parameterMapParam = request.getFirstQueryParameter("parameterMap");
